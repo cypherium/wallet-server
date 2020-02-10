@@ -1,0 +1,24 @@
+
+   ____    __
+  / __/___/ /  ___
+ / _// __/ _ \/ _ \
+/___/\__/_//_/\___/ v4.1.14
+High performance, minimalist Go web framework
+https://echo.labstack.com
+____________________________________O/_______
+                                    O\
+⇨ http server started on [::]:8359
+ERROR: logging before flag.Parse: I0211 01:05:46.295353   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:06:03.964601   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:12:18.149800   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:13:36.350168   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:13:53.074112   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:18:03.979687   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:21:35.337960   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:21:41.823230   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:23:30.110008   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:23:32.025856   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:26:50.712259   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:26:55.694878   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:27:18.448801   15645 get_exchange_rate.go:35] ok
+ERROR: logging before flag.Parse: I0211 01:27:34.514559   15645 get_exchange_rate.go:35] ok

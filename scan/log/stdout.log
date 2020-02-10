@@ -1,0 +1,7 @@
+panic: connect mysql failed
+
+goroutine 1 [running]:
+github.com/cypherium/cph-service/src/model.InitDatabase()
+	/Users/wss/go/src/github.com/cypherium/cph-service/src/model/create_table.go:106 +0x1ca
+main.main()
+	/Users/wss/go/src/github.com/cypherium/cph-service/src/main.go:31 +0x26
