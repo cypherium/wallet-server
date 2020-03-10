@@ -30,6 +30,8 @@ import (
 	"go-web3/utils"
 	"math/big"
 	"strings"
+
+	"github.com/golang/glog"
 )
 
 // Eth - The Eth Module
@@ -58,7 +60,7 @@ func (eth *Eth) GetProtocolVersion() (string, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_protocolVersion", nil)
+	err := eth.provider.SendRequest(pointer, "cph_protocolVersion", nil)
 
 	if err != nil {
 		return "", err
@@ -81,7 +83,7 @@ func (eth *Eth) IsSyncing() (*dto.SyncingResponse, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_syncing", nil)
+	err := eth.provider.SendRequest(pointer, "cph_syncing", nil)
 
 	if err != nil {
 		return nil, err
@@ -101,7 +103,7 @@ func (eth *Eth) GetCoinbase() (string, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_coinbase", nil)
+	err := eth.provider.SendRequest(pointer, "cph_coinbase", nil)
 
 	if err != nil {
 		return "", err
@@ -121,7 +123,7 @@ func (eth *Eth) IsMining() (bool, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_mining", nil)
+	err := eth.provider.SendRequest(pointer, "cph_mining", nil)
 
 	if err != nil {
 		return false, err
@@ -141,7 +143,7 @@ func (eth *Eth) GetHashRate() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_hashrate", nil)
+	err := eth.provider.SendRequest(pointer, "cph_hashrate", nil)
 
 	if err != nil {
 		return nil, err
@@ -160,7 +162,7 @@ func (eth *Eth) GetGasPrice() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_gasPrice", nil)
+	err := eth.provider.SendRequest(pointer, "cph_gasPrice", nil)
 
 	if err != nil {
 		return nil, err
@@ -179,7 +181,7 @@ func (eth *Eth) ListAccounts() ([]string, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_accounts", nil)
+	err := eth.provider.SendRequest(pointer, "cph_accounts", nil)
 
 	if err != nil {
 		return nil, err
@@ -199,7 +201,7 @@ func (eth *Eth) GetBlockNumber() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_blockNumber", nil)
+	err := eth.provider.SendRequest(pointer, "cph_txBlockNumber", nil)
 
 	if err != nil {
 		return nil, err
@@ -223,8 +225,7 @@ func (eth *Eth) GetBalance(address string, defaultBlockParameter string) (*big.I
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getBalance", params)
-
+	err := eth.provider.SendRequest(pointer, "cph_getBalance", params)
 	if err != nil {
 		return nil, err
 	}
@@ -239,7 +240,7 @@ func (eth *Eth) GetTotalRewarded(defaultBlockParameter string) (*big.Int, error)
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTotalRewarded", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTotalRewarded", params)
 
 	if err != nil {
 		return nil, err
@@ -255,7 +256,7 @@ func (eth *Eth) GetTotalMortgage(defaultBlockParameter string) (*big.Int, error)
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTotalMortgage", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTotalMortgage", params)
 
 	if err != nil {
 		return nil, err
@@ -279,7 +280,7 @@ func (eth *Eth) GetTransactionCount(address string, defaultBlockParameter string
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTransactionCount", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTransactionCount", params)
 
 	if err != nil {
 		return nil, err
@@ -305,7 +306,7 @@ func (eth *Eth) GetStorageAt(address string, position *big.Int, defaultBlockPara
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getstorageat", params)
+	err := eth.provider.SendRequest(pointer, "cph_getstorageat", params)
 
 	if err != nil {
 		return "", err
@@ -329,7 +330,7 @@ func (eth *Eth) EstimateGas(transaction *dto.TransactionParameters) (*big.Int, e
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "eth_estimateGas", params)
+	err := eth.provider.SendRequest(&pointer, "cph_estimateGas", params)
 
 	if err != nil {
 		return nil, err
@@ -362,7 +363,7 @@ func (eth *Eth) GetTransactionByHash(hash string) (*dto.TransactionResponse, err
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTransactionByHash", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTransactionByHash", params)
 
 	if err != nil {
 		return nil, err
@@ -411,7 +412,7 @@ func (eth *Eth) GetTransactionByBlockHashAndIndex(hash string, index *big.Int) (
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTransactionByBlockHashAndIndex", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTransactionByBlockHashAndIndex", params)
 
 	if err != nil {
 		return nil, err
@@ -446,7 +447,7 @@ func (eth *Eth) GetTransactionByBlockNumberAndIndex(blockIndex *big.Int, index *
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTransactionByBlockNumberAndIndex", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTransactionByBlockNumberAndIndex", params)
 
 	if err != nil {
 		return nil, err
@@ -477,7 +478,7 @@ func (eth *Eth) SendTransaction(transaction *dto.TransactionParameters) (string,
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "eth_sendTransaction", params)
+	err := eth.provider.SendRequest(&pointer, "cph_sendTransaction", params)
 
 	if err != nil {
 		return "", err
@@ -520,7 +521,7 @@ func (eth *Eth) SignTransaction(transaction *dto.TransactionParameters) (*dto.Si
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "eth_signTransaction", params)
+	err := eth.provider.SendRequest(&pointer, "cph_signTransaction", params)
 
 	if err != nil {
 		return &dto.SignTransactionResponse{}, err
@@ -550,7 +551,7 @@ func (eth *Eth) Call(transaction *dto.TransactionParameters) (*dto.RequestResult
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "eth_call", params)
+	err := eth.provider.SendRequest(&pointer, "cph_call", params)
 
 	if err != nil {
 		return nil, err
@@ -573,7 +574,7 @@ func (eth *Eth) CompileSolidity(sourceCode string) (types.ComplexString, error) 
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_compileSolidity", params)
+	err := eth.provider.SendRequest(pointer, "cph_compileSolidity", params)
 
 	if err != nil {
 		return "", err
@@ -604,7 +605,7 @@ func (eth *Eth) GetTransactionReceipt(hash string) (*dto.TransactionReceipt, err
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getTransactionReceipt", params)
+	err := eth.provider.SendRequest(pointer, "cph_getTransactionReceipt", params)
 
 	if err != nil {
 		return nil, err
@@ -624,21 +625,23 @@ func (eth *Eth) GetTransactionReceipt(hash string) (*dto.TransactionReceipt, err
 //    2. error
 func (eth *Eth) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto.Block, error) {
 
-	params := make([]interface{}, 2)
+	params := make([]interface{}, 3)
 	params[0] = utils.IntToHex(number)
-	//params[1] = transactionDetails
-	params[1] = false
+	params[1] = transactionDetails
+	// params[1] = false
+	params[2] = true
 
 	pointer := &dto.RequestResult{}
-
-	err := eth.provider.SendRequest(pointer, "eth_getBlockByNumber", params)
-
+	glog.Info("GetBlockByNumber")
+	err := eth.provider.SendRequest(pointer, "cph_getTxBlockByNumber", params)
+	glog.Info("GetBlockByNumber", pointer)
 	if err != nil {
 		return nil, err
 	}
-
+	glog.Info("GetBlockByNumber ok")
 	return pointer.ToBlock()
 }
+
 // GetBlockPocByNumber - Returns the poc information about a block requested by number.
 // Reference: uchain add rpc
 // Parameters:
@@ -654,7 +657,7 @@ func (eth *Eth) GetBlockPocByNumber(number *big.Int) (*dto.Poc, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getBlockPocByNumber", params)
+	err := eth.provider.SendRequest(pointer, "cph_getBlockPocByNumber", params)
 
 	if err != nil {
 		return nil, err
@@ -685,7 +688,7 @@ func (eth *Eth) GetBlockTransactionCountByHash(hash string) (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getBlockTransactionCountByHash", []string{hash})
+	err := eth.provider.SendRequest(pointer, "cph_getBlockTransactionCountByHash", []string{hash})
 
 	if err != nil {
 		return nil, err
@@ -707,7 +710,7 @@ func (eth *Eth) GetBlockTransactionCountByNumber(defaultBlockParameter string) (
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getBlockTransactionCountByNumber", params)
+	err := eth.provider.SendRequest(pointer, "cph_getBlockTransactionCountByNumber", params)
 
 	if err != nil {
 		return nil, err
@@ -743,7 +746,7 @@ func (eth *Eth) GetBlockByHash(hash string, transactionDetails bool) (*dto.Block
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getBlockByHash", params)
+	err := eth.provider.SendRequest(pointer, "cph_getBlockByHash", params)
 
 	if err != nil {
 		return nil, err
@@ -777,7 +780,7 @@ func (eth *Eth) GetUncleCountByBlockHash(hash string) (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getUncleCountByBlockHash", params)
+	err := eth.provider.SendRequest(pointer, "cph_getUncleCountByBlockHash", params)
 
 	if err != nil {
 		return nil, err
@@ -801,7 +804,7 @@ func (eth *Eth) GetUncleCountByBlockNumber(quantity *big.Int) (*big.Int, error) 
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getUncleCountByBlockNumber", params)
+	err := eth.provider.SendRequest(pointer, "cph_getUncleCountByBlockNumber", params)
 
 	if err != nil {
 		return nil, err
@@ -825,7 +828,7 @@ func (eth *Eth) GetCode(address string, defaultBlockParameter string) (string, e
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "eth_getCode", params)
+	err := eth.provider.SendRequest(pointer, "cph_getCode", params)
 
 	if err != nil {
 		return "", err

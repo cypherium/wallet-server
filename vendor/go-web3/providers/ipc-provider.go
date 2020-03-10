@@ -67,7 +67,7 @@ func (provider IPCProvider) SendRequest(v interface{}, method string, params int
 		log.Println(err)
 		return err
 	}
-
+	log.Println(v)
 	return nil
 
 }

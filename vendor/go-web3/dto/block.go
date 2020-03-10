@@ -26,7 +26,49 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"sync/atomic"
+
+	"github.com/pocethereum/pochain/common"
+	"github.com/pocethereum/pochain/core/types"
 )
+
+type rpcTransaction struct {
+	tx *types.Transaction
+	txExtraInfo
+}
+
+type txExtraInfo struct {
+	BlockNumber *string         `json:"blockNumber,omitempty"`
+	BlockHash   *common.Hash    `json:"blockHash,omitempty"`
+	From        *common.Address `json:"from,omitempty"`
+}
+
+type transaction struct {
+	data txdata
+	// caches
+	hash atomic.Value
+	size atomic.Value
+	from atomic.Value
+}
+
+type txdata struct {
+	Version      uint64          `json:"version"  gencodec:"required"`
+	SenderKey    []byte          `json:"senderKey" gencodec:"required"`
+	AccountNonce uint64          `json:"nonce"    gencodec:"required"`
+	Price        *big.Int        `json:"gasPrice" gencodec:"required"`
+	GasLimit     uint64          `json:"gas"      gencodec:"required"`
+	Recipient    *common.Address `json:"to"       rlp:"nil"` // nil means contract creation
+	Amount       *big.Int        `json:"value"    gencodec:"required"`
+	Payload      []byte          `json:"input"    gencodec:"required"`
+
+	// Signature values
+	V *big.Int `json:"v" gencodec:"required"`
+	R *big.Int `json:"r" gencodec:"required"`
+	S *big.Int `json:"s" gencodec:"required"`
+
+	// This is only used when marshaling to JSON.
+	Hash *common.Hash `json:"hash" rlp:"-"`
+}
 
 type Block struct {
 	Number         *big.Int `json:"number"`
@@ -46,6 +88,13 @@ type Block struct {
 	Reward         *big.Int `json:"reward"`
 	TxFees         *big.Int `json:"txfees"`
 	//Author         string                `json:"author,omitempty"`
+	Root        string `json:"stateRoot"`
+	TxHash      string `json:"transactionsRoot"`
+	ReceiptHash string `json:"receiptsRoot"`
+	BlockType   uint8  `json:"isKeyReward"`
+	KeyHash     string `json:"KeyHash"`
+	Signature   []byte `json:"Signature"`
+	Exceptions  []byte `json:"Exceptions"`
 }
 
 //type Block struct {

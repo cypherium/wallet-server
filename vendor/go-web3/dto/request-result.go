@@ -32,6 +32,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/big"
+
+	"github.com/golang/glog"
 )
 
 type RequestResult struct {
@@ -255,24 +257,27 @@ func (pointer *RequestResult) ToTransactionReceipt() (*TransactionReceipt, error
 func (pointer *RequestResult) ToBlock() (*Block, error) {
 
 	if err := pointer.checkResponse(); err != nil {
+		glog.Info("checkResponse", err.Error())
 		return nil, err
 	}
 
 	result := (pointer).Result.(map[string]interface{})
 
 	if len(result) == 0 {
+		glog.Info("checkResponse 1", customerror.EMPTYRESPONSE.Error())
 		return nil, customerror.EMPTYRESPONSE
 	}
 
 	block := &Block{}
-
+	glog.Info("Marshal:", result)
 	marshal, err := json.Marshal(result)
 	if err != nil {
+		glog.Info("Marshal", err.Error())
 		return nil, customerror.UNPARSEABLEINTERFACE
 	}
-
-	err = json.Unmarshal([]byte(marshal), block)
-
+	glog.Info("Marshal ok", marshal)
+	err = json.Unmarshal(marshal, &block)
+	glog.Info("Unmarshal ok", block)
 	return block, err
 
 }

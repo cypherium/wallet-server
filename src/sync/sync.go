@@ -17,6 +17,8 @@ import (
 	// "qoobing.com/utillib.golang/gls"
 	"strings"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 var logid string
@@ -38,13 +40,13 @@ func StartSyncLastBlock() {
 	max_block, err := (&model.Block{}).GetMaxBlocNumber(c.Mysql())
 	if err != nil && err.Error() != DATA_NOT_EXIST {
 
-		//log.Fatalf("GetMaxBlocNumber error:%s", err.Error())
+		glog.Fatalf("GetMaxBlocNumber error:%s", err.Error())
 		os.Exit(0)
 
 	}
 
 	c.SetBlockNow(max_block - 1)
-	//log.Debugf("Find databases sync block height:%d,start sync from there.", max_block-1)
+	glog.Info("Find databases sync block height:%d,start sync from there.", max_block-1)
 
 	for {
 		msg := make(chan int)
@@ -61,15 +63,15 @@ func StartSyncLastBlock() {
 				blockNumber, err := c.Web3().Eth.GetBlockNumber()
 
 				if err != nil {
-					//log.Debugf("Eth.GetBlockNumber error:%s", err)
+					glog.Info("Eth.GetBlockNumber error:%s", err)
 					time.Sleep(time.Second * 5)
 					continue
 				}
 
-				//log.Debugf("\n\nEth.GetLastBlock hegiht:%d", blockNumber.Int64())
+				glog.Info("\n\nEth.GetLastBlock hegiht:%d", blockNumber.Int64())
 				if blockNumber.Int64() < c.GetBlockNOw() {
 
-					//log.Fatalf("blockNumber.Int64():%d <BlockNOw:%d,so sync from parent", blockNumber.Int64(), c.GetBlockNOw())
+					glog.Fatalf("blockNumber.Int64():%d <BlockNOw:%d,so sync from parent", blockNumber.Int64(), c.GetBlockNOw())
 
 					c.AddBlockNow(-1)
 					DropBlok(c.GetBlockNOw())
@@ -82,12 +84,12 @@ func StartSyncLastBlock() {
 
 					err = SyncOneBlock(c.GetBlockNOw() + 1)
 					if err != nil {
-						//log.Debugf("SyncOneBlock error:%s", err.Error())
+						glog.Info("SyncOneBlock error:%s", err.Error())
 						time.Sleep(time.Millisecond * 100)
 						continue
 					}
 
-					//log.Debugf("SyncOneBlock:%d success", c.GetBlockNOw()+1)
+					glog.Info("SyncOneBlock:%d success", c.GetBlockNOw()+1)
 					c.AddBlockNow(1)
 				}
 
@@ -104,83 +106,86 @@ func StartSyncLastBlock() {
 func SyncOneBlock(height int64) error {
 	transactions := make(map[string]dto.TransactionResponse)
 	transactionReceipts := make(map[string]dto.TransactionReceipt)
-
-	//log.Debugf("Start sync block:%d", height)
+	height = 1
+	glog.Info("Start sync block:%d", height)
 	if err := DropBlok(height); err != nil {
+		glog.Info("DropBlok err")
 		return err
 	}
-
+	glog.Info("DropBlok ok")
 	//1.get block and parent block
 	chain_block, err := c.Web3().Eth.GetBlockByNumber(big.NewInt(height), true)
 	if err != nil {
-		//log.Debugf("Eth.GetBlockByNumber:%d error:%s", height, err.Error())
+		glog.Info("Eth.GetBlockByNumber err")
+		glog.Info("Eth.GetBlockByNumber", err.Error())
 		return err
 	}
 	GLastBlock = chain_block
-	//log.Debugf("Get chain_block:%d success,hash:%s \n detail:%+v\n", chain_block.Number, chain_block.Hash, chain_block)
+	glog.Info("GetBlockByNumber ok")
+	// glog.Info("Get chain_block:%d success,hash:%s \n detail:%+v\n", chain_block.Number, chain_block.Hash, chain_block)
 
 	var chain_parent_block *dto.Block
 	if height > 0 {
 		chain_parent_block, err = c.Web3().Eth.GetBlockByNumber(big.NewInt(height-1), true)
 		if err != nil {
-			//log.Debugf("Eth.GetBlockByNumber:%d error:%s", height-1, err.Error())
+			glog.Info("Eth.GetBlockByNumber:%d error:%s", height-1, err.Error())
 			return err
 		}
-		//log.Debugf("Get chain_parent_block:%d success,hash:%s ", chain_parent_block.Number, chain_parent_block.Hash)
+		glog.Info("Get chain_parent_block:%d success,hash:%s ", chain_parent_block.Number, chain_parent_block.Hash)
 	}
 
 	//2.get transcations and transreceipts
 	for _, hash := range chain_block.Transactions {
 		transaction, err := c.Web3().Eth.GetTransactionByHash(hash)
 		if err != nil {
-			//log.Debugf("Eth.GetTransactionByHash,hash:%s error:%s", hash, err.Error())
+			glog.Info("Eth.GetTransactionByHash,hash:%s error:%s", hash, err.Error())
 			return err
 		}
 
 		receipt, err := c.Web3().Eth.GetTransactionReceipt(hash)
 		if err != nil {
-			//log.Debugf("Eth.GetTransactionReceipt ,hash:%s error:%s", hash, err.Error())
+			glog.Info("Eth.GetTransactionReceipt ,hash:%s error:%s", hash, err.Error())
 			return err
 		}
 
 		transactions[hash] = *transaction
 		transactionReceipts[hash] = *receipt
 
-		//log.Debugf("Get %s  transaction and receipt success, ", hash)
-		//log.Debugf("transaction:%+v", *transaction)
-		//log.Debugf("transactionReceipts:%+v", *receipt)
+		glog.Info("Get %s  transaction and receipt success, ", hash)
+		glog.Info("transaction:%+v", *transaction)
+		glog.Info("transactionReceipts:%+v", *receipt)
 	}
 
 	//3.check parent block
 	databases_block_parent, err := (&model.Block{}).FindBlockByHeight(c.Mysql(), height-1)
 	if err != nil && err.Error() != DATA_NOT_EXIST {
-		//log.Debugf("FindBlockByHeight ,height:%d error:%s", height, err.Error())
+		glog.Info("FindBlockByHeight ,height:%d error:%s", height, err.Error())
 		return err
 	}
 
 	if err != nil && err.Error() == DATA_NOT_EXIST && height != 0 {
 		c.AddBlockNow(-1)
-		//log.Debugf("FindBlockByHeight,height:%d ,DATA_NOT_EXIST,sync from parent_block", height)
+		glog.Info("FindBlockByHeight,height:%d ,DATA_NOT_EXIST,sync from parent_block", height)
 		return err
 	}
 
 	if height > 0 && chain_parent_block.Hash != databases_block_parent.F_hash {
 		c.AddBlockNow(-1)
-		//log.Debugf("chain_parent_block hash:%s,databases_block_parent hash:%s,not equal,sync from parent_block",
-		// chain_parent_block.Hash, databases_block_parent.F_hash)
+		glog.Info("chain_parent_block hash:%s,databases_block_parent hash:%s,not equal,sync from parent_block",
+			chain_parent_block.Hash, databases_block_parent.F_hash)
 		return errors.New("parent hash not equal")
 	}
 
 	//4.write block
 	err = WriteBlock(c, *chain_block, transactions, transactionReceipts)
 	if err != nil {
-		//log.Debugf("WriteBlock:%s failed", chain_block.Hash)
+		glog.Info("WriteBlock:%s failed", chain_block.Hash)
 		return err
 	}
 	//write transcations
 	err = WriteTransactions(c, *chain_block, transactions, transactionReceipts)
 	if err != nil {
-		//log.Debugf("WriteTransactions:%d failed", chain_block.Number.Int64())
+		glog.Info("WriteTransactions:%d failed", chain_block.Number.Int64())
 		return err
 	}
 
@@ -200,7 +205,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 	//		return err
 	//	}
 	//} else {
-	//	//log.Debugf("Find old_transcations ,height:%d", chain_block.Number.Int64())
+	//	glog.Info("Find old_transcations ,height:%d", chain_block.Number.Int64())
 	//
 	//	for _, trans := range old_transcations {
 	//		if trans.F_status == NORMAL {
@@ -211,7 +216,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 	//				return err
 	//			}
 	//
-	//			//log.Debugf("UpdateTransactionStatus :%s success", trans.F_tx_hash)
+	//			glog.Info("UpdateTransactionStatus :%s success", trans.F_tx_hash)
 	//		}
 	//	}
 	//
@@ -222,7 +227,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 		databases_trans, err := (&model.Transaction{}).FindTrasactionByHash(c.Mysql(), tx_hash)
 		if err != nil {
 			if err.Error() != DATA_NOT_EXIST {
-				//log.Debugf("FindTrasactionByHash:%s error:%s", tx_hash, err.Error())
+				glog.Info("FindTrasactionByHash:%s error:%s", tx_hash, err.Error())
 				return err
 			}
 		} else {
@@ -230,11 +235,11 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				databases_trans.F_status = NORMAL
 				err = databases_trans.UpdateTransactionStatus(c.Mysql())
 				if err != nil {
-					//log.Debugf("UpdateTransactionStatus:%s error:%s", tx_hash, err.Error())
+					glog.Info("UpdateTransactionStatus:%s error:%s", tx_hash, err.Error())
 					return err
 				}
 
-				//log.Debugf("UpdateTransactionStatus :%s success", tx_hash)
+				glog.Info("UpdateTransactionStatus :%s success", tx_hash)
 				continue
 			}
 		}
@@ -254,19 +259,19 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 
 		err = databases_trans.CreateTransaction(c.mysql)
 		if err != nil {
-			//log.Debugf("CreateTransaction:%s error:%s", tx_hash, err.Error())
+			glog.Info("CreateTransaction:%s error:%s", tx_hash, err.Error())
 			return err
 		}
 
-		//log.Debugf("CreateTransaction success:%+v", databases_trans)
+		glog.Info("CreateTransaction success:%+v", databases_trans)
 	}
 
 	return nil
 }
 
 func CalcTransactionType(transaction dto.TransactionResponse) (txtype int64, txtypeext string) {
-	//log.Debugf("transaction.To=%s,Input=%s,MORTGAGECONTRACTADDR=%s,MORTGAGECONTRACT_FUNC_MORTGAGE=%s",
-	// transaction.To, transaction.Input, MORTGAGECONTRACTADDR, MORTGAGECONTRACT_FUNC_MORTGAGE)
+	glog.Info("transaction.To=%s,Input=%s,MORTGAGECONTRACTADDR=%s,MORTGAGECONTRACT_FUNC_MORTGAGE=%s",
+		transaction.To, transaction.Input, MORTGAGECONTRACTADDR, MORTGAGECONTRACT_FUNC_MORTGAGE)
 	if transaction.To == MORTGAGECONTRACTADDR {
 		if strings.HasPrefix(transaction.Input, MORTGAGECONTRACT_FUNC_MORTGAGE) {
 			txtype = model.TX_TYPE_ME_MORTGAGE
@@ -284,20 +289,20 @@ func WriteBlock(c *Connect, chain_block dto.Block, transactions map[string]dto.T
 	databases_block, err := (&model.Block{}).FindBlockByHash(c.Mysql(), chain_block.Hash)
 	if err != nil {
 		if err.Error() != DATA_NOT_EXIST {
-			//log.Debugf("FindBlockByHash:%s error:%s", chain_block.Hash, err.Error())
+			glog.Info("FindBlockByHash:%s error:%s", chain_block.Hash, err.Error())
 			return err
 		}
 	} else {
-		//log.Debugf("FindBlockByHash:%s", chain_block.Hash)
+		glog.Info("FindBlockByHash:%s", chain_block.Hash)
 
 		if databases_block.F_status != NORMAL {
 			databases_block.F_status = NORMAL
 			err = databases_block.UpdateBlockStatus(c.Mysql())
 			if err != nil {
-				//log.Debugf("UpdateBlockStatus:%s error:%s", chain_block.Hash, err.Error())
+				glog.Info("UpdateBlockStatus:%s error:%s", chain_block.Hash, err.Error())
 				return err
 			}
-			//log.Debugf("UpdateBlockStatus sucess,block hash:%s", chain_block.Hash)
+			glog.Info("UpdateBlockStatus sucess,block hash:%s", chain_block.Hash)
 		}
 
 		return nil
@@ -310,7 +315,7 @@ func WriteBlock(c *Connect, chain_block dto.Block, transactions map[string]dto.T
 	//		return err
 	//	}
 	//} else {
-	//	//log.Debugf("FindBlockByHeight:%d", chain_block.Number.Int64())
+	//	glog.Info("FindBlockByHeight:%d", chain_block.Number.Int64())
 	//
 	//	databases_block.F_status = FORK
 	//	err = databases_block.UpdateBlockStatus(c.Mysql())
@@ -319,7 +324,7 @@ func WriteBlock(c *Connect, chain_block dto.Block, transactions map[string]dto.T
 	//		return err
 	//	}
 	//
-	//	//log.Debugf("UpdateBlockStatus sucess,block height:%d", chain_block.Number.Int64())
+	//	glog.Info("UpdateBlockStatus sucess,block height:%d", chain_block.Number.Int64())
 	//}
 
 	//2.count fees
@@ -331,7 +336,7 @@ func WriteBlock(c *Connect, chain_block dto.Block, transactions map[string]dto.T
 		fees = big.NewInt(0).Add(fees, big.NewInt(0).Mul(gasPrice, gasUsed))
 	}
 
-	//log.Debugf("Block fees:%s", fees.String())
+	glog.Info("Block fees:%s", fees.String())
 
 	//3.write in block
 	databases_block.F_block = chain_block.Number.Int64()
@@ -348,23 +353,23 @@ func WriteBlock(c *Connect, chain_block dto.Block, transactions map[string]dto.T
 
 	err = databases_block.CreateBlock(c.Mysql())
 	if err != nil {
-		//log.Debugf("CreateBlock:%d error:%s", chain_block.Number.Int64(), err.Error())
+		glog.Info("CreateBlock:%d error:%s", chain_block.Number.Int64(), err.Error())
 		return err
 	}
 
 	err = WriteMinerRewards(c, chain_block.Miner, chain_block.Reward, fees)
 	if err != nil {
-		//log.Debugf("WriteMinerRewards:%s error:%s", chain_block.Miner, err.Error())
+		glog.Info("WriteMinerRewards:%s error:%s", chain_block.Miner, err.Error())
 		return err
 	}
 
-	//log.Debugf("CreateBlock success:%+v", databases_block)
+	glog.Info("CreateBlock success:%+v", databases_block)
 
 	return nil
 }
 
 func WriteMinerRewards(c *Connect, miner string, reward *big.Int, fees *big.Int) error {
-	//log.Debugf("WriteMinerRewards,miner:%s,reward:%d, fes:%d", miner, reward, fees)
+	glog.Info("WriteMinerRewards,miner:%s,reward:%d, fes:%d", miner, reward, fees)
 	miner_reward, err := (&model.MinerReward{}).FindRewardByMiner(c.Mysql(), miner)
 	if err != nil {
 		if err.Error() == DATA_NOT_EXIST {

@@ -2,7 +2,6 @@ package get_exchange_rate
 
 import (
 	. "github.com/cypherium/cph-service/src/apicontext"
-	"github.com/golang/glog"
 	"github.com/labstack/echo"
 	"github.com/pocethereum/pochain/log"
 )
@@ -27,12 +26,12 @@ type RateList []RateInfo
 
 func Main(cc echo.Context) error {
 
-	log.Debug("get_exchange_rate Main1")
+	// log.Debug("get_exchange_rate Main1")
 	c := cc.(ApiContext)
 	defer c.PANIC_RECOVER()
 	log.Debug("get_exchange_rate Main2")
 	c.Mysql()
-	glog.Info("ok")
+	// glog.Info("ok")
 	//Step 2. parameters initial
 
 	rsp := OutputRsp{

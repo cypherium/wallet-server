@@ -6,15 +6,17 @@ import (
 	"go-web3/providers"
 	"math/big"
 
-	"github.com/labstack/echo"
 	. "github.com/cypherium/cph-service/src/apicontext"
 	"github.com/cypherium/cph-service/src/config"
 	. "github.com/cypherium/cph-service/src/const"
 	. "github.com/cypherium/cph-service/src/model"
 	"github.com/cypherium/cph-service/src/sync"
+	"github.com/labstack/echo"
 	// "qoobing.com/utillib.golang/log"
 	"strings"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type InputAddrTypeReq struct {
@@ -39,10 +41,10 @@ func Get_by_addr_and_type(cc echo.Context) error {
 	if err := c.BindInput(argc); err != nil {
 		return c.RESULT_PARAMETER_ERROR(err.Error())
 	}
-	//log.Debugf("receive Get_Blocks: %+v", argc)
+	glog.Info("receive Get_Blocks: %+v", argc)
 	//检查参数
 	if argc.PageIndex < 1 || argc.PageSize <= 0 {
-		//log.Debugf("param error")
+		glog.Info("param error")
 		return c.RESULT_ERROR(ERR_PARAMETER_INVALID, "param error")
 	}
 	//查链获取pending数据
@@ -53,23 +55,23 @@ func Get_by_addr_and_type(cc echo.Context) error {
 	size := argc.PageSize
 	pendingList, err := get_pending(argc.Addr, argc.TxType)
 	if err != nil {
-		//log.Debugf("get_pending error:%s,addr:%s", err.Error(), argc.Addr)
+		glog.Info("get_pending error:%s,addr:%s", err.Error(), argc.Addr)
 		return c.RESULT_ERROR(GET_TRANSACTIONS_ERROR, fmt.Sprintf("get_pending error:%s,addr:%s", err.Error(), argc.Addr)) //c.RESULT(rsp)
 	}
 	pendingLen := len(pendingList)
 	allCount += pendingLen
 	if pendingLen <= offset {
-		//log.Debugf("pendingLen <= offset")
+		glog.Info("pendingLen <= offset")
 		offset = offset - pendingLen
 		size = size
 		allList = []Transaction{}
 	} else if pendingLen > offset && pendingLen <= offset+size {
-		//log.Debugf("pendingLen > offset && pendingLen <= offset+size")
+		glog.Info("pendingLen > offset && pendingLen <= offset+size")
 		offset = 0
 		size = size - pendingLen
 		allList = pendingList[offset:]
 	} else if pendingLen > offset+size {
-		//log.Debugf("pendingLen > offset+size")
+		glog.Info("pendingLen > offset+size")
 		offset = 0
 		size = offset + size - pendingLen
 		allList = pendingList[offset : offset+size]
@@ -78,7 +80,7 @@ func Get_by_addr_and_type(cc echo.Context) error {
 	//查询数据库
 	dbTransList, count, err := GetTransactionsByAddrAndType(c.Mysql(), argc.Addr, txtype, offset, size)
 	if err != nil {
-		//log.Debugf("GetTransactionsByAddr error:%s,addr:%s", err.Error(), argc.Addr)
+		glog.Info("GetTransactionsByAddr error:%s,addr:%s", err.Error(), argc.Addr)
 		return c.RESULT_ERROR(GET_TRANSACTIONS_ERROR, fmt.Sprintf("GetTransactionsByAddr error:%s,addr:%s", err.Error(), argc.Addr)) //c.RESULT(rsp)
 	}
 	allList = concat(allList, dbTransList)
@@ -118,7 +120,7 @@ func get_pending(addr string, txtype int64) (pendingList []Transaction, err erro
 		//log.Fatalf("Content error:%s", err.Error())
 		return pendingList, err
 	}
-	//log.Debugf("get_pending, webthree.Txpool:%+v", content)
+	glog.Info("get_pending, webthree.Txpool:%+v", content)
 
 	for _, txmap := range content.Pending {
 		for _, tx := range txmap {

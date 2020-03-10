@@ -33,7 +33,6 @@ func main() {
 	exec.LookPath(os.Args[0])
 	// filePath, _ := exec.LookPath(os.Args[0])
 	// log.Debugf("Program file: %s", filePath)
-
 	go stats.Start()
 	go sync.StartSyncLastBlock()
 	//go sync.StartSyncRate()
