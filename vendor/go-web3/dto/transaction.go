@@ -95,18 +95,24 @@ type SignedTransactionParams struct {
 }
 
 type TransactionResponse struct {
-	Hash             string              `json:"hash"`
-	Nonce            *big.Int            `json:"nonce"`
-	BlockHash        string              `json:"blockHash"`
-	BlockNumber      *big.Int            `json:"blockNumber"`
-	TransactionIndex *big.Int            `json:"transactionIndex"`
-	From             string              `json:"from"`
-	To               string              `json:"to"`
-	Input            string              `json:"input"`
-	Value            *big.Int            `json:"value"`
-	GasPrice         *big.Int            `json:"gasPrice,omitempty"`
-	Gas              *big.Int            `json:"gas,omitempty"`
-	Data             types.ComplexString `json:"data,omitempty"`
+	Version          string   `json:"version"`
+	From             string   `json:"senderKey"`
+	Hash             string   `json:"hash"`
+	Nonce            *big.Int `json:"nonce"`
+	BlockHash        string   `json:"blockHash"`
+	BlockNumber      *big.Int `json:"blockNumber"`
+	TransactionIndex *big.Int `json:"transactionIndex"`
+	// From             string   `json:"from"`
+	To       string   `json:"to"`
+	Input    string   `json:"input"`
+	Value    *big.Int `json:"value"`
+	GasPrice *big.Int `json:"gasPrice,omitempty"`
+	Gas      *big.Int `json:"gas,omitempty"`
+	// Data             types.ComplexString `json:"data,omitempty"`
+
+	V string `json:"v"`
+	R string `json:"r"`
+	S string `json:"s"`
 }
 
 type TransactionReceipt struct {
@@ -120,9 +126,9 @@ type TransactionReceipt struct {
 	GasUsed           *big.Int          `json:"gasUsed"`
 	ContractAddress   string            `json:"contractAddress"`
 	Logs              []TransactionLogs `json:"logs"`
-	LogsBloom         string            `json:"logsBloom"`
-	Root              string            `json:"string"`
-	Status            *big.Int          `json:"status"` //todo 这里默认为true
+	// LogsBloom         string            `json:"logsBloom"`
+	Root   string   `json:"string"`
+	Status *big.Int `json:"status"` //todo 这里默认为true
 }
 
 type TransactionLogs struct {
@@ -291,17 +297,22 @@ func (r *TransactionReceipt) UnmarshalJSON(data []byte) error {
 	if !success {
 		return errors.New(fmt.Sprintf("Error converting %s to BigInt", temp.CumulativeGasUsed))
 	}
-
-	status, success := big.NewInt(0).SetString(temp.Status[2:], 16)
-	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to BigInt", temp.Status))
+	if temp.Status != "" {
+		status, success := big.NewInt(0).SetString(temp.Status[2:], 16)
+		if !success {
+			return errors.New(fmt.Sprintf("Error converting %s to BigInt", temp.Status))
+			// r.Status = big.NewInt(1)
+		} else {
+			r.Status = status
+		}
+	} else {
+		r.Status = big.NewInt(1)
 	}
 
 	r.TransactionIndex = txIndex
 	r.BlockNumber = blockNum
 	r.CumulativeGasUsed = cumulativeGas
 	r.GasUsed = gasUsed
-	r.Status = status
 
 	return nil
 }

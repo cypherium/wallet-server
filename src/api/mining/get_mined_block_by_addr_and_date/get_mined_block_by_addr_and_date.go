@@ -1,11 +1,12 @@
 package get_mined_block_by_addr_and_date
 
 import (
+	"time"
+
 	. "github.com/cypherium/cph-service/src/apicontext"
 	. "github.com/cypherium/cph-service/src/const"
 	. "github.com/cypherium/cph-service/src/model"
 	"github.com/labstack/echo"
-	"time"
 )
 
 type Input struct {
@@ -23,7 +24,7 @@ type Output struct {
 
 type BlockInfo struct {
 	BlockNumber int64  `json:"block_number"`
-	Timestamp   int64  `json:"timestamp"`
+	Timestamp   uint64 `json:"timestamp"`
 	Txn         int64  `json:"txn"`
 	BlockFees   string `json:"block_fees"`
 	BlockReward string `json:"block_reward"`

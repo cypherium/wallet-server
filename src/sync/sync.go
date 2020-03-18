@@ -68,7 +68,7 @@ func StartSyncLastBlock() {
 					continue
 				}
 
-				log.Info("Eth.GetLastBlock", "hegiht", blockNumber.Int64())
+				// log.Info("Eth.GetLastBlock", "hegiht", blockNumber.Int64())
 				if blockNumber.Int64() < c.GetBlockNOw() {
 
 					log.Error("blockNumber.Int64(),so sync from parent", "blockNumber", blockNumber.Int64(), "BlockNOw", c.GetBlockNOw())
@@ -131,24 +131,36 @@ func SyncOneBlock(height int64) error {
 	}
 
 	//2.get transcations and transreceipts
-	for _, hash := range chain_block.Transactions {
-		transaction, err := c.Web3().Eth.GetTransactionByHash(hash)
+	for _, transaction := range chain_block.Transactions {
+		receipt, err := c.Web3().Eth.GetTransactionReceipt(transaction.Hash)
 		if err != nil {
-			log.Info("Eth.GetTransactionByHash", "hash", hash, "error", err.Error())
+			log.Info("Eth.GetTransactionReceipt", "hash", transaction.Hash, "error", err.Error())
 			return err
 		}
 
-		receipt, err := c.Web3().Eth.GetTransactionReceipt(hash)
-		if err != nil {
-			log.Info("Eth.GetTransactionReceipt", "hash", hash, "error", err.Error())
-			return err
-		}
+		transactions[transaction.Hash] = transaction
+		transactionReceipts[transaction.Hash] = *receipt
 
-		transactions[hash] = *transaction
-		transactionReceipts[hash] = *receipt
-
-		log.Info("Get %s  transaction and receipt success", "hash", hash, "transaction", *transaction, "transactionReceipts", *receipt)
+		log.Info("Get %s  transaction and receipt success", "hash", transaction.Hash, "transaction", transaction, "transactionReceipts", *receipt)
 	}
+	// for _, hash := range chain_block.Transactions {
+	// 	transaction, err := c.Web3().Eth.GetTransactionByHash(hash)
+	// 	if err != nil {
+	// 		log.Info("Eth.GetTransactionByHash", "hash", hash, "error", err.Error())
+	// 		return err
+	// 	}
+
+	// 	receipt, err := c.Web3().Eth.GetTransactionReceipt(hash)
+	// 	if err != nil {
+	// 		log.Info("Eth.GetTransactionReceipt", "hash", hash, "error", err.Error())
+	// 		return err
+	// 	}
+
+	// 	transactions[hash] = *transaction
+	// 	transactionReceipts[hash] = *receipt
+
+	// 	log.Info("Get %s  transaction and receipt success", "hash", hash, "transaction", *transaction, "transactionReceipts", *receipt)
+	// }
 
 	//3.check parent block
 	databases_block_parent, err := (&model.Block{}).FindBlockByHeight(c.Mysql(), height-1)
@@ -335,7 +347,7 @@ func WriteBlock(c *Connect, chain_block dto.Block, transactions map[string]dto.T
 	//3.write in block
 	databases_block.F_block = chain_block.Number.Int64()
 	databases_block.F_hash = chain_block.Hash
-	databases_block.F_timestamp = chain_block.Timestamp.Int64()
+	databases_block.F_timestamp = chain_block.Timestamp.Uint64()
 	databases_block.F_txn = int64(len(transactions))
 	// databases_block.F_miner = chain_block.Miner
 	databases_block.F_gas_used = chain_block.GasUsed.String()

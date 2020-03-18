@@ -3,10 +3,10 @@ package mining
 import (
 	"fmt"
 
-	"github.com/labstack/echo"
 	. "github.com/cypherium/cph-service/src/apicontext"
 	. "github.com/cypherium/cph-service/src/const"
 	. "github.com/cypherium/cph-service/src/model"
+	"github.com/labstack/echo"
 	// "qoobing.com/utillib.golang/log"
 )
 
@@ -26,7 +26,7 @@ type OutputRsp struct {
 type BlockInfo struct {
 	Hash        string `json:"hash"`
 	BlockNumber int64  `json:"block_number"`
-	Timestamp   int64  `json:"timestamp"`
+	Timestamp   uint64 `json:"timestamp"`
 	Txn         int64  `json:"txn"`
 	//Difficulty  string `json:"difficulty"`
 	BlockFees   string `json:"block_fees"`

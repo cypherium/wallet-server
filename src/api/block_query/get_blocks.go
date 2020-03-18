@@ -3,10 +3,10 @@ package block_query
 import (
 	"fmt"
 
-	"github.com/labstack/echo"
 	. "github.com/cypherium/cph-service/src/apicontext"
 	. "github.com/cypherium/cph-service/src/const"
 	. "github.com/cypherium/cph-service/src/model"
+	"github.com/labstack/echo"
 	// "qoobing.com/utillib.golang/log"
 )
 
@@ -24,7 +24,7 @@ type OutputRsp struct {
 
 type BlockInfo struct {
 	BlockNumber int64  `json:"block_number"`
-	Timestamp   int64  `json:"timestamp"`
+	Timestamp   uint64 `json:"timestamp"`
 	BlockMiner  string `json:"block_miner"`
 	BlockReward string `json:"block_reward"`
 	BlockFees   string `json:"block_fees"`

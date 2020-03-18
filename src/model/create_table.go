@@ -14,7 +14,7 @@ var Table = map[string]string{
 		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
 		"`F_tx_hash` varchar(128) NOT NULL DEFAULT ''," +
 		"`F_block` int(64)  NOT NULL DEFAULT -1," +
-		"`F_timestamp` int(64)   NOT NULL DEFAULT -1," +
+		"`F_timestamp` bigint unsigned   NOT NULL DEFAULT 0," +
 		"`F_from` varchar(128) NOT NULL DEFAULT ''," +
 		"`F_to` varchar(128) NOT NULL DEFAULT ''," +
 		"`F_value` varchar(128) NOT NULL DEFAULT ''," +
@@ -52,7 +52,7 @@ var Table = map[string]string{
 	"t_block": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_block (" +
 		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
 		"`F_block` int(64)  NOT NULL DEFAULT -1," +
-		"`F_timestamp` int(64)   NOT NULL DEFAULT -1," +
+		"`F_timestamp` bigint unsigned   NOT NULL DEFAULT 0," +
 		"`F_txn` int(64)  NOT NULL DEFAULT -1," +
 		"`F_miner` varchar(128) NOT NULL DEFAULT ''," +
 		"`F_gas_used` varchar(128) NOT NULL DEFAULT ''," +
@@ -89,7 +89,7 @@ var Table = map[string]string{
 		"`F_btc` double  NOT NULL DEFAULT 0," +
 		"`F_usd` double  NOT NULL DEFAULT 0," +
 		"`F_kwr` double  NOT NULL DEFAULT 0," +
-		"`F_timestamp` int(64)  NOT NULL DEFAULT 0," +
+		"`F_timestamp` bigint unsigned  NOT NULL DEFAULT 0," +
 		"`F_create_time` datetime NOT NULL," +
 		"`F_modify_time` datetime NOT NULL," +
 

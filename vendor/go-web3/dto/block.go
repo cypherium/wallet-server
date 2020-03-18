@@ -72,11 +72,11 @@ type txdata struct {
 }
 
 type Block struct {
-	Number       *big.Int `json:"number"`
-	Timestamp    *big.Int `json:"timestamp"`
-	Transactions []string `json:"transactions"` //todo 这里默认使用查询transactions的rps调用方式
-	Hash         string   `json:"hash"`
-	ParentHash   string   `json:"parentHash"`
+	Number       *big.Int              `json:"number"`
+	Timestamp    *big.Int              `json:"timestamp"`
+	Transactions []TransactionResponse `json:"transactions"` //todo 这里默认使用查询transactions的rps调用方式
+	Hash         string                `json:"hash"`
+	ParentHash   string                `json:"parentHash"`
 	// Miner          string   `json:"miner,omitempty"`
 	// MixHash        string   `json:"mixHash"`
 	// Difficulty     *big.Int `json:"difficulty"`
@@ -199,6 +199,6 @@ func (b *Block) UnmarshalJSON(data []byte) error {
 	b.GasLimit = gaslimit
 	// b.Reward = reward
 	// b.TxFees = txfees
-	log.Info("UnmarshalJSON", "block", b)
+	// log.Info("UnmarshalJSON", "block", b)
 	return nil
 }

@@ -14,7 +14,7 @@ import (
 type Block struct {
 	F_id          uint64 `gorm:"column:F_id"` //ID
 	F_block       int64  `gorm:"column:F_block"`
-	F_timestamp   int64  `gorm:"column:F_timestamp"`
+	F_timestamp   uint64 `gorm:"column:F_timestamp"`
 	F_txn         int64  `gorm:"column:F_txn"` //区块交易个数
 	F_miner       string `gorm:"column:F_miner"`
 	F_gas_used    string `gorm:"column:F_gas_used"`
