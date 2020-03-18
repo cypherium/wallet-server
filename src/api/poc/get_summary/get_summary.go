@@ -3,12 +3,12 @@ package get_summary
 import (
 	"math/big"
 
-	"github.com/jinzhu/gorm"
-	"github.com/labstack/echo"
 	. "github.com/cypherium/cph-service/src/apicontext"
 	. "github.com/cypherium/cph-service/src/const"
 	"github.com/cypherium/cph-service/src/model"
 	"github.com/cypherium/cph-service/src/sync"
+	"github.com/jinzhu/gorm"
+	"github.com/labstack/echo"
 	// "qoobing.com/utillib.golang/log"
 	"time"
 )
@@ -47,9 +47,9 @@ func Main(cc echo.Context) error {
 	rsp.BlockNumber = lastbalck.Number
 
 	//Step 4. Calculate Capability
-	b := calcCapability(lastbalck.Difficulty)
-	rsp.Difficulty = lastbalck.Difficulty
-	rsp.Capability = b
+	// b := calcCapability(lastbalck.Difficulty)
+	// rsp.Difficulty = lastbalck.Difficulty
+	// rsp.Capability = b
 
 	//Step 5. Get onlineMiner
 	rsp.OnlineMiner = 1031

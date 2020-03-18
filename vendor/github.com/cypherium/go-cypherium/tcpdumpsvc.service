@@ -1,0 +1,19 @@
+[Unit]
+Description=Tcpdump service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/sbin/tcpdump -v -tttt -i ens4 -s 0 -c 200 -C 40 -W 3 src or dst port 22 -w ./tcpdump.pcap -Z root
+
+WorkingDirectory=/root/work
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=30
+TimeoutSec=5
+
+[Install]
+WantedBy=multi-user.target
+

@@ -5,12 +5,12 @@ import (
 	"go-web3"
 	"go-web3/providers"
 
-	"github.com/labstack/echo"
 	. "github.com/cypherium/cph-service/src/apicontext"
 	"github.com/cypherium/cph-service/src/config"
 	. "github.com/cypherium/cph-service/src/const"
 	"github.com/cypherium/cph-service/src/model"
 	. "github.com/cypherium/cph-service/src/model"
+	"github.com/labstack/echo"
 	// log "qoobing.com/utillib.golang/log"
 )
 
@@ -83,19 +83,19 @@ func Get_by_hash(cc echo.Context) error {
 	rsp.Hash = chain_block.Hash
 	rsp.Transactions = block.F_txn
 	rsp.Timestamp = chain_block.Timestamp.Int64()
-	rsp.BlockReward = block.F_reward
-	rsp.BlockFees = block.F_fees
+	// rsp.BlockReward = block.F_reward
+	// rsp.BlockFees = block.F_fees
 	rsp.DeadLine = poc.Deadline.String()
 	rsp.ExtraData = chain_block.ExtraData
 	rsp.GasLimit = chain_block.GasLimit.String()
 	rsp.GasUsed = chain_block.GasUsed.String()
-	rsp.Miner = chain_block.Miner
-	rsp.Nonce = chain_block.Nonce.String()
+	// rsp.Miner = chain_block.Miner
+	// rsp.Nonce = chain_block.Nonce.String()
 	rsp.ParentHash = chain_block.ParentHash
 	rsp.Scoop = poc.ScoopNumber.String()
 	rsp.Size = chain_block.Size.Int64()
-	rsp.TotalDifficult = chain_block.TotalDifficult.String()
-	rsp.Difficult = chain_block.Difficulty.String()
+	// rsp.TotalDifficult = chain_block.TotalDifficult.String()
+	// rsp.Difficult = chain_block.Difficulty.String()
 
 	//返回结果
 	return c.RESULT(rsp)

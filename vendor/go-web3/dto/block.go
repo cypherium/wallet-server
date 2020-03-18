@@ -28,8 +28,9 @@ import (
 	"math/big"
 	"sync/atomic"
 
-	"github.com/pocethereum/pochain/common"
-	"github.com/pocethereum/pochain/core/types"
+	"github.com/cypherium/go-cypherium/common"
+	"github.com/cypherium/go-cypherium/core/types"
+	"github.com/cypherium/go-cypherium/log"
 )
 
 type rpcTransaction struct {
@@ -71,32 +72,34 @@ type txdata struct {
 }
 
 type Block struct {
-	Number         *big.Int `json:"number"`
-	Timestamp      *big.Int `json:"timestamp"`
-	Transactions   []string `json:"transactions"` //todo 这里默认使用查询transactions的rps调用方式
-	Hash           string   `json:"hash"`
-	ParentHash     string   `json:"parentHash"`
-	Miner          string   `json:"miner,omitempty"`
-	MixHash        string   `json:"mixHash"`
-	Difficulty     *big.Int `json:"difficulty"`
-	TotalDifficult *big.Int `json:"totalDifficulty"`
-	Size           *big.Int `json:"size"`
-	GasUsed        *big.Int `json:"gasUsed"`
-	GasLimit       *big.Int `json:"gasLimit"`
-	Nonce          *big.Int `json:"nonce"`
-	ExtraData      string   `json:"extraData"`
-	Reward         *big.Int `json:"reward"`
-	TxFees         *big.Int `json:"txfees"`
+	Number       *big.Int `json:"number"`
+	Timestamp    *big.Int `json:"timestamp"`
+	Transactions []string `json:"transactions"` //todo 这里默认使用查询transactions的rps调用方式
+	Hash         string   `json:"hash"`
+	ParentHash   string   `json:"parentHash"`
+	// Miner          string   `json:"miner,omitempty"`
+	// MixHash        string   `json:"mixHash"`
+	// Difficulty     *big.Int `json:"difficulty"`
+	// TotalDifficult *big.Int `json:"totalDifficulty"`
+	Size     *big.Int `json:"size"`
+	GasUsed  *big.Int `json:"gasUsed"`
+	GasLimit *big.Int `json:"gasLimit"`
+	// Nonce          *big.Int `json:"nonce"`
+	ExtraData string `json:"extraData"`
+	// Reward         *big.Int `json:"reward"`
+	// TxFees         *big.Int `json:"txfees"`
 	//Author         string                `json:"author,omitempty"`
 	Root        string `json:"stateRoot"`
 	TxHash      string `json:"transactionsRoot"`
 	ReceiptHash string `json:"receiptsRoot"`
-	BlockType   uint8  `json:"isKeyReward"`
-	KeyHash     string `json:"KeyHash"`
-	Signature   []byte `json:"Signature"`
-	Exceptions  []byte `json:"Exceptions"`
+	BlockType   uint8  `json:"BlockType"`
+	KeyHash     string `json:"keyHash"`
+	// Signature   []byte `json:"Signature"`
+	Exceptions []byte `json:"exceptions"`
+	// 	fields["txN"] = len(b.Transactions())
 }
 
+// fields["exceptions"] = hexutil.Bytes(b.Exceptions())
 //type Block struct {
 //	Number     *big.Int `json:"number"`
 //	Hash       string   `json:"hash"`
@@ -116,95 +119,86 @@ type Block struct {
 func (b *Block) UnmarshalJSON(data []byte) error {
 	type Alias Block
 	temp := &struct {
-		Number          string `json:"number"`
-		Size            string `json:"size"`
-		GasUsed         string `json:"gasUsed"`
-		GasLimit        string `json:"gasLimit"`
-		Nonce           string `json:"nonce"`
-		Timestamp       string `json:"timestamp"`
-		Difficulty      string `json:"difficulty"`
-		TotalDifficulty string `json:"totalDifficulty"`
-		Reward          string `json:"reward"`
-		TxFees          string `json:"txfees"`
+		Number   string `json:"number"`
+		Size     string `json:"size"`
+		GasUsed  string `json:"gasUsed"`
+		GasLimit string `json:"gasLimit"`
+		// Nonce           string `json:"nonce"`
+		Timestamp string `json:"timestamp"`
+		// Difficulty      string `json:"difficulty"`
+		// TotalDifficulty string `json:"totalDifficulty"`
+		// Reward          string `json:"reward"`
+		// TxFees          string `json:"txfees"`
 		*Alias
 	}{
 		Alias: (*Alias)(b),
 	}
 
 	if err := json.Unmarshal(data, &temp); err != nil {
+		log.Info("UnmarshalJSON", "error", err)
 		return err
 	}
 
 	num, success := big.NewInt(0).SetString(temp.Number[2:], 16)
-
 	if !success {
 		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Number))
 	}
 
 	size, success := big.NewInt(0).SetString(temp.Size[2:], 16)
-
 	if !success {
 		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Size))
 	}
 
 	gas, success := big.NewInt(0).SetString(temp.GasUsed[2:], 16)
-
 	if !success {
 		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.GasUsed))
 	}
+	// nonce, success := big.NewInt(0).SetString(temp.Nonce[2:], 16)
 
-	nonce, success := big.NewInt(0).SetString(temp.Nonce[2:], 16)
-
-	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Nonce))
-	}
-
+	// if !success {
+	// 	return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Nonce))
+	// }
 	timestamp, success := big.NewInt(0).SetString(temp.Timestamp[2:], 16)
 
 	if !success {
 		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
 	}
+	// difficult, success := big.NewInt(0).SetString(temp.Difficulty[2:], 16)
 
-	difficult, success := big.NewInt(0).SetString(temp.Difficulty[2:], 16)
+	// if !success {
+	// 	return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
+	// }
+	// totaldifficult, success := big.NewInt(0).SetString(temp.TotalDifficulty[2:], 16)
 
-	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
-	}
-
-	totaldifficult, success := big.NewInt(0).SetString(temp.TotalDifficulty[2:], 16)
-
-	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
-	}
-
+	// if !success {
+	// 	return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
+	// }
 	gaslimit, success := big.NewInt(0).SetString(temp.GasLimit[2:], 16)
 
 	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
+		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.GasLimit))
 	}
+	// reward, success := big.NewInt(0).SetString(temp.Reward[2:], 16)
 
-	reward, success := big.NewInt(0).SetString(temp.Reward[2:], 16)
+	// if !success {
+	// 	return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
+	// }
+	// txfees, success := big.NewInt(0).SetString(temp.TxFees[2:], 16)
 
-	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
-	}
-
-	txfees, success := big.NewInt(0).SetString(temp.TxFees[2:], 16)
-
-	if !success {
-		return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
-	}
+	// if !success {
+	// 	return errors.New(fmt.Sprintf("Error converting %s to bigInt", temp.Timestamp))
+	// }
 
 	b.Number = num
 	b.Size = size
 	b.GasUsed = gas
-	b.Nonce = nonce
+	// b.Nonce = nonce
 	b.Timestamp = timestamp
-	b.Difficulty = difficult
-	b.TotalDifficult = totaldifficult
+	// b.Difficulty = difficult
+	// b.TotalDifficult = totaldifficult
 	b.GasLimit = gaslimit
-	b.Reward = reward
-	b.TxFees = txfees
-
+	// b.Reward = reward
+	// b.TxFees = txfees
+	log.Info("UnmarshalJSON", "block", b)
 	return nil
 }

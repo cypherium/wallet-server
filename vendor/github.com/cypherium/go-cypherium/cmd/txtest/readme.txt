@@ -1,0 +1,1 @@
+go run -tags bn256 transaction.go

@@ -2,10 +2,9 @@ package model
 
 import (
 	"github.com/cypherium/cph-service/src/config"
+	"github.com/cypherium/go-cypherium/log"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	// "qoobing.com/utillib.golang/log"
-	"github.com/golang/glog"
 )
 
 var Schema = config.Config().DB.Schema
@@ -103,7 +102,7 @@ func InitDatabase() {
 	db, err := gorm.Open("mysql", config.Config().DB.Database)
 	defer db.Close()
 	if err != nil {
-		glog.Fatalf("connect mysql[%s] failed [%s]", config.Config().DB.Database, err)
+		log.Error("connect mysql failed", "Database", config.Config().DB.Database, "error", err)
 		panic("connect mysql failed")
 	}
 

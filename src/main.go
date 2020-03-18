@@ -17,6 +17,7 @@ import (
 	"github.com/cypherium/cph-service/src/config"
 	"github.com/cypherium/cph-service/src/model"
 	"github.com/cypherium/cph-service/src/util"
+	"github.com/cypherium/go-cypherium/log"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	// "qoobing.com/utillib.golang/gls"
@@ -28,6 +29,10 @@ import (
 )
 
 func main() {
+
+	glogger := log.NewGlogHandler(log.StreamHandler(os.Stderr, log.TerminalFormat(false)))
+	glogger.Verbosity(log.Lvl(5))
+	log.Root().SetHandler(glogger)
 
 	model.InitDatabase()
 	exec.LookPath(os.Args[0])

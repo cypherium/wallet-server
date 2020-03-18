@@ -1,11 +1,10 @@
 package model
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"math/big"
 
-	"github.com/pocethereum/pochain/common"
-	"github.com/pocethereum/pochain/core/types"
+	"github.com/cypherium/go-cypherium/common"
 )
 
 // These structs are partially borrowed from github.com/ethereu/go-ethereum/ethstats
@@ -42,19 +41,19 @@ type Block struct {
 	Txs        []TxStats      `json:"transactions"`
 	TxHash     common.Hash    `json:"transactionsRoot"`
 	Root       common.Hash    `json:"stateRoot"`
-	Uncles     uncleStats     `json:"uncles"`
+	// Uncles     uncleStats     `json:"uncles"`
 }
 
 // uncleStats is a custom wrapper around an uncle array to force serializing
 // empty arrays instead of returning null for them.
-type uncleStats []*types.Header
+// type uncleStats []*types.Header
 
-func (s uncleStats) MarshalJSON() ([]byte, error) {
-	if uncles := ([]*types.Header)(s); len(uncles) > 0 {
-		return json.Marshal(uncles)
-	}
-	return []byte("[]"), nil
-}
+// func (s uncleStats) MarshalJSON() ([]byte, error) {
+// 	if uncles := ([]*types.Header)(s); len(uncles) > 0 {
+// 		return json.Marshal(uncles)
+// 	}
+// 	return []byte("[]"), nil
+// }
 
 // TxStats is the information to report about individual transactions.
 type TxStats struct {

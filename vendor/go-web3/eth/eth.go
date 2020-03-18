@@ -30,8 +30,6 @@ import (
 	"go-web3/utils"
 	"math/big"
 	"strings"
-
-	"github.com/golang/glog"
 )
 
 // Eth - The Eth Module
@@ -627,18 +625,15 @@ func (eth *Eth) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto
 
 	params := make([]interface{}, 3)
 	params[0] = utils.IntToHex(number)
-	params[1] = transactionDetails
-	// params[1] = false
+	// params[1] = transactionDetails
+	params[1] = false
 	params[2] = true
 
 	pointer := &dto.RequestResult{}
-	glog.Info("GetBlockByNumber")
 	err := eth.provider.SendRequest(pointer, "cph_getTxBlockByNumber", params)
-	glog.Info("GetBlockByNumber", pointer)
 	if err != nil {
 		return nil, err
 	}
-	glog.Info("GetBlockByNumber ok")
 	return pointer.ToBlock()
 }
 

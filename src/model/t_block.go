@@ -4,9 +4,9 @@ import (
 	"errors"
 	_ "fmt"
 
-	"github.com/jinzhu/gorm"
 	. "github.com/cypherium/cph-service/src/const"
 	"github.com/cypherium/cph-service/src/util"
+	"github.com/jinzhu/gorm"
 	// "qoobing.com/utillib.golang/log"
 	"time"
 )
@@ -82,7 +82,7 @@ func (block *Block) BeforeUpdate(scope *gorm.Scope) error {
 func (block *Block) CreateBlock(db *gorm.DB) (err error) {
 
 	//ASSERT(block.F_block != 0, "create block, F_block can't be nul")
-	util.ASSERT(block.F_miner != "", "create block, F_miner can't be nul")
+	// util.ASSERT(block.F_miner != "", "create block, F_miner can't be nul")
 	util.ASSERT(block.F_hash != "", "create block, F_hash can't be nul")
 	util.ASSERT(block.F_parent_hash != "", "create block, F_parent_hash can't be nul")
 

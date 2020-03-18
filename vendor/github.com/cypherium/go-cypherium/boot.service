@@ -1,0 +1,12 @@
+[Unit]
+Description=BootNode
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/root/work/src/github.com/cypherium/go-cypherium/build/bin/bootnode -nodekey=/root/boot.key
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

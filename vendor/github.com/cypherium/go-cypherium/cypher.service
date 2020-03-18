@@ -1,0 +1,12 @@
+[Unit]
+Description=Cypherium go client
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/root/work/src/github.com/cypherium/go-cypherium/run.sh 1
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

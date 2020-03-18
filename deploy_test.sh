@@ -2,7 +2,7 @@
 
 HOST=gateway.poc.com
 appname=scan
-approot=/home/pocethereum/scan.service/
+approot=/Users/wss/go/src/github.com/cypherium/cph-service
 
 #./build.sh || exit 1
 echo "start copy to remote"

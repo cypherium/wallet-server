@@ -1,0 +1,141 @@
+{
+  "alloc": {
+    "1b4548e4e5bd27d616aa0d1d48d77eeccb760228": {
+      "balance": "1000000000000000000000000"
+    },
+    "1fb04bf782066314d159462de8ec87fc960fd082": {
+      "balance": "1000000000000000000000000"
+    },
+    "216fd89ea77b220e71e439e76f4873e63b5c6c69": {
+      "balance": "1000000000000000000000000"
+    },
+    "228555de367154a128348950d3dee915bc79c423": {
+      "balance": "1000000000000000000000000"
+    },
+    "248978920107307550cdcce6e144363468e7fdb7": {
+      "balance": "1000000000000000000000000"
+    },
+    "2d5c46d8b05128a055db50ef128eed8423e23f09": {
+      "balance": "1000000000000000000000000"
+    },
+    "3b8a18fc7d2b7d4368c50a5e3b750a8941d42cce": {
+      "balance": "1000000000000000000000000"
+    },
+    "3ed9390604f7d231502867f6ef25214c52c93c70": {
+      "balance": "1000000000000000000000000"
+    },
+    "425f4b38952b8a9c13c37e8c8a905420acdfb6da": {
+      "balance": "1000000000000000000000000"
+    },
+    "4748073f67cb2743512d414bb785ef79d58495cc": {
+      "balance": "1000000000000000000000000"
+    },
+    "6b75e05cccd50a86306668238a283224507974ce": {
+      "balance": "1000000000000000000000000"
+    },
+    "7715d457510c30135ad4d3fc13c532eb8fbfc0e4": {
+      "balance": "1000000000000000000000000"
+    },
+    "805c02561f119ab306d76b9bb86855c74861b87e": {
+      "balance": "1000000000000000000000000"
+    },
+    "97de593565caf32a886bd6e13b8a5b041b908d45": {
+      "balance": "1000000000000000000000000"
+    },
+    "d2f7e6c0e517f3745b2e4925772cf98129ca5566": {
+      "balance": "1000000000000000000000000"
+    },
+    "e8bc325a3d7c0e33f2a9d08fbab69474d731aea0": {
+      "balance": "1000000000000000000000000"
+    },
+    "ef72a7b6bbade3e32900ea49c171a1288856c15d": {
+      "balance": "1000000000000000000000000"
+    },
+    "f2074bff817924df190f8663fe20f0dee017c07d": {
+      "balance": "1000000000000000000000000"
+    }
+  },
+  "coinbase": "0x0000000000000000000000000000000000000000",
+  "config": {
+    "chainId": 123966,
+    "committee": {},
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "homesteadBlock": 0
+  },
+  "difficulty": "0x4400CC",
+  "epochPriKey": "0x186836d220fd8a054838f53a2ea137851534c57ed2589f06f35fa6fc99701794",
+  "epochPubKey": "0x8b1af7c87c48b72c468acd41c0848206b0096ddab054ed9d8895883d93905ec2",
+  "extraData": "",
+  "gasLimit": "0xE7E7E7",
+  "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000002",
+  "nonce": "0x0000000000000042",
+  "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "timestamp": "0x00"
+}aff659d3a768aa3d8f6ba6987f224c245f6a88b996b82ade35e2c662e8fb33dcd129bb823e7e0d6f90e0a2a712bf138d",
+        "description": "Cnode_1"
+      },
+      "2": {
+        "address": "tcp://192.168.0.153:7106",
+        "suite": "Ed25519",
+        "coinbase": "216fd89ea77b220e71e439e76f4873e63b5c6c69",
+        "public": "e2b77c083abcf76107ecfbcb296379ed92e72f8e817c5637daf5f4a1b3bae8190e7e18f452ab83a5e6a81ef98e0f8cbe5086d699ea81be93ede4dd0e47da651b",
+        "description": "Cnode_2"
+      },
+      "3": {
+        "address": "tcp://192.168.0.153:7108",
+        "suite": "Ed25519",
+        "coinbase": "4748073f67cb2743512d414bb785ef79d58495cc",
+        "public": "19ab366e414f0a9af4ee5f289b81138c2d07d737da134ac7b29505d9408b621f31b282fbc0031a269d086e8917f7e4575315383b635b863ef17e73d72b984213",
+        "description": "Cnode_3"
+      },
+      "4": {
+        "address": "tcp://192.168.0.153:7110",
+        "suite": "Ed25519",
+        "coinbase": "f2074bff817924df190f8663fe20f0dee017c07d",
+        "public": "01a62a05b98d94d9980d4a1a049538922c1498725815fbc64e8ef79ae856c523d86fceba05c8cf3524ac5d483228181d6f3182446381a044097bb8d15304a908",
+        "description": "Cnode_4"
+      },
+      "5": {
+        "address": "tcp://192.168.0.153:7112",
+        "suite": "Ed25519",
+        "coinbase": "d2f7e6c0e517f3745b2e4925772cf98129ca5566",
+        "public": "10c1f655988fadc8270487412ef2b321a8079d91357d4ed8f746cbe195e6361f79981c32357368a6e74e0f7af1b3afe8848c5dcb28f98f307f7ce3c93bbf8788",
+        "description": "Cnode_5"
+      },
+      "6": {
+        "address": "tcp://192.168.0.153:7114",
+        "suite": "Ed25519",
+        "coinbase": "6b75e05cccd50a86306668238a283224507974ce",
+        "public": "53e4ee2fbb9450151434807b9f32f54972b1c9bd0a48ceff78882538745b511cdb35049935ae988a7033c857d83d23a12c59b0133e7f881b926a7f837a2e6d98",
+        "description": "Cnode_6"
+      },
+      "7": {
+        "address": "tcp://192.168.0.153:7116",
+        "suite": "Ed25519",
+        "coinbase": "1b4548e4e5bd27d616aa0d1d48d77eeccb760228",
+        "public": "35a2cd387ec0a8a638851d81b3c4298523bc54c51428b3286b32a15cb53cba138a60ed24baa1b788de8ea78f1c78027ebdbdc6206f4541a0f79462b42d489423",
+        "description": "Cnode_7"
+      },
+      "8": {
+        "address": "tcp://192.168.0.153:7118",
+        "suite": "Ed25519",
+        "coinbase": "3ed9390604f7d231502867f6ef25214c52c93c70",
+        "public": "41b526e32a2773b14183ae6dbc5883a1ad3a1ced11d46f2919c17e4cb8240505b56f8a5ec7335a444e3670b6b43ed711c9f9599d1efcc79f2b774ed6f25b4c09",
+        "description": "Cnode_8"
+      }
+    },
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "homesteadBlock": 0
+  },
+  "difficulty": "0x4400CC",
+  "epochPriKey": "0x186836d220fd8a054838f53a2ea137851534c57ed2589f06f35fa6fc99701794",
+  "epochPubKey": "0x8b1af7c87c48b72c468acd41c0848206b0096ddab054ed9d8895883d93905ec2",
+  "extraData": "",
+  "gasLimit": "0xE7E7E7",
+  "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000002",
+  "nonce": "0x0000000000000042",
+  "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "timestamp": "0x00"
+}

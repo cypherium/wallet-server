@@ -33,7 +33,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/golang/glog"
+	"github.com/cypherium/go-cypherium/log"
 )
 
 type RequestResult struct {
@@ -257,27 +257,26 @@ func (pointer *RequestResult) ToTransactionReceipt() (*TransactionReceipt, error
 func (pointer *RequestResult) ToBlock() (*Block, error) {
 
 	if err := pointer.checkResponse(); err != nil {
-		glog.Info("checkResponse", err.Error())
+		log.Info("checkResponse", "error", err.Error())
 		return nil, err
 	}
 
 	result := (pointer).Result.(map[string]interface{})
 
 	if len(result) == 0 {
-		glog.Info("checkResponse 1", customerror.EMPTYRESPONSE.Error())
+		log.Info("checkResponse 1", "error", customerror.EMPTYRESPONSE.Error())
 		return nil, customerror.EMPTYRESPONSE
 	}
 
 	block := &Block{}
-	glog.Info("Marshal:", result)
+	log.Info("Marshal", "result", result)
 	marshal, err := json.Marshal(result)
 	if err != nil {
-		glog.Info("Marshal", err.Error())
+		log.Info("Marshal", "error", err.Error())
 		return nil, customerror.UNPARSEABLEINTERFACE
 	}
-	glog.Info("Marshal ok", marshal)
 	err = json.Unmarshal(marshal, &block)
-	glog.Info("Unmarshal ok", block)
+	log.Info("Unmarshal ok", "block", block)
 	return block, err
 
 }

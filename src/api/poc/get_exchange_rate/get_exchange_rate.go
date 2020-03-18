@@ -2,8 +2,8 @@ package get_exchange_rate
 
 import (
 	. "github.com/cypherium/cph-service/src/apicontext"
+	"github.com/cypherium/go-cypherium/log"
 	"github.com/labstack/echo"
-	"github.com/pocethereum/pochain/log"
 )
 
 type InputReq struct {
@@ -31,7 +31,6 @@ func Main(cc echo.Context) error {
 	defer c.PANIC_RECOVER()
 	log.Debug("get_exchange_rate Main2")
 	c.Mysql()
-	// glog.Info("ok")
 	//Step 2. parameters initial
 
 	rsp := OutputRsp{
