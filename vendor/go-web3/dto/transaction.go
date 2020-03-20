@@ -96,7 +96,7 @@ type SignedTransactionParams struct {
 
 type TransactionResponse struct {
 	Version          string   `json:"version"`
-	From             string   `json:"senderKey"`
+	From             string   `json:"from"`
 	Hash             string   `json:"hash"`
 	Nonce            *big.Int `json:"nonce"`
 	BlockHash        string   `json:"blockHash"`
