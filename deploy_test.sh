@@ -1,13 +1,13 @@
 #!/bin/bash
 
-HOST=gateway.poc.com
+HOST=35.232.249.84
 appname=scan
-approot=/Users/wss/go/src/github.com/cypherium/cph-service
+approot=/root/work/src/github.com/cypherium/cph-service
 
 #./build.sh || exit 1
 echo "start copy to remote"
-scp scan.tar.gz pocethereum@$HOST:$approot
-ssh pocethereum@$HOST "cd $approot && tar -xvzf scan.tar.gz && ./load.sh restart"
+scp -i vendor/github.com/cypherium/go-cypherium/gcp_cypherium_private.pem scan.tar.gz root@$HOST:$approot
+ssh -i vendor/github.com/cypherium/go-cypherium/gcp_cypherium_private.pem root@$HOST "cd $approot && tar -xvzf scan.tar.gz && ./load.sh restart"
 
 #
 ### done ############

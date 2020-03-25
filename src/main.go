@@ -44,6 +44,7 @@ func main() {
 	//go sync.CheckReward()
 
 	e := echo.New()
+	e.Static("/", "assets")
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"127.0.0.1", "http://localhost:8100"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
