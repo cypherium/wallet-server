@@ -1,4 +1,4 @@
-## scan.service
+## wallet .service
 
 浏览器后端服务
 #####build
@@ -21,3 +21,17 @@ database = "xxx:xxx@2019@tcp(xxx:8306)/scan"    #数据库，格式化链上数�
 
 #####database
 参见：src/model/create_table.go
+
+#####编译运行测试
+
+1.编译./build.sh
+2.运行./load.sh restart
+3.测试
+curl --include \
+     --request POST \
+     --header "Content-Type: application/json; charset=utf-8" \
+     --header "Authorization: Basic MzAwNWFlNDQtM2M5MS00MGFmLWI1NzktNDg4OTNhZDkxMGVm" \
+     --data-binary "{\"app_id\": \"181c8c4b-27f8-4445-97c0-1e367c4a88ca\",
+\"contents\": {\"en\": \"English Message\"},
+\"filters\": [{\"field\": \"tag\", \"key\": \"keyname\", \"relation\": \"=\", \"value\": \"valuestr\"},{\"operator\": \"OR\"},{\"field\": \"amount_spent\", \"relation\": \">\",\"value\": \"0\"}]}" \
+     https://onesignal.com/api/v1/notifications
