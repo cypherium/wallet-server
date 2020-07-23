@@ -2,13 +2,42 @@
 
 #set -x
 appname='scan'
+buildOnDarwin()
+{
+  go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1); 
+}
 
+buildOnLinux()
+{
+  CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1);
+}
+ostype()
+{
+  osname=`uname -s`
+  echo "osname $osname"
+  echo "start build ..."
+  case $osname in
+     "Linux") 
+     ;;
+     "Darwin")  buildOnDarwin;
+     ;;
+     "linux") buildOnLinux;
+     ;;
+     "darwin")  buildOnDarwin;
+     ;;
+     *) buildOnLinux;
+     ;;
+    esac
+  return 0
+}
+
+ostype
 ###  build      ####
-echo "start build ..."
+#echo "start build ..."
 #Mac
 # go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1);
 #linux
-CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1);
+#CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1);
 # xgo -x -targets=linux/amd64  ./src/ && (mv src-linux-amd64 ./bin/$appname; echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1) || exit 1;
 
 dir=$(pwd)
