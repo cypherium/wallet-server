@@ -1,9 +1,9 @@
 package block_number
 
 import (
-	. "github.com/cypherium/cph-service/src/apicontext"
-	"github.com/cypherium/cph-service/src/config"
-	"github.com/cypherium/cph-service/src/const"
+	. "github.com/cypherium/wallet-server/src/apicontext"
+	"github.com/cypherium/wallet-server/src/config"
+	"github.com/cypherium/wallet-server/src/const"
 	"github.com/labstack/echo"
 	"go-web3"
 	"go-web3/providers"

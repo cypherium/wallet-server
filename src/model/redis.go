@@ -3,11 +3,11 @@ package model
 import (
 	"github.com/gomodule/redigo/redis"
 	//"config"
-	. "github.com/cypherium/cph-service/src/const"
+	. "github.com/cypherium/wallet-server/src/const"
 	// "qoobing.com/utillib.golang/log"
 	"encoding/json"
 
-	"github.com/cypherium/cph-service/src/config"
+	"github.com/cypherium/wallet-server/src/config"
 )
 
 func SetRate(rds redis.Conn, rate UbbeyRate) error {

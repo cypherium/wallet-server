@@ -1,8 +1,8 @@
 package sync
 
 import (
-	. "github.com/cypherium/cph-service/src/const"
-	"github.com/cypherium/cph-service/src/model"
+	. "github.com/cypherium/wallet-server/src/const"
+	"github.com/cypherium/wallet-server/src/model"
 
 	"math/big"
 	// "qoobing.com/utillib.golang/log"

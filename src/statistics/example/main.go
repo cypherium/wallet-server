@@ -2,10 +2,10 @@ package main
 
 import (
 	"crypto/tls"
-	"github.com/cypherium/cph-service/src/statistics/stats"
-	"github.com/cypherium/cph-service/src/statistics/model"
 	"flag"
 	"fmt"
+	"github.com/cypherium/wallet-server/src/statistics/model"
+	"github.com/cypherium/wallet-server/src/statistics/stats"
 	"golang.org/x/crypto/acme/autocert"
 	"log"
 	"net"

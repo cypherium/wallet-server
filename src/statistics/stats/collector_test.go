@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cypherium/cph-service/src/statistics/model"
-	"github.com/cypherium/cph-service/src/statistics/stats"
+	"github.com/cypherium/wallet-server/src/statistics/model"
+	"github.com/cypherium/wallet-server/src/statistics/stats"
 )
 
 func TestCollector(t *testing.T) {

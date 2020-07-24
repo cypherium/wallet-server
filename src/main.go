@@ -13,19 +13,19 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/cypherium/cph-service/src/apicontext"
-	"github.com/cypherium/cph-service/src/config"
-	"github.com/cypherium/cph-service/src/model"
-	"github.com/cypherium/cph-service/src/util"
 	"github.com/cypherium/go-cypherium/log"
+	"github.com/cypherium/wallet-server/src/apicontext"
+	"github.com/cypherium/wallet-server/src/config"
+	"github.com/cypherium/wallet-server/src/model"
+	"github.com/cypherium/wallet-server/src/util"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	// "qoobing.com/utillib.golang/gls"
 	// "qoobing.com/utillib.golang/log"
 
-	"github.com/cypherium/cph-service/src/api"
-	"github.com/cypherium/cph-service/src/statistics/stats"
-	"github.com/cypherium/cph-service/src/sync"
+	"github.com/cypherium/wallet-server/src/api"
+	"github.com/cypherium/wallet-server/src/statistics/stats"
+	"github.com/cypherium/wallet-server/src/sync"
 )
 
 func main() {

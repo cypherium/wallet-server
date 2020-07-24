@@ -4,8 +4,8 @@ import (
 	"errors"
 	_ "fmt"
 
-	. "github.com/cypherium/cph-service/src/const"
-	"github.com/cypherium/cph-service/src/util"
+	. "github.com/cypherium/wallet-server/src/const"
+	"github.com/cypherium/wallet-server/src/util"
 	"github.com/jinzhu/gorm"
 	// "qoobing.com/utillib.golang/log"
 	"time"

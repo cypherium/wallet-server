@@ -18,8 +18,8 @@ import (
 	"go-web3"
 	"go-web3/providers"
 
-	"github.com/cypherium/cph-service/src/config"
-	. "github.com/cypherium/cph-service/src/const"
+	"github.com/cypherium/wallet-server/src/config"
+	. "github.com/cypherium/wallet-server/src/const"
 	"github.com/gomodule/redigo/redis"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"

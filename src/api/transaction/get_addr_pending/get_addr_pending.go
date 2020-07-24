@@ -3,9 +3,9 @@ package get_addr_pending
 import (
 	"github.com/labstack/echo"
 	//"time"
-	"github.com/cypherium/cph-service/src/api/transaction"
-	. "github.com/cypherium/cph-service/src/apicontext"
-	"github.com/cypherium/cph-service/src/config"
+	"github.com/cypherium/wallet-server/src/api/transaction"
+	. "github.com/cypherium/wallet-server/src/apicontext"
+	"github.com/cypherium/wallet-server/src/config"
 	"go-web3"
 	"go-web3/providers"
 	"math/big"

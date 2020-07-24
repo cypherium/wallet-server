@@ -1,8 +1,8 @@
 package get_exchange_rate
 
 import (
-	. "github.com/cypherium/cph-service/src/apicontext"
 	"github.com/cypherium/go-cypherium/log"
+	. "github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/labstack/echo"
 )
 

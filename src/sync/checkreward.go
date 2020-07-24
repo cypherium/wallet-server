@@ -3,9 +3,9 @@ package sync
 import (
 	"math/big"
 
+	"github.com/cypherium/wallet-server/src/config"
+	. "github.com/cypherium/wallet-server/src/model"
 	"github.com/jinzhu/gorm"
-	"github.com/cypherium/cph-service/src/config"
-	. "github.com/cypherium/cph-service/src/model"
 	// "qoobing.com/utillib.golang/log"
 	"time"
 )

@@ -1,10 +1,10 @@
 package gotest
 
 import (
+	"github.com/cypherium/wallet-server/src/sync"
 	"testing"
-	"github.com/cypherium/cph-service/src/sync"
 )
 
-func TestStartSyncLastBlock(t *testing.T){
+func TestStartSyncLastBlock(t *testing.T) {
 	sync.StartSyncLastBlock()
 }

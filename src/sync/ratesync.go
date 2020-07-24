@@ -3,8 +3,8 @@ package sync
 import (
 	"errors"
 
-	"github.com/cypherium/cph-service/src/config"
-	"github.com/cypherium/cph-service/src/model"
+	"github.com/cypherium/wallet-server/src/config"
+	"github.com/cypherium/wallet-server/src/model"
 	// "qoobing.com/utillib.golang/log"
 	"time"
 )

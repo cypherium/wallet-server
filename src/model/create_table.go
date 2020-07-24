@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/cypherium/cph-service/src/config"
 	"github.com/cypherium/go-cypherium/log"
+	"github.com/cypherium/wallet-server/src/config"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )

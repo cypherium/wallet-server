@@ -4,9 +4,9 @@ import (
 	"go-web3"
 	"go-web3/providers"
 
+	"github.com/cypherium/wallet-server/src/config"
 	"github.com/gomodule/redigo/redis"
 	"github.com/jinzhu/gorm"
-	"github.com/cypherium/cph-service/src/config"
 	// "qoobing.com/utillib.golang/log"
 	"reflect"
 )

@@ -1,8 +1,8 @@
 package stats
 
 import (
-	"github.com/cypherium/cph-service/src/statistics/model"
 	"errors"
+	"github.com/cypherium/wallet-server/src/statistics/model"
 	"log"
 	"sync"
 	"time"

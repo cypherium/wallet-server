@@ -1,9 +1,9 @@
 package stats
 
 import (
-	"github.com/cypherium/cph-service/src/statistics/model"
-	"github.com/cypherium/cph-service/src/statistics/stats"
 	"encoding/json"
+	"github.com/cypherium/wallet-server/src/statistics/model"
+	"github.com/cypherium/wallet-server/src/statistics/stats"
 	"testing"
 )
 

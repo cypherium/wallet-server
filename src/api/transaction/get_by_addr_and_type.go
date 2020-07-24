@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	. "github.com/cypherium/cph-service/src/apicontext"
-	"github.com/cypherium/cph-service/src/config"
-	. "github.com/cypherium/cph-service/src/const"
-	. "github.com/cypherium/cph-service/src/model"
-	"github.com/cypherium/cph-service/src/sync"
+	. "github.com/cypherium/wallet-server/src/apicontext"
+	"github.com/cypherium/wallet-server/src/config"
+	. "github.com/cypherium/wallet-server/src/const"
+	. "github.com/cypherium/wallet-server/src/model"
+	"github.com/cypherium/wallet-server/src/sync"
 	"github.com/labstack/echo"
 
 	"github.com/cypherium/go-cypherium/log"

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cypherium/cph-service/src/statistics/model"
+	"github.com/cypherium/wallet-server/src/statistics/model"
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
 )

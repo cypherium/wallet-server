@@ -4,8 +4,8 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/cypherium/cph-service/src/config"
-	"github.com/cypherium/cph-service/src/statistics/model"
+	"github.com/cypherium/wallet-server/src/config"
+	"github.com/cypherium/wallet-server/src/statistics/model"
 	// "qoobing.com/utillib.golang/log"
 )
 
