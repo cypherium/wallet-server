@@ -18,7 +18,7 @@ ostype()
   echo "osname $osname"
   echo "start build ..."
   case $osname in
-     "Linux") 
+     "Linux") buildOnLinux;
      ;;
      "Darwin")  buildOnDarwin;
      ;;
