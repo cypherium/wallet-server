@@ -2,6 +2,9 @@
 
 #set -x
 appname='scan'
+if [ ! -d "./bin/$appname" ]; then
+ mkdir -p ./bin/$appname
+fi
 buildOnDarwin()
 {
   go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1); 
