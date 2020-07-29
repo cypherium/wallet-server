@@ -60,7 +60,7 @@ var (
 
 func Config() *appConfig {
 	once.Do(func() {
-		doc, err := ioutil.ReadFile("./conf/scan.conf")
+		doc, err := ioutil.ReadFile("../conf/scan.conf")
 		if err != nil {
 			panic("initial config, read config file error:" + err.Error())
 		}
