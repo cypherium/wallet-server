@@ -9,8 +9,8 @@ start() {
     echo "--------------------";
     echo "Starting private network";
 
-    nohup ./bin/scan >> ./log/stdout.log &
-    # ./bin/scan >> ./log/stdout.log 2>"./log/stdout.log" &
+    nohup ./bin/scan >> ./log/output.log &
+    # ./bin/scan >> ./log/output.log 2>"./log/output.log" &
 
     sleep 0.1;
     echo "-----";
@@ -21,7 +21,7 @@ start() {
 
 stop() {
     echo "Stop scan application";
-    rm log/stdout.log
+    rm log/output.log
     pkill -9 scan
     killflag=0
     pidlist=`ps -elf | grep -E "./bin/scan$" | grep -v grep | awk '{print $4}'`;
