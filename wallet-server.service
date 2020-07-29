@@ -1,0 +1,12 @@
+[Unit]
+Description=Cypherium wallet service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/root/work/src/github.com/cypherium/wallet-server/walletexe.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
