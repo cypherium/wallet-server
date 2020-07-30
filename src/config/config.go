@@ -10,9 +10,14 @@
 package config
 
 import (
-	"io/ioutil"
-
+	"fmt"
 	"github.com/pelletier/go-toml"
+	"io/ioutil"
+	"os"
+	"path"
+	"path/filepath"
+	"strings"
+
 	// "qoobing.com/utillib.golang/log"
 	"sync"
 )
@@ -58,9 +63,34 @@ var (
 	once sync.Once
 )
 
+func substr(s string, pos, length int) string {
+	runes := []rune(s)
+	l := pos + length
+	if l > len(runes) {
+		l = len(runes)
+	}
+	return string(runes[pos:l])
+}
+
+func getParentDirectory(dirctory string) string {
+	return substr(dirctory, 0, strings.LastIndex(dirctory, "/"))
+}
+
+func getCurrentDirectory() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err)
+	}
+	return strings.Replace(dir, "\\", "/", -1)
+}
+
 func Config() *appConfig {
 	once.Do(func() {
-		doc, err := ioutil.ReadFile("/root/work/src/github.com/cypherium/wallet-server/conf/scan.conf")
+		parentDirectory := getParentDirectory(getCurrentDirectory())
+		fmt.Println(parentDirectory)
+		confPaht := path.Join(parentDirectory, "/conf/scan.conf")
+		fmt.Println(confPaht)
+		doc, err := ioutil.ReadFile(confPaht)
 		if err != nil {
 			panic("initial config, read config file error:" + err.Error())
 		}
