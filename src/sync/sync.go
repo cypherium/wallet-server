@@ -175,7 +175,7 @@ func SyncOneBlock(height int64) error {
 		return err
 	}
 
-	if height > 0 && chain_parent_block.Hash != databases_block_parent.F_hash {
+	if height > 1 && chain_parent_block.Hash != databases_block_parent.F_hash {
 		c.AddBlockNow(-1)
 		log.Info("chain_parent_block and databases_block_parent not equal,sync from parent_block",
 			"pHash", chain_parent_block.Hash, "dHash", databases_block_parent.F_hash)
