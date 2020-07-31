@@ -18,7 +18,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cypherium/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/go-cypherium/log"
 )
 
 var logid string

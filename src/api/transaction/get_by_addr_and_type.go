@@ -16,7 +16,7 @@ import (
 	"github.com/cypherium/wallet-server/src/sync"
 	"github.com/labstack/echo"
 
-	"github.com/cypherium/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/go-cypherium/log"
 )
 
 type InputAddrTypeReq struct {

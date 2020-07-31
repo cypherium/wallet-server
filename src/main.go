@@ -13,7 +13,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/cypherium/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/go-cypherium/log"
 	"github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/cypherium/wallet-server/src/config"
 	"github.com/cypherium/wallet-server/src/model"

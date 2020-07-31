@@ -4,7 +4,7 @@ import (
 	// "encoding/json"
 	"math/big"
 
-	"github.com/cypherium/go-cypherium/common"
+	"github.com/cypherium/cypherBFT/go-cypherium/common"
 )
 
 // These structs are partially borrowed from github.com/ethereu/go-ethereum/ethstats

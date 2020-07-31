@@ -6,8 +6,8 @@ approot=/root/work/src/github.com/cypherium/wallet-server
 
 #./build.sh || exit 1
 echo "start copy to remote"
-scp -i vendor/github.com/cypherium/go-cypherium/gcp_cypherium_private.pem scan.tar.gz root@$HOST:$approot
-ssh -i vendor/github.com/cypherium/go-cypherium/gcp_cypherium_private.pem root@$HOST "cd $approot && tar -xvzf scan.tar.gz && ./load.sh restart"
+scp -i vendor/github.com/cypherium/cypherBFT/go-cypherium/gcp_cypherium_private.pem scan.tar.gz root@$HOST:$approot
+ssh -i vendor/github.com/cypherium/cypherBFT/go-cypherium/gcp_cypherium_private.pem root@$HOST "cd $approot && tar -xvzf scan.tar.gz && ./load.sh restart"
 
 #
 ### done ############
