@@ -15,8 +15,8 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
-	"go-web3"
-	"go-web3/providers"
+	"github.com/cypherium/wallet-server/src/go-web3"
+	"github.com/cypherium/wallet-server/src/go-web3/providers"
 
 	"github.com/cypherium/wallet-server/src/config"
 	. "github.com/cypherium/wallet-server/src/const"

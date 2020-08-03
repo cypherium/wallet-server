@@ -4,9 +4,9 @@ import (
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/cypherium/wallet-server/src/config"
 	"github.com/cypherium/wallet-server/src/const"
+	"github.com/cypherium/wallet-server/src/go-web3"
+	"github.com/cypherium/wallet-server/src/go-web3/providers"
 	"github.com/labstack/echo"
-	"go-web3"
-	"go-web3/providers"
 )
 
 type Output struct {

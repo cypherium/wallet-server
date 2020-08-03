@@ -2,8 +2,8 @@ package block_query
 
 import (
 	"fmt"
-	"go-web3"
-	"go-web3/providers"
+	"github.com/cypherium/wallet-server/src/go-web3"
+	"github.com/cypherium/wallet-server/src/go-web3/providers"
 
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/cypherium/wallet-server/src/config"

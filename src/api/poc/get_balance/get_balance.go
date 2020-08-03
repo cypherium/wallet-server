@@ -1,13 +1,13 @@
 package get_balance
 
 import (
-	"go-web3"
-	"go-web3/providers"
+	"github.com/cypherium/wallet-server/src/go-web3"
+	"github.com/cypherium/wallet-server/src/go-web3/providers"
 
 	"github.com/labstack/echo"
 
 	"fmt"
-	"go-web3/eth/block"
+	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
 
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/cypherium/wallet-server/src/config"

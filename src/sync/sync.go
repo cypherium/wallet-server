@@ -9,7 +9,7 @@ import (
 	"github.com/cypherium/wallet-server/src/model"
 
 	"errors"
-	"go-web3/dto"
+	"github.com/cypherium/wallet-server/src/go-web3/dto"
 	"os"
 
 	. "github.com/cypherium/wallet-server/src/const"
@@ -111,9 +111,10 @@ func SyncOneBlock(height int64) error {
 	if err := DropBlok(height); err != nil {
 		return err
 	}
+	log.Info("GetBlockByNumber", "height", height)
 	//1.get block and parent block
 	chain_block, err := c.Web3().Eth.GetBlockByNumber(big.NewInt(height), true)
-	if err != nil {
+	if chain_block != nil {
 		log.Info("Eth.GetBlockByNumber", "error", err.Error())
 		return err
 	}
@@ -121,7 +122,7 @@ func SyncOneBlock(height int64) error {
 	log.Info("Get chain_block success", "number", chain_block.Number, "hash", chain_block.Hash, "detail", chain_block)
 
 	var chain_parent_block *dto.Block
-	if height > 0 {
+	if height > 1 {
 		chain_parent_block, err = c.Web3().Eth.GetBlockByNumber(big.NewInt(height-1), true)
 		if err != nil {
 			log.Info("Eth.GetBlockByNumber", "height", height-1, "error", err.Error())
