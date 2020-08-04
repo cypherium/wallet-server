@@ -268,17 +268,64 @@ func (pointer *RequestResult) ToBlock() (*Block, error) {
 		return nil, customerror.EMPTYRESPONSE
 	}
 
-	block := &Block{}
+	preblock := &preBlock{}
 	log.Info("Marshal", "result", result)
+
 	marshal, err := json.Marshal(result)
 	if err != nil {
 		log.Info("Marshal", "error", err.Error())
 		return nil, customerror.UNPARSEABLEINTERFACE
 	}
-	err = json.Unmarshal(marshal, &block)
-	log.Info("Unmarshal ok", "block", block)
-	return block, err
+	json.Unmarshal(marshal, &preblock)
+	//if err := json.Unmarshal(marshal, &preblock); err != nil {
+	//	log.Info("Unmarshal", "error", err,"block",preblock)
+	//
+	//	return nil,err
+	//}
+	log.Info("Unmarshal ok", "block", preblock)
+	num, success := big.NewInt(0).SetString(preblock.Number[2:], 16)
+	if !success {
+		return nil, errors.New(fmt.Sprintf("Error converting %s to bigInt", preblock.Number))
+	}
 
+	timestamp, success := big.NewInt(0).SetString(preblock.Timestamp[2:], 16)
+	if !success {
+		return nil, errors.New(fmt.Sprintf("Error converting %s to bigInt", preblock.Timestamp))
+	}
+
+	size, success := big.NewInt(0).SetString(preblock.Size[2:], 16)
+	if !success {
+		return nil, errors.New(fmt.Sprintf("Error converting %s to bigInt", preblock.Size))
+	}
+
+	gasUsed, success := big.NewInt(0).SetString(preblock.GasUsed[2:], 16)
+	if !success {
+		return nil, errors.New(fmt.Sprintf("Error converting %s to bigInt", preblock.GasUsed))
+	}
+
+	gasLimit, success := big.NewInt(0).SetString(preblock.GasLimit[2:], 16)
+	if !success {
+		return nil, errors.New(fmt.Sprintf("Error converting %s to bigInt", preblock.GasLimit))
+	}
+
+	block := &Block{
+		Number:       num,
+		Timestamp:    timestamp,
+		Transactions: preblock.Transactions,
+		Hash:         preblock.Hash,
+		ParentHash:   preblock.ParentHash,
+		Size:         size,
+		GasUsed:      gasUsed,
+		GasLimit:     gasLimit,
+		ExtraData:    preblock.ExtraData,
+		Root:         preblock.Root,
+		TxHash:       preblock.TxHash,
+		ReceiptHash:  preblock.ReceiptHash,
+		BlockType:    preblock.BlockType,
+		KeyHash:      preblock.KeyHash,
+		Exceptions:   preblock.Exceptions,
+	}
+	return block, err
 }
 
 func (pointer *RequestResult) ToPoc() (*Poc, error) {

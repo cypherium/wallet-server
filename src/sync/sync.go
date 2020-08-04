@@ -114,7 +114,7 @@ func SyncOneBlock(height int64) error {
 	log.Info("GetBlockByNumber", "height", height)
 	//1.get block and parent block
 	chain_block, err := c.Web3().Eth.GetBlockByNumber(big.NewInt(height), true)
-	if chain_block != nil {
+	if err != nil {
 		log.Info("Eth.GetBlockByNumber", "error", err.Error())
 		return err
 	}

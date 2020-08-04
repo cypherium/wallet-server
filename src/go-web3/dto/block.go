@@ -99,6 +99,34 @@ type Block struct {
 	// 	fields["txN"] = len(b.Transactions())
 }
 
+type preBlock struct {
+	Number       string                `json:"number"`
+	Timestamp    string                `json:"timestamp"`
+	Transactions []TransactionResponse `json:"transactions"` //todo 这里默认使用查询transactions的rps调用方式
+	Hash         string                `json:"hash"`
+	ParentHash   string                `json:"parentHash"`
+	// Miner          string   `json:"miner,omitempty"`
+	// MixHash        string   `json:"mixHash"`
+	// Difficulty     *big.Int `json:"difficulty"`
+	// TotalDifficult *big.Int `json:"totalDifficulty"`
+	Size     string `json:"size"`
+	GasUsed  string `json:"gasUsed"`
+	GasLimit string `json:"gasLimit"`
+	// Nonce          *big.Int `json:"nonce"`
+	ExtraData string `json:"extraData"`
+	// Reward         *big.Int `json:"reward"`
+	// TxFees         *big.Int `json:"txfees"`
+	//Author         string                `json:"author,omitempty"`
+	Root        string `json:"stateRoot"`
+	TxHash      string `json:"transactionsRoot"`
+	ReceiptHash string `json:"receiptsRoot"`
+	BlockType   uint8  `json:"BlockType"`
+	KeyHash     string `json:"keyHash"`
+	// Signature   []byte `json:"Signature"`
+	Exceptions []byte `json:"exceptions"`
+	// 	fields["txN"] = len(b.Transactions())
+}
+
 // fields["exceptions"] = hexutil.Bytes(b.Exceptions())
 //type Block struct {
 //	Number     *big.Int `json:"number"`
