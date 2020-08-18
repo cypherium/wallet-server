@@ -10,6 +10,7 @@
 package main
 
 import (
+	"io"
 	"os"
 	"os/exec"
 
@@ -20,6 +21,7 @@ import (
 	"github.com/cypherium/wallet-server/src/util"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	glog "github.com/labstack/gommon/log"
 	// "qoobing.com/utillib.golang/gls"
 	// "qoobing.com/utillib.golang/log"
 
@@ -28,6 +30,17 @@ import (
 	"github.com/cypherium/wallet-server/src/sync"
 )
 
+func configLogger(e *echo.Echo) {
+	// 定义日志级别
+	e.Logger.SetLevel(glog.INFO)
+	// 记录业务日志
+	echoLog, err := os.OpenFile("log/echo.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		panic(err)
+	}
+	// 同时输出到文件和终端
+	e.Logger.SetOutput(io.MultiWriter(os.Stdout, echoLog))
+}
 func main() {
 
 	glogger := log.NewGlogHandler(log.StreamHandler(os.Stderr, log.TerminalFormat(false)))
@@ -44,12 +57,17 @@ func main() {
 	//go sync.CheckReward()
 
 	e := echo.New()
+	configLogger(e)
 	e.Static("/", "assets")
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"127.0.0.1", "http://localhost:8100"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
-
+	//// 设置中间件
+	//setMiddleware(e)
+	//
+	//// 注册路由
+	//RegisterRoutes(e)
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
 		//timer.CountMining()
 		return func(c echo.Context) error {
@@ -96,9 +114,9 @@ func main() {
 	//poc
 	e.POST("/cph/get_exchange_rate", api.GetExchangeRate)
 	e.GET("/cph/get_exchange_rate", api.GetExchangeRate)
-	e.POST("/poc/get_summary", api.GetSummary)
-	e.GET("/poc/get_summary", api.GetSummary)
-	e.POST("/poc/get_balance", api.GetBalance)
+	e.POST("/cph/get_summary", api.GetSummary)
+	e.GET("/cph/get_summary", api.GetSummary)
+	e.POST("/cph/get_balance", api.GetBalance)
 
 	e.Logger.Fatal(e.Start(":" + config.Config().Port))
 

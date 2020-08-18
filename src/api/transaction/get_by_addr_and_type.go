@@ -39,9 +39,10 @@ func Get_by_addr_and_type(cc echo.Context) error {
 	argc := new(InputAddrTypeReq)
 
 	if err := c.BindInput(argc); err != nil {
+		log.Info("Get_by_addr_and_type", "err", err)
 		return c.RESULT_PARAMETER_ERROR(err.Error())
 	}
-	log.Info("receive Get_Blocks", "argc", argc)
+	log.Info("receive Get_by_addr_and_type", "argc", argc)
 	//检查参数
 	if argc.PageIndex < 1 || argc.PageSize <= 0 {
 		log.Info("param error")
@@ -76,15 +77,15 @@ func Get_by_addr_and_type(cc echo.Context) error {
 		size = offset + size - pendingLen
 		allList = pendingList[offset : offset+size]
 	}
-
+	log.Info("GetTransactionsByAddrAndType", "argc.Addr", argc.Addr, "txtype", txtype, "offset", offset, "size", size)
 	//查询数据库
 	dbTransList, count, err := GetTransactionsByAddrAndType(c.Mysql(), argc.Addr, txtype, offset, size)
 	if err != nil {
-		log.Info("GetTransactionsByAddr", "error", err.Error(), "addr", argc.Addr)
+		log.Info("GetTransactionsByAddr11", "error", err.Error(), "addr", argc.Addr, "txtype", txtype, "offset", offset, "size", size)
 		return c.RESULT_ERROR(GET_TRANSACTIONS_ERROR, fmt.Sprintf("GetTransactionsByAddr error:%s,addr:%s", err.Error(), argc.Addr)) //c.RESULT(rsp)
 	}
 	allList = concat(allList, dbTransList)
-
+	log.Info("GetTransactionsByAddrAndType", "allList", allList)
 	//包装参数
 	rsp.Count = count
 	for _, trans := range allList {

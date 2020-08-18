@@ -29,7 +29,7 @@ func Main(cc echo.Context) error {
 	// log.Debug("get_exchange_rate Main1")
 	c := cc.(ApiContext)
 	defer c.PANIC_RECOVER()
-	log.Debug("get_exchange_rate Main2")
+	log.Info("get_exchange_rate Main2")
 	c.Mysql()
 	//Step 2. parameters initial
 
