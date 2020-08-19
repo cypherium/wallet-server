@@ -57,7 +57,7 @@ func main() {
 	//go sync.CheckReward()
 
 	e := echo.New()
-	configLogger(e)
+	//configLogger(e)
 	e.Static("/", "assets")
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"127.0.0.1", "http://localhost:8100"},
