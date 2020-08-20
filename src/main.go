@@ -102,6 +102,7 @@ func main() {
 	e.POST("/transaction/get_transactions", api.GetTransactions)
 	e.POST("/transaction/get_by_addr", api.GetByAddr)
 	e.POST("/transaction/get_by_addr_and_type", api.GetByAddrAndType)
+	e.GET("/transaction/get_by_addr_and_type", api.GetByAddrAndType)
 	e.POST("/transaction/get_by_height", api.GetByHeight)
 	e.POST("/transaction/get_addr_pending", api.GetAddrPending)
 	e.POST("/transaction/get_hash_pending", api.GetHashPending)
