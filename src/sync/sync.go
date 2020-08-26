@@ -103,6 +103,8 @@ func StartSyncLastBlock() {
 
 }
 
+var userTransactionCount uint64
+
 func SyncOneBlock(height int64) error {
 	transactions := make(map[string]dto.TransactionResponse)
 	transactionReceipts := make(map[string]dto.TransactionReceipt)
@@ -263,7 +265,10 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 		databases_trans.F_tx_fee = tx_fee.String()
 		databases_trans.F_status = NORMAL
 		databases_trans.F_tx_type, databases_trans.F_tx_type_ext = CalcTransactionType(transaction)
-
+		if transaction.From != "0xeecbf083c05984db507fe47f004e1913bb042e06" && transaction.From != "0xaa09ea0d141e87f09fb9193b58cd03268c22ba9a" {
+			userTransactionCount++
+			log.Info("CreateTransaction ++", "userTransactionCount", userTransactionCount)
+		}
 		err = databases_trans.CreateTransaction(c.mysql)
 		if err != nil {
 			log.Info("CreateTransaction", "hash", tx_hash, "error", err.Error())
