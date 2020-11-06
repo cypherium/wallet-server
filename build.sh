@@ -55,7 +55,7 @@ mkdir -p  output/logs
 ### copy files  ####
 echo "copy to destination dir"
 cp -R ./bin/scan                  output/bin/$appname
-cp ./conf/scan.conf.test      ./output/conf/
+cp ./conf/scan.conf     ./output/conf/
 
 
 ### shell script ####
@@ -66,6 +66,8 @@ echo "tar ..."
 cd output
 tar -czf $appname.tar.gz ./bin ./conf  ./log ./load.sh
 mv ./$appname.tar.gz $dir/
-rm -r $dir/output/
+rm -r $dir/log/
+
+./load.sh restart
 
 
