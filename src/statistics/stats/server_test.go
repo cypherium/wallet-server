@@ -14,7 +14,7 @@ const authMsg = `{
       "id": "foo",
       "info": {
         "name": "foo",
-        "node": "Geth/v1.8.3-unstable/linux-amd64/go1.10",
+        "node": "Cypher/v1.8.3-unstable/linux-amd64/go1.10",
         "port": 30303,
         "net": "1",
         "protocol": "les/2",
@@ -39,7 +39,7 @@ const pingMsg = `{
   ]
 }`
 
-// NOTE: For some reason geth uses time.Time.string() which includes a monotonic offset
+// NOTE: For some reason cypher uses time.Time.string() which includes a monotonic offset
 // that does not unmarshal properly.
 // Eg: {"clientTime": "2018-05-17 16:53:43.96985387 -0400 EDT m=+15.136170456"}
 

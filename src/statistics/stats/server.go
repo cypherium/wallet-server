@@ -108,7 +108,7 @@ func (srv *Server) Join(conn net.Conn) error {
 		case "node-ping":
 			// Every ethstats implementation ignores the clientTime in
 			// the response here, and there is no standard format (eg.
-			// geth sends a monotonic offset) so we'll ignore it too.
+			// cypher sends a monotonic offset) so we'll ignore it too.
 			sendPayload, err := json.Marshal(&model.PingReport{srv.Name, time.Now()})
 			if err != nil {
 				break

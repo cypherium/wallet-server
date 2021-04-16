@@ -30,7 +30,7 @@ type BlockDetail struct {
 }
 
 type UbbeyRate struct {
-	Eth float64 `json:"eth"`
+	Cph float64 `json:"cph"`
 	Btc float64 `json:"btc"`
 	USD float64 `json:"usd"`
 	KWR float64 `json:"kwr"`

@@ -60,15 +60,15 @@ func StartSyncLastBlock() {
 				//var c = new(Connect)
 				//defer c.Close()
 
-				blockNumber, err := c.Web3().Eth.GetBlockNumber()
+				blockNumber, err := c.Web3().Cph.GetBlockNumber()
 
 				if err != nil {
-					log.Info("Eth.GetBlockNumber", "error", err)
+					log.Info("Cph.GetBlockNumber", "error", err)
 					time.Sleep(time.Second * 5)
 					continue
 				}
 
-				// log.Info("Eth.GetLastBlock", "hegiht", blockNumber.Int64())
+				// log.Info("Cph.GetLastBlock", "hegiht", blockNumber.Int64())
 				if blockNumber.Int64() < c.GetBlockNOw() {
 
 					log.Error("blockNumber.Int64(),so sync from parent", "blockNumber", blockNumber.Int64(), "BlockNOw", c.GetBlockNOw())
@@ -115,9 +115,9 @@ func SyncOneBlock(height int64) error {
 	}
 	log.Info("GetBlockByNumber", "height", height)
 	//1.get block and parent block
-	chain_block, err := c.Web3().Eth.GetBlockByNumber(big.NewInt(height), true)
+	chain_block, err := c.Web3().Cph.GetBlockByNumber(big.NewInt(height), true)
 	if err != nil {
-		log.Info("Eth.GetBlockByNumber", "error", err.Error())
+		log.Info("Cph.GetBlockByNumber", "error", err.Error())
 		return err
 	}
 	GLastBlock = chain_block
@@ -125,9 +125,9 @@ func SyncOneBlock(height int64) error {
 
 	var chain_parent_block *dto.Block
 	if height > 1 {
-		chain_parent_block, err = c.Web3().Eth.GetBlockByNumber(big.NewInt(height-1), true)
+		chain_parent_block, err = c.Web3().Cph.GetBlockByNumber(big.NewInt(height-1), true)
 		if err != nil {
-			log.Info("Eth.GetBlockByNumber", "height", height-1, "error", err.Error())
+			log.Info("Cph.GetBlockByNumber", "height", height-1, "error", err.Error())
 			return err
 		}
 		log.Info("Get chain_parent_block success", "number", chain_parent_block.Number, "hash", chain_parent_block.Hash)
@@ -135,9 +135,9 @@ func SyncOneBlock(height int64) error {
 
 	//2.get transcations and transreceipts
 	for _, transaction := range chain_block.Transactions {
-		receipt, err := c.Web3().Eth.GetTransactionReceipt(transaction.Hash)
+		receipt, err := c.Web3().Cph.GetTransactionReceipt(transaction.Hash)
 		if err != nil {
-			log.Info("Eth.GetTransactionReceipt", "hash", transaction.Hash, "error", err.Error())
+			log.Info("Cph.GetTransactionReceipt", "hash", transaction.Hash, "error", err.Error())
 			return err
 		}
 
@@ -147,15 +147,15 @@ func SyncOneBlock(height int64) error {
 		log.Info("Get %s  transaction and receipt success", "hash", transaction.Hash, "transaction", transaction, "transactionReceipts", *receipt)
 	}
 	// for _, hash := range chain_block.Transactions {
-	// 	transaction, err := c.Web3().Eth.GetTransactionByHash(hash)
+	// 	transaction, err := c.Web3().Cph.GetTransactionByHash(hash)
 	// 	if err != nil {
-	// 		log.Info("Eth.GetTransactionByHash", "hash", hash, "error", err.Error())
+	// 		log.Info("Cph.GetTransactionByHash", "hash", hash, "error", err.Error())
 	// 		return err
 	// 	}
 
-	// 	receipt, err := c.Web3().Eth.GetTransactionReceipt(hash)
+	// 	receipt, err := c.Web3().Cph.GetTransactionReceipt(hash)
 	// 	if err != nil {
-	// 		log.Info("Eth.GetTransactionReceipt", "hash", hash, "error", err.Error())
+	// 		log.Info("Cph.GetTransactionReceipt", "hash", hash, "error", err.Error())
 	// 		return err
 	// 	}
 

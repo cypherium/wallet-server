@@ -70,12 +70,12 @@ func Main(cc echo.Context) error {
 
 	//Step 7. Get total
 	web3 := c.Web3()
-	if totalRewarded, err := web3.Eth.GetTotalRewarded("latest"); err != nil {
+	if totalRewarded, err := web3.Cph.GetTotalRewarded("latest"); err != nil {
 		//log.Fatalf("GetTotalRewarded error:%s", err.Error())
 	} else {
 		rsp.TotalRewarded = totalRewarded
 	}
-	if totalMortgage, err := web3.Eth.GetTotalMortgage("latest"); err != nil {
+	if totalMortgage, err := web3.Cph.GetTotalMortgage("latest"); err != nil {
 		//log.Fatalf("GetTotalMortgage error:%s", err.Error())
 	} else {
 		rsp.TotalMortgage = totalMortgage

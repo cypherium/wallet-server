@@ -35,7 +35,7 @@ func (m *RateManager) Add(currency string, r RateRecord) error {
 
 	//log.Debugf("query token rate,%s:%+v", currency, r)
 	switch currency {
-	case "eth":
+	case "cph":
 		m.EthRateRecord[r.Exchange] = r
 	case "btc":
 		m.BtcRateRecord[r.Exchange] = r
@@ -58,7 +58,7 @@ func (m *RateManager) countrate() (rate model.UbbeyRate) {
 		weight_eth = weight_eth + v.Weight
 	}
 	for _, v := range m.EthRateRecord {
-		rate.Eth = rate.Eth + v.Rate*(v.Weight/weight_eth)
+		rate.Cph = rate.Cph + v.Rate*(v.Weight/weight_eth)
 	}
 
 	return rate
@@ -80,7 +80,7 @@ func StartSyncRate() {
 		//}
 		//
 		//r := model.Rate{
-		//	F_eth: rate.Eth,
+		//	F_eth: rate.Cph,
 		//	F_btc: rate.Btc,
 		//	F_usd: rate.USD,
 		//	F_kwr: rate.KWR,

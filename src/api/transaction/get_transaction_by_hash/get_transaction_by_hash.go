@@ -59,7 +59,7 @@ func Main(cc echo.Context) error {
 	//get transcation from chain
 	webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
 
-	transaction, err := webthree.Eth.GetTransactionByHash(input.Hash)
+	transaction, err := webthree.Cph.GetTransactionByHash(input.Hash)
 	if err != nil {
 		if err.Error() == _const.EMPTY_RSP {
 			//log.Debugf("GetTransactionByHash:%s from chain is NULL", input.Hash)
@@ -70,7 +70,7 @@ func Main(cc echo.Context) error {
 	}
 	//log.Debugf("GetTransactionByHash success,transcation%+v", transaction)
 
-	blockbynumber, err := webthree.Eth.GetBlockByNumber(transaction.BlockNumber, false)
+	blockbynumber, err := webthree.Cph.GetBlockByNumber(transaction.BlockNumber, false)
 	if err != nil {
 		if err.Error() == _const.EMPTY_RSP {
 			//log.Debugf("GetBlockByNumber:%d from chain is NULL", transaction.BlockNumber.Int64())
@@ -80,7 +80,7 @@ func Main(cc echo.Context) error {
 	}
 	//log.Debugf("GetBlockByNumber success")
 
-	receipt, err := webthree.Eth.GetTransactionReceipt(input.Hash)
+	receipt, err := webthree.Cph.GetTransactionReceipt(input.Hash)
 	if err != nil {
 		if err.Error() == _const.EMPTY_RSP {
 			//log.Debugf("GetTransactionReceipt:%s from chain is NULL", input.Hash)

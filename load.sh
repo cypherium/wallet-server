@@ -10,7 +10,6 @@ start() {
     echo "Starting private network";
 
     nohup ./bin/scan >> ./log/output.log &
-    # ./bin/scan >> ./log/output.log 2>"./log/output.log" &
 
     sleep 0.1;
     echo "-----";

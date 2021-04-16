@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo"
 
 	"fmt"
-	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
+	"github.com/cypherium/wallet-server/src/go-web3/cph/block"
 
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/cypherium/wallet-server/src/config"
@@ -50,7 +50,7 @@ func Main(cc echo.Context) error {
 
 	//get balance from chain
 	webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
-	bal, err := webthree.Eth.GetBalance(input.Addr, block.LATEST)
+	bal, err := webthree.Cph.GetBalance(input.Addr, block.LATEST)
 	if err != nil {
 		return c.RESULT_ERROR(ERR_RPC_ERROR, err.Error())
 	}

@@ -49,7 +49,7 @@ func Get_by_hash(cc echo.Context) error {
 
 	//get transcation from chain
 	webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
-	chain_block, err := webthree.Eth.GetBlockByHash(argc.Hash, false)
+	chain_block, err := webthree.Cph.GetBlockByHash(argc.Hash, false)
 	if err != nil {
 		if err.Error() == EMPTY_RSP {
 			//log.Debugf("GetBlockByHash:%d from chain is NULL", argc.Hash)
@@ -58,7 +58,7 @@ func Get_by_hash(cc echo.Context) error {
 		return c.RESULT_ERROR(ERR_RPC_ERROR, err.Error())
 	}
 
-	poc, err := webthree.Eth.GetBlockPocByNumber(chain_block.Number)
+	poc, err := webthree.Cph.GetBlockPocByNumber(chain_block.Number)
 	if err != nil {
 		if err.Error() == EMPTY_RSP {
 			//log.Debugf("GetBlockPocByNumber:%d from chain is NULL", chain_block.Number.Int64())

@@ -45,7 +45,7 @@ func Main(cc echo.Context) error {
 
 	//get transcation from chain
 	webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
-	chain_block, err := webthree.Eth.GetBlockByNumber(big.NewInt(input.Height), false)
+	chain_block, err := webthree.Cph.GetBlockByNumber(big.NewInt(input.Height), false)
 	if err != nil {
 		if err.Error() == _const.EMPTY_RSP {
 			//log.Debugf("GetBlockByNumber:%d from chain is NULL", input.Height)
@@ -54,7 +54,7 @@ func Main(cc echo.Context) error {
 		return c.RESULT_ERROR(_const.ERR_RPC_ERROR, err.Error())
 	}
 
-	poc, err := webthree.Eth.GetBlockPocByNumber(big.NewInt(input.Height))
+	poc, err := webthree.Cph.GetBlockPocByNumber(big.NewInt(input.Height))
 	if err != nil {
 		if err.Error() == _const.EMPTY_RSP {
 			//log.Debugf("GetBlockPocByNumber:%d from chain is NULL", input.Height)

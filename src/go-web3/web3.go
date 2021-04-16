@@ -22,8 +22,8 @@
 package web3
 
 import (
+	"github.com/cypherium/wallet-server/src/go-web3/cph"
 	"github.com/cypherium/wallet-server/src/go-web3/dto"
-	"github.com/cypherium/wallet-server/src/go-web3/eth"
 	"github.com/cypherium/wallet-server/src/go-web3/miner"
 	"github.com/cypherium/wallet-server/src/go-web3/net"
 	"github.com/cypherium/wallet-server/src/go-web3/personal"
@@ -41,7 +41,7 @@ const (
 // Web3 - The Web3 Module
 type Web3 struct {
 	Provider providers.ProviderInterface
-	Eth      *eth.Eth
+	Cph      *cph.Cph
 	Net      *net.Net
 	Personal *personal.Personal
 	Utils    *utils.Utils
@@ -50,11 +50,11 @@ type Web3 struct {
 	Txpool   *txpool.Txpool
 }
 
-// NewWeb3 - Web3 Module constructor to set the default provider, Eth, Net and Personal
+// NewWeb3 - Web3 Module constructor to set the default provider, Cph, Net and Personal
 func NewWeb3(provider providers.ProviderInterface) *Web3 {
 	web3 := new(Web3)
 	web3.Provider = provider
-	web3.Eth = eth.NewEth(provider)
+	web3.Cph = cph.NewEth(provider)
 	web3.Net = net.NewNet(provider)
 	web3.Personal = personal.NewPersonal(provider)
 	web3.Utils = utils.NewUtils(provider)

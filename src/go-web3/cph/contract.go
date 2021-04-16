@@ -19,7 +19,7 @@
  * @date 2018
  */
 
-package eth
+package cph
 
 import (
 	"encoding/json"
@@ -35,13 +35,13 @@ import (
 
 // Contract ...
 type Contract struct {
-	super     *Eth
+	super     *Cph
 	abi       string
 	functions map[string][]string
 }
 
 // NewContract - Contract abstraction
-func (eth *Eth) NewContract(abi string) (*Contract, error) {
+func (cph *Cph) NewContract(abi string) (*Contract, error) {
 
 	contract := new(Contract)
 	var mockInterface interface{}
@@ -77,7 +77,7 @@ func (eth *Eth) NewContract(abi string) (*Contract, error) {
 	}
 
 	contract.abi = abi
-	contract.super = eth
+	contract.super = cph
 
 	return contract, nil
 }

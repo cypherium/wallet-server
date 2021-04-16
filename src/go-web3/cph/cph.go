@@ -13,39 +13,39 @@
 *********************************************************************************/
 
 /**
- * @file eth.go
+ * @file cph.go
  * @authors:
  *   Reginaldo Costa <regcostajr@gmail.com>
  * @date 2017
  */
 
-package eth
+package cph
 
 import (
 	"errors"
 	"github.com/cypherium/wallet-server/src/go-web3/complex/types"
+	"github.com/cypherium/wallet-server/src/go-web3/cph/block"
 	"github.com/cypherium/wallet-server/src/go-web3/dto"
-	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
 	"github.com/cypherium/wallet-server/src/go-web3/providers"
 	"github.com/cypherium/wallet-server/src/go-web3/utils"
 	"math/big"
 	"strings"
 )
 
-// Eth - The Eth Module
-type Eth struct {
+// Cph - The Cph Module
+type Cph struct {
 	provider providers.ProviderInterface
 }
 
-// NewEth - Eth Module constructor to set the default provider
-func NewEth(provider providers.ProviderInterface) *Eth {
-	eth := new(Eth)
-	eth.provider = provider
-	return eth
+// NewEth - Cph Module constructor to set the default provider
+func NewEth(provider providers.ProviderInterface) *Cph {
+	cph := new(Cph)
+	cph.provider = provider
+	return cph
 }
 
-func (eth *Eth) Contract(jsonInterface string) (*Contract, error) {
-	return eth.NewContract(jsonInterface)
+func (cph *Cph) Contract(jsonInterface string) (*Contract, error) {
+	return cph.NewContract(jsonInterface)
 }
 
 // GetProtocolVersion - Returns the current ethereum protocol version.
@@ -54,11 +54,11 @@ func (eth *Eth) Contract(jsonInterface string) (*Contract, error) {
 //    - none
 // Returns:
 // 	  - String - The current ethereum protocol version
-func (eth *Eth) GetProtocolVersion() (string, error) {
+func (cph *Cph) GetProtocolVersion() (string, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_protocolVersion", nil)
+	err := cph.provider.SendRequest(pointer, "cph_protocolVersion", nil)
 
 	if err != nil {
 		return "", err
@@ -77,11 +77,11 @@ func (eth *Eth) GetProtocolVersion() (string, error) {
 //    	- startingBlock: 	QUANTITY - The block at which the import started (will only be reset, after the sync reached his head)
 //    	- currentBlock: 	QUANTITY - The current block, same as eth_blockNumber
 //    	- highestBlock: 	QUANTITY - The estimated highest block
-func (eth *Eth) IsSyncing() (*dto.SyncingResponse, error) {
+func (cph *Cph) IsSyncing() (*dto.SyncingResponse, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_syncing", nil)
+	err := cph.provider.SendRequest(pointer, "cph_syncing", nil)
 
 	if err != nil {
 		return nil, err
@@ -97,11 +97,11 @@ func (eth *Eth) IsSyncing() (*dto.SyncingResponse, error) {
 //    - none
 // Returns:
 // 	  - DATA, 20 bytes - the current coinbase address.
-func (eth *Eth) GetCoinbase() (string, error) {
+func (cph *Cph) GetCoinbase() (string, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_coinbase", nil)
+	err := cph.provider.SendRequest(pointer, "cph_coinbase", nil)
 
 	if err != nil {
 		return "", err
@@ -117,11 +117,11 @@ func (eth *Eth) GetCoinbase() (string, error) {
 //    - none
 // Returns:
 // 	  - Boolean - returns true of the client is mining, otherwise false.
-func (eth *Eth) IsMining() (bool, error) {
+func (cph *Cph) IsMining() (bool, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_mining", nil)
+	err := cph.provider.SendRequest(pointer, "cph_mining", nil)
 
 	if err != nil {
 		return false, err
@@ -137,11 +137,11 @@ func (eth *Eth) IsMining() (bool, error) {
 //    - none
 // Returns:
 // 	  - QUANTITY - number of hashes per second.
-func (eth *Eth) GetHashRate() (*big.Int, error) {
+func (cph *Cph) GetHashRate() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_hashrate", nil)
+	err := cph.provider.SendRequest(pointer, "cph_hashrate", nil)
 
 	if err != nil {
 		return nil, err
@@ -156,11 +156,11 @@ func (eth *Eth) GetHashRate() (*big.Int, error) {
 //    - none
 // Returns:
 // 	  - QUANTITY - integer of the current gas price in wei.
-func (eth *Eth) GetGasPrice() (*big.Int, error) {
+func (cph *Cph) GetGasPrice() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_gasPrice", nil)
+	err := cph.provider.SendRequest(pointer, "cph_gasPrice", nil)
 
 	if err != nil {
 		return nil, err
@@ -175,11 +175,11 @@ func (eth *Eth) GetGasPrice() (*big.Int, error) {
 //    - none
 // Returns:
 //    - Array of DATA, 20 Bytes - addresses owned by the client.
-func (eth *Eth) ListAccounts() ([]string, error) {
+func (cph *Cph) ListAccounts() ([]string, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_accounts", nil)
+	err := cph.provider.SendRequest(pointer, "cph_accounts", nil)
 
 	if err != nil {
 		return nil, err
@@ -195,11 +195,11 @@ func (eth *Eth) ListAccounts() ([]string, error) {
 //    - none
 // Returns:
 // 	  - QUANTITY - integer of the current block number the client is on.
-func (eth *Eth) GetBlockNumber() (*big.Int, error) {
+func (cph *Cph) GetBlockNumber() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_txBlockNumber", nil)
+	err := cph.provider.SendRequest(pointer, "cph_txBlockNumber", nil)
 
 	if err != nil {
 		return nil, err
@@ -215,7 +215,7 @@ func (eth *Eth) GetBlockNumber() (*big.Int, error) {
 //	  - QUANTITY|TAG - integer block number, or the string "latest", "earliest" or "pending", see the default block parameter: https://github.com/ethereum/wiki/wiki/JSON-RPC#the-default-block-parameter
 // Returns:
 // 	  - QUANTITY - integer of the current balance in wei.
-func (eth *Eth) GetBalance(address string, defaultBlockParameter string) (*big.Int, error) {
+func (cph *Cph) GetBalance(address string, defaultBlockParameter string) (*big.Int, error) {
 
 	params := make([]string, 2)
 	params[0] = address
@@ -223,7 +223,7 @@ func (eth *Eth) GetBalance(address string, defaultBlockParameter string) (*big.I
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getBalance", params)
+	err := cph.provider.SendRequest(pointer, "cph_getBalance", params)
 	if err != nil {
 		return nil, err
 	}
@@ -231,14 +231,14 @@ func (eth *Eth) GetBalance(address string, defaultBlockParameter string) (*big.I
 	return pointer.ToBigInt()
 }
 
-func (eth *Eth) GetTotalRewarded(defaultBlockParameter string) (*big.Int, error) {
+func (cph *Cph) GetTotalRewarded(defaultBlockParameter string) (*big.Int, error) {
 
 	params := make([]string, 1)
 	params[0] = defaultBlockParameter
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTotalRewarded", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTotalRewarded", params)
 
 	if err != nil {
 		return nil, err
@@ -247,14 +247,14 @@ func (eth *Eth) GetTotalRewarded(defaultBlockParameter string) (*big.Int, error)
 	return pointer.ToBigInt()
 }
 
-func (eth *Eth) GetTotalMortgage(defaultBlockParameter string) (*big.Int, error) {
+func (cph *Cph) GetTotalMortgage(defaultBlockParameter string) (*big.Int, error) {
 
 	params := make([]string, 1)
 	params[0] = defaultBlockParameter
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTotalMortgage", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTotalMortgage", params)
 
 	if err != nil {
 		return nil, err
@@ -270,7 +270,7 @@ func (eth *Eth) GetTotalMortgage(defaultBlockParameter string) (*big.Int, error)
 //	  - QUANTITY|TAG - integer block number, or the string "latest", "earliest" or "pending", see the default block parameter: https://github.com/ethereum/wiki/wiki/JSON-RPC#the-default-block-parameter
 // Returns:
 // 	  - QUANTITY - integer of the number of transactions sent from this address
-func (eth *Eth) GetTransactionCount(address string, defaultBlockParameter string) (*big.Int, error) {
+func (cph *Cph) GetTransactionCount(address string, defaultBlockParameter string) (*big.Int, error) {
 
 	params := make([]string, 2)
 	params[0] = address
@@ -278,7 +278,7 @@ func (eth *Eth) GetTransactionCount(address string, defaultBlockParameter string
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTransactionCount", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTransactionCount", params)
 
 	if err != nil {
 		return nil, err
@@ -295,7 +295,7 @@ func (eth *Eth) GetTransactionCount(address string, defaultBlockParameter string
 //	  - QUANTITY|TAG - integer block number, or the string "latest", "earliest" or "pending", see the default block parameter: https://github.com/ethereum/wiki/wiki/JSON-RPC#the-default-block-parameter.
 // Returns:
 // 	  - DATA - the value at this storage position.
-func (eth *Eth) GetStorageAt(address string, position *big.Int, defaultBlockParameter string) (string, error) {
+func (cph *Cph) GetStorageAt(address string, position *big.Int, defaultBlockParameter string) (string, error) {
 
 	params := make([]string, 3)
 	params[0] = address
@@ -304,7 +304,7 @@ func (eth *Eth) GetStorageAt(address string, position *big.Int, defaultBlockPara
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getstorageat", params)
+	err := cph.provider.SendRequest(pointer, "cph_getstorageat", params)
 
 	if err != nil {
 		return "", err
@@ -316,11 +316,11 @@ func (eth *Eth) GetStorageAt(address string, position *big.Int, defaultBlockPara
 // EstimateGas - Makes a call or transaction, which won't be added to the blockchain and returns the used gas, which can be used for estimating the used gas.
 // Reference: https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_estimategas
 // Parameters:
-//    - See eth_call parameters, expect that all properties are optional. If no gas limit is specified geth uses the block gas limit from the pending block as an
+//    - See eth_call parameters, expect that all properties are optional. If no gas limit is specified cypher uses the block gas limit from the pending block as an
 // 		upper bound. As a result the returned estimate might not be enough to executed the call/transaction when the amount of gas is higher than the pending block gas limit.
 // Returns:
 //    - QUANTITY - the amount of gas used.
-func (eth *Eth) EstimateGas(transaction *dto.TransactionParameters) (*big.Int, error) {
+func (cph *Cph) EstimateGas(transaction *dto.TransactionParameters) (*big.Int, error) {
 
 	params := make([]*dto.RequestTransactionParameters, 1)
 
@@ -328,7 +328,7 @@ func (eth *Eth) EstimateGas(transaction *dto.TransactionParameters) (*big.Int, e
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "cph_estimateGas", params)
+	err := cph.provider.SendRequest(&pointer, "cph_estimateGas", params)
 
 	if err != nil {
 		return nil, err
@@ -354,14 +354,14 @@ func (eth *Eth) EstimateGas(transaction *dto.TransactionParameters) (*big.Int, e
 //    - gasPrice: QUANTITY - gas price provided by the sender in Wei.
 //    - gas: QUANTITY - gas provided by the sender.
 //    - input: DATA - the data send along with the transaction.
-func (eth *Eth) GetTransactionByHash(hash string) (*dto.TransactionResponse, error) {
+func (cph *Cph) GetTransactionByHash(hash string) (*dto.TransactionResponse, error) {
 
 	params := make([]string, 1)
 	params[0] = hash
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTransactionByHash", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTransactionByHash", params)
 
 	if err != nil {
 		return nil, err
@@ -389,7 +389,7 @@ func (eth *Eth) GetTransactionByHash(hash string) (*dto.TransactionResponse, err
 //    - gasPrice: QUANTITY - gas price provided by the sender in Wei.
 //    - gas: QUANTITY - gas provided by the sender.
 //    - input: DATA - the data send along with the transaction.
-func (eth *Eth) GetTransactionByBlockHashAndIndex(hash string, index *big.Int) (*dto.TransactionResponse, error) {
+func (cph *Cph) GetTransactionByBlockHashAndIndex(hash string, index *big.Int) (*dto.TransactionResponse, error) {
 
 	// ensure that the hash is correctlyformatted
 	if strings.HasPrefix(hash, "0x") {
@@ -410,7 +410,7 @@ func (eth *Eth) GetTransactionByBlockHashAndIndex(hash string, index *big.Int) (
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTransactionByBlockHashAndIndex", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTransactionByBlockHashAndIndex", params)
 
 	if err != nil {
 		return nil, err
@@ -437,7 +437,7 @@ func (eth *Eth) GetTransactionByBlockHashAndIndex(hash string, index *big.Int) (
 //    - gasPrice: QUANTITY - gas price provided by the sender in Wei.
 //    - gas: QUANTITY - gas provided by the sender.
 //    - input: DATA - the data send along with the transaction.
-func (eth *Eth) GetTransactionByBlockNumberAndIndex(blockIndex *big.Int, index *big.Int) (*dto.TransactionResponse, error) {
+func (cph *Cph) GetTransactionByBlockNumberAndIndex(blockIndex *big.Int, index *big.Int) (*dto.TransactionResponse, error) {
 
 	params := make([]string, 2)
 	params[0] = utils.IntToHex(blockIndex)
@@ -445,7 +445,7 @@ func (eth *Eth) GetTransactionByBlockNumberAndIndex(blockIndex *big.Int, index *
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTransactionByBlockNumberAndIndex", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTransactionByBlockNumberAndIndex", params)
 
 	if err != nil {
 		return nil, err
@@ -469,14 +469,14 @@ func (eth *Eth) GetTransactionByBlockNumberAndIndex(blockIndex *big.Int, index *
 // Returns:
 //	  - DATA, 32 Bytes - the transaction hash, or the zero hash if the transaction is not yet available.
 // Use eth_getTransactionReceipt to get the contract address, after the transaction was mined, when you created a contract.
-func (eth *Eth) SendTransaction(transaction *dto.TransactionParameters) (string, error) {
+func (cph *Cph) SendTransaction(transaction *dto.TransactionParameters) (string, error) {
 
 	params := make([]*dto.RequestTransactionParameters, 1)
 	params[0] = transaction.Transform()
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "cph_sendTransaction", params)
+	err := cph.provider.SendRequest(&pointer, "cph_sendTransaction", params)
 
 	if err != nil {
 		return "", err
@@ -487,7 +487,7 @@ func (eth *Eth) SendTransaction(transaction *dto.TransactionParameters) (string,
 }
 
 // SignTransaction - Signs transactions without dispatching it to the network. It can be later submitted using eth_sendRawTransaction.
-// Reference: https://wiki.parity.io/JSONRPC-eth-module.html#eth_signtransaction
+// Reference: https://wiki.parity.io/JSONRPC-cph-module.html#eth_signtransaction
 // Parameters:
 //    1. Object - The transaction call object
 //    - from: 		DATA, 20 Bytes - The address the transaction is send from.
@@ -513,13 +513,13 @@ func (eth *Eth) SendTransaction(transaction *dto.TransactionParameters) (string,
 //      - gas: QUANTITY - gas provided by the sender.
 //      - input: DATA - the data send along with the transaction.
 // Use eth_sendRawTransaction to submit the transaction after it was signed.
-func (eth *Eth) SignTransaction(transaction *dto.TransactionParameters) (*dto.SignTransactionResponse, error) {
+func (cph *Cph) SignTransaction(transaction *dto.TransactionParameters) (*dto.SignTransactionResponse, error) {
 	params := make([]*dto.RequestTransactionParameters, 1)
 	params[0] = transaction.Transform()
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "cph_signTransaction", params)
+	err := cph.provider.SendRequest(&pointer, "cph_signTransaction", params)
 
 	if err != nil {
 		return &dto.SignTransactionResponse{}, err
@@ -541,7 +541,7 @@ func (eth *Eth) SignTransaction(transaction *dto.TransactionParameters) (*dto.Si
 //	  2. QUANTITY|TAG - integer block number, or the string "latest", "earliest" or "pending", see the default block parameter: https://github.com/ethereum/wiki/wiki/JSON-RPC#the-default-block-parameter
 // Returns:
 //	  - DATA - the return value of executed contract.
-func (eth *Eth) Call(transaction *dto.TransactionParameters) (*dto.RequestResult, error) {
+func (cph *Cph) Call(transaction *dto.TransactionParameters) (*dto.RequestResult, error) {
 
 	params := make([]interface{}, 2)
 	params[0] = transaction.Transform()
@@ -549,7 +549,7 @@ func (eth *Eth) Call(transaction *dto.TransactionParameters) (*dto.RequestResult
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(&pointer, "cph_call", params)
+	err := cph.provider.SendRequest(&pointer, "cph_call", params)
 
 	if err != nil {
 		return nil, err
@@ -565,14 +565,14 @@ func (eth *Eth) Call(transaction *dto.TransactionParameters) (*dto.RequestResult
 //    1. String - The source code.
 // Returns:
 //	  - DATA - The compiled source code.
-func (eth *Eth) CompileSolidity(sourceCode string) (types.ComplexString, error) {
+func (cph *Cph) CompileSolidity(sourceCode string) (types.ComplexString, error) {
 
 	params := make([]string, 1)
 	params[0] = sourceCode
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_compileSolidity", params)
+	err := cph.provider.SendRequest(pointer, "cph_compileSolidity", params)
 
 	if err != nil {
 		return "", err
@@ -596,14 +596,14 @@ func (eth *Eth) CompileSolidity(sourceCode string) (types.ComplexString, error) 
 //    - gasUsed: 				QUANTITY - The amount of gas used by this specific transaction alone.
 //    - contractAddress: 		DATA, 20 Bytes - The contract address created, if the transaction was a contract creation, otherwise null.
 //    - logs: 					Array - Array of log objects, which this transaction generated.
-func (eth *Eth) GetTransactionReceipt(hash string) (*dto.TransactionReceipt, error) {
+func (cph *Cph) GetTransactionReceipt(hash string) (*dto.TransactionReceipt, error) {
 
 	params := make([]string, 1)
 	params[0] = hash
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getTransactionReceipt", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTransactionReceipt", params)
 
 	if err != nil {
 		return nil, err
@@ -621,7 +621,7 @@ func (eth *Eth) GetTransactionReceipt(hash string) (*dto.TransactionReceipt, err
 // Returns:
 //    1. Object - A block object, or null when no transaction was found
 //    2. error
-func (eth *Eth) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto.Block, error) {
+func (cph *Cph) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto.Block, error) {
 
 	params := make([]interface{}, 3)
 	params[0] = utils.IntToHex(number)
@@ -630,7 +630,7 @@ func (eth *Eth) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto
 	params[2] = true
 
 	pointer := &dto.RequestResult{}
-	err := eth.provider.SendRequest(pointer, "cph_getTxBlockByNumber", params)
+	err := cph.provider.SendRequest(pointer, "cph_getTxBlockByNumber", params)
 	if err != nil {
 		return nil, err
 	}
@@ -645,14 +645,14 @@ func (eth *Eth) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto
 //    1. Object - A block poc object, or null when no transaction was found
 //    2. error
 
-func (eth *Eth) GetBlockPocByNumber(number *big.Int) (*dto.Poc, error) {
+func (cph *Cph) GetBlockPocByNumber(number *big.Int) (*dto.Poc, error) {
 
 	params := make([]interface{}, 1)
 	params[0] = utils.IntToHex(number)
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getBlockPocByNumber", params)
+	err := cph.provider.SendRequest(pointer, "cph_getBlockPocByNumber", params)
 
 	if err != nil {
 		return nil, err
@@ -668,7 +668,7 @@ func (eth *Eth) GetBlockPocByNumber(number *big.Int) (*dto.Poc, error) {
 // Returns:
 //    1. QUANTITY, number - number of transactions in the block
 //    2. error
-func (eth *Eth) GetBlockTransactionCountByHash(hash string) (*big.Int, error) {
+func (cph *Cph) GetBlockTransactionCountByHash(hash string) (*big.Int, error) {
 	// ensure that the hash is correctlyformatted
 	if strings.HasPrefix(hash, "0x") {
 		if len(hash) != 66 {
@@ -683,7 +683,7 @@ func (eth *Eth) GetBlockTransactionCountByHash(hash string) (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getBlockTransactionCountByHash", []string{hash})
+	err := cph.provider.SendRequest(pointer, "cph_getBlockTransactionCountByHash", []string{hash})
 
 	if err != nil {
 		return nil, err
@@ -698,14 +698,14 @@ func (eth *Eth) GetBlockTransactionCountByHash(hash string) (*big.Int, error) {
 //    - QUANTITY|TAG - integer of a block number, or the string "earliest", "latest" or "pending", as in the default block parameter
 // Returns:
 //    - QUANTITY - integer of the number of transactions in this block
-func (eth *Eth) GetBlockTransactionCountByNumber(defaultBlockParameter string) (*big.Int, error) {
+func (cph *Cph) GetBlockTransactionCountByNumber(defaultBlockParameter string) (*big.Int, error) {
 
 	params := make([]string, 1)
 	params[0] = defaultBlockParameter
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getBlockTransactionCountByNumber", params)
+	err := cph.provider.SendRequest(pointer, "cph_getBlockTransactionCountByNumber", params)
 
 	if err != nil {
 		return nil, err
@@ -722,7 +722,7 @@ func (eth *Eth) GetBlockTransactionCountByNumber(defaultBlockParameter string) (
 // Returns:
 //    1. Object - A block object, or null when no transaction was found
 //    2. error
-func (eth *Eth) GetBlockByHash(hash string, transactionDetails bool) (*dto.Block, error) {
+func (cph *Cph) GetBlockByHash(hash string, transactionDetails bool) (*dto.Block, error) {
 	// ensure that the hash is correctlyformatted
 	if strings.HasPrefix(hash, "0x") {
 		if len(hash) != 66 {
@@ -741,7 +741,7 @@ func (eth *Eth) GetBlockByHash(hash string, transactionDetails bool) (*dto.Block
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getBlockByHash", params)
+	err := cph.provider.SendRequest(pointer, "cph_getBlockByHash", params)
 
 	if err != nil {
 		return nil, err
@@ -757,7 +757,7 @@ func (eth *Eth) GetBlockByHash(hash string, transactionDetails bool) (*dto.Block
 // Returns:
 //    - QUANTITY, number - integer of the number of uncles in this block
 //    - error
-func (eth *Eth) GetUncleCountByBlockHash(hash string) (*big.Int, error) {
+func (cph *Cph) GetUncleCountByBlockHash(hash string) (*big.Int, error) {
 	// ensure that the hash has been correctly formatted
 	if strings.HasPrefix(hash, "0x") {
 		if len(hash) != 66 {
@@ -775,7 +775,7 @@ func (eth *Eth) GetUncleCountByBlockHash(hash string) (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getUncleCountByBlockHash", params)
+	err := cph.provider.SendRequest(pointer, "cph_getUncleCountByBlockHash", params)
 
 	if err != nil {
 		return nil, err
@@ -791,7 +791,7 @@ func (eth *Eth) GetUncleCountByBlockHash(hash string) (*big.Int, error) {
 // Returns:
 //    - QUANTITY, number - integer of the number of uncles in this block
 //    - error
-func (eth *Eth) GetUncleCountByBlockNumber(quantity *big.Int) (*big.Int, error) {
+func (cph *Cph) GetUncleCountByBlockNumber(quantity *big.Int) (*big.Int, error) {
 	// ensure that the hash has been correctly formatted
 
 	params := make([]string, 1)
@@ -799,7 +799,7 @@ func (eth *Eth) GetUncleCountByBlockNumber(quantity *big.Int) (*big.Int, error) 
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getUncleCountByBlockNumber", params)
+	err := cph.provider.SendRequest(pointer, "cph_getUncleCountByBlockNumber", params)
 
 	if err != nil {
 		return nil, err
@@ -815,7 +815,7 @@ func (eth *Eth) GetUncleCountByBlockNumber(quantity *big.Int) (*big.Int, error) 
 //	  - QUANTITY|TAG - integer block number, or the string "latest", "earliest" or "pending", see the default block parameter: https://github.com/ethereum/wiki/wiki/JSON-RPC#the-default-block-parameter
 // Returns:
 //    - DATA - the code from the given address.
-func (eth *Eth) GetCode(address string, defaultBlockParameter string) (string, error) {
+func (cph *Cph) GetCode(address string, defaultBlockParameter string) (string, error) {
 
 	params := make([]string, 2)
 	params[0] = address
@@ -823,7 +823,7 @@ func (eth *Eth) GetCode(address string, defaultBlockParameter string) (string, e
 
 	pointer := &dto.RequestResult{}
 
-	err := eth.provider.SendRequest(pointer, "cph_getCode", params)
+	err := cph.provider.SendRequest(pointer, "cph_getCode", params)
 
 	if err != nil {
 		return "", err

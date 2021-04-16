@@ -30,7 +30,7 @@ func Main(cc echo.Context) error {
 
 	//get transcation from chain
 	webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
-	number, err := webthree.Eth.GetBlockNumber()
+	number, err := webthree.Cph.GetBlockNumber()
 	if err != nil {
 		return c.RESULT_ERROR(_const.ERR_RPC_ERROR, err.Error())
 	}
