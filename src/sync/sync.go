@@ -37,10 +37,10 @@ func StartSyncLastBlock() {
 	// gls.SetGlsValue("logid", logid)
 
 	//var c = new(Connect)
-	max_block, err := (&model.Block{}).GetMaxBlocNumber(c.Mysql())
+	max_block, err := (&model.Block{}).GetMaxBlockNumber(c.Mysql())
 	if err != nil && err.Error() != DATA_NOT_EXIST {
 
-		log.Error("GetMaxBlocNumber", "error", err.Error())
+		log.Error("GetMaxBlockNumber", "error", err.Error())
 		os.Exit(0)
 
 	}

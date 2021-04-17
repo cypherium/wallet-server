@@ -235,7 +235,7 @@ func GetTransactionsByAddrAndType(db *gorm.DB, addr string, txtype int64, offset
 	return transList, num.Count, nil
 }
 
-//func (b *Block) GetMaxBlocNumber(db *gorm.DB) (number int64, err error) {
+//func (b *Block) GetMaxBlockNumber(db *gorm.DB) (number int64, err error) {
 //
 //	type Number struct {
 //		Number int64 `gorm:"column:max_block"`
@@ -246,7 +246,7 @@ func GetTransactionsByAddrAndType(db *gorm.DB, addr string, txtype int64, offset
 //	rdb := db.Table(b.TableName()).Where("F_status = ?", NORMAL).Select("MAX(F_block) as max_block").Find(&n)
 //	if rdb.RecordNotFound() {
 //	} else if rdb.Error != nil {
-//		panic("GetMaxBlocNumber error:" + rdb.Error.Error())
+//		panic("GetMaxBlockNumber error:" + rdb.Error.Error())
 //	}
 //
 //	return n.Number, nil

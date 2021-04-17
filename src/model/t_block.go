@@ -230,7 +230,7 @@ func GetActiveBlockNumByAddr(db *gorm.DB, addr string) (count int64, err error) 
 	return num.Count, err
 }
 
-func (b *Block) GetMaxBlocNumber(db *gorm.DB) (number int64, err error) {
+func (b *Block) GetMaxBlockNumber(db *gorm.DB) (number int64, err error) {
 
 	type Number struct {
 		Number int64 `gorm:"column:max_block"`
@@ -243,7 +243,7 @@ func (b *Block) GetMaxBlocNumber(db *gorm.DB) (number int64, err error) {
 		err = errors.New(DATA_NOT_EXIST)
 		//log.Fatalf("DATA_NOT_EXIST")
 	} else if rdb.Error != nil {
-		panic("GetMaxBlocNumber error:" + rdb.Error.Error())
+		panic("GetMaxBlockNumber error:" + rdb.Error.Error())
 	} else {
 		err = nil
 	}
