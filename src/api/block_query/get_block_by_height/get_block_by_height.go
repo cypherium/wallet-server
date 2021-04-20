@@ -54,7 +54,7 @@ func Main(cc echo.Context) error {
 		return c.RESULT_ERROR(_const.ERR_RPC_ERROR, err.Error())
 	}
 
-	poc, err := webthree.Cph.GetBlockPocByNumber(big.NewInt(input.Height))
+	cph, err := webthree.Cph.GetBlockPocByNumber(big.NewInt(input.Height))
 	if err != nil {
 		if err.Error() == _const.EMPTY_RSP {
 			//log.Debugf("GetBlockPocByNumber:%d from chain is NULL", input.Height)
@@ -89,8 +89,8 @@ func Main(cc echo.Context) error {
 		// BlockReward:    databases_block.F_reward,
 		// BlockFees:      databases_block.F_fees,
 		ExtraData: chain_block.ExtraData,
-		DeadLine:  poc.Deadline.String(),
-		Scoop:     poc.ScoopNumber.String(),
+		DeadLine:  cph.Deadline.String(),
+		Scoop:     cph.ScoopNumber.String(),
 	}
 	//todo extradat scopp check
 

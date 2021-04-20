@@ -637,12 +637,12 @@ func (cph *Cph) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto
 	return pointer.ToBlock()
 }
 
-// GetBlockPocByNumber - Returns the poc information about a block requested by number.
+// GetBlockPocByNumber - Returns the cph information about a block requested by number.
 // Reference: uchain add rpc
 // Parameters:
 //    - number, QUANTITY - number of block
 // Returns:
-//    1. Object - A block poc object, or null when no transaction was found
+//    1. Object - A block cph object, or null when no transaction was found
 //    2. error
 
 func (cph *Cph) GetBlockPocByNumber(number *big.Int) (*dto.Poc, error) {

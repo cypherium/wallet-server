@@ -58,7 +58,7 @@ func Get_by_hash(cc echo.Context) error {
 		return c.RESULT_ERROR(ERR_RPC_ERROR, err.Error())
 	}
 
-	poc, err := webthree.Cph.GetBlockPocByNumber(chain_block.Number)
+	cph, err := webthree.Cph.GetBlockPocByNumber(chain_block.Number)
 	if err != nil {
 		if err.Error() == EMPTY_RSP {
 			//log.Debugf("GetBlockPocByNumber:%d from chain is NULL", chain_block.Number.Int64())
@@ -85,14 +85,14 @@ func Get_by_hash(cc echo.Context) error {
 	rsp.Timestamp = chain_block.Timestamp.Int64()
 	// rsp.BlockReward = block.F_reward
 	// rsp.BlockFees = block.F_fees
-	rsp.DeadLine = poc.Deadline.String()
+	rsp.DeadLine = cph.Deadline.String()
 	rsp.ExtraData = chain_block.ExtraData
 	rsp.GasLimit = chain_block.GasLimit.String()
 	rsp.GasUsed = chain_block.GasUsed.String()
 	// rsp.Miner = chain_block.Miner
 	// rsp.Nonce = chain_block.Nonce.String()
 	rsp.ParentHash = chain_block.ParentHash
-	rsp.Scoop = poc.ScoopNumber.String()
+	rsp.Scoop = cph.ScoopNumber.String()
 	rsp.Size = chain_block.Size.Int64()
 	// rsp.TotalDifficult = chain_block.TotalDifficult.String()
 	// rsp.Difficult = chain_block.Difficulty.String()

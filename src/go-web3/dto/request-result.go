@@ -340,16 +340,16 @@ func (pointer *RequestResult) ToPoc() (*Poc, error) {
 		return nil, customerror.EMPTYRESPONSE
 	}
 
-	poc := &Poc{}
+	cph := &Poc{}
 
 	marshal, err := json.Marshal(result)
 	if err != nil {
 		return nil, customerror.UNPARSEABLEINTERFACE
 	}
 
-	err = json.Unmarshal([]byte(marshal), poc)
+	err = json.Unmarshal([]byte(marshal), cph)
 
-	return poc, err
+	return cph, err
 
 }
 

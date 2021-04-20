@@ -13,11 +13,11 @@ import (
 	"github.com/cypherium/wallet-server/src/api/block_query"
 	"github.com/cypherium/wallet-server/src/api/block_query/block_number"
 	"github.com/cypherium/wallet-server/src/api/block_query/get_block_by_height"
+	"github.com/cypherium/wallet-server/src/api/cph/get_balance"
+	"github.com/cypherium/wallet-server/src/api/cph/get_exchange_rate"
+	"github.com/cypherium/wallet-server/src/api/cph/get_summary"
 	"github.com/cypherium/wallet-server/src/api/mining"
 	"github.com/cypherium/wallet-server/src/api/mining/get_mined_block_by_addr_and_date"
-	"github.com/cypherium/wallet-server/src/api/poc/get_balance"
-	"github.com/cypherium/wallet-server/src/api/poc/get_exchange_rate"
-	"github.com/cypherium/wallet-server/src/api/poc/get_summary"
 	"github.com/cypherium/wallet-server/src/api/transaction"
 	"github.com/cypherium/wallet-server/src/api/transaction/get_addr_pending"
 	"github.com/cypherium/wallet-server/src/api/transaction/get_hash_pending"
@@ -48,7 +48,7 @@ var (
 	GetAddrMiningRewards       = mining.Main
 	GetMinedblockByAddrAndDate = get_mined_block_by_addr_and_date.Main
 
-	//poc
+	//cph
 	GetExchangeRate = get_exchange_rate.Main
 	GetBalance      = get_balance.Main
 	GetSummary      = get_summary.Main

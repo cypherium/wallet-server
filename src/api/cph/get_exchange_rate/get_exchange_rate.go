@@ -16,7 +16,7 @@ type OutputRsp struct {
 
 type RateInfo struct {
 	Currency    string  `json:"currency"`    //货币类型 ,RMB,USD,KRW
-	Rate        float64 `json:"rate"`        //如 0.05 1 poc = 0.05RMB
+	Rate        float64 `json:"rate"`        //如 0.05 1 cph = 0.05RMB
 	Significand int     `json:"significand"` //资产显示小数点尾数
 	Symbol      string  `json:"symbol"`      //资产符号
 }

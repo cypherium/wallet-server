@@ -113,7 +113,7 @@ func main() {
 	e.POST("/mining/get_addr_mining_rewards", api.GetAddrMiningRewards)
 	e.POST("/mining/get_mined_block_by_addr_and_date", api.GetMinedblockByAddrAndDate)
 
-	//poc
+	//cph
 	e.POST("/cph/get_exchange_rate", api.GetExchangeRate)
 	e.GET("/cph/get_exchange_rate", api.GetExchangeRate)
 	e.POST("/cph/get_summary", api.GetSummary)

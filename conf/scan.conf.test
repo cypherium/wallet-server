@@ -6,12 +6,12 @@
 Server                  = "scan"
 Port                    = "8359"
 
-Redis                   = "datacenter.inner.poc.com:8379"
-Cypher                    = "gateway.inner.poc.com:8545"
+Redis                   = "datacenter.inner.cph.com:8379"
+Cypher                    = "gateway.inner.cph.com:8545"
 BlockReward             = "10000000000000000000"
 
 [database]
-database                = "poc:poc@2019@tcp(datacenter.inner.poc.com:8306)/pocscan"
+database                = "cph:cph@2019@tcp(datacenter.inner.cph.com:8306)/pocscan"
 MaxOpenCoons            = 2000
 MaxIdleCoons            = 1000
 Schema                  = "pocscan"

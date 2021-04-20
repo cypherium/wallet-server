@@ -32,7 +32,7 @@ func (txpool *Txpool) Content() (ret dto.Content, err error) {
 	if c, ok := pointer.Result.(*dto.Content); ok {
 		ret = *c
 	} else {
-		err = fmt.Errorf("UNREACHABLE CODE, maybe is not valide poc server")
+		err = fmt.Errorf("UNREACHABLE CODE, maybe is not valide cph server")
 	}
 	return ret, nil
 
