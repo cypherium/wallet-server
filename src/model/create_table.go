@@ -96,6 +96,16 @@ var Table = map[string]string{
 		"PRIMARY KEY (`F_id`)," +
 		"UNIQUE KEY (`F_timestamp`)" +
 		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
+
+	"t_rich_record": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_rich_record (" +
+		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
+		"`F_address` varchar(128) NOT NULL DEFAULT ''," +
+		"`F_balance` bigint unsigned   NOT NULL DEFAULT 0," +
+
+		"PRIMARY KEY (`F_id`)," +
+		"UNIQUE KEY (`F_address`)," +
+		"INDEX (`F_balance`)," +
+		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
 }
 
 func InitDatabase() {
@@ -104,6 +114,33 @@ func InitDatabase() {
 	if err != nil {
 		log.Error("connect mysql failed", "Database", config.Config().DB.Database, "error", err)
 		panic("connect mysql failed")
+	}
+
+	if !db.HasTable(&Transaction{}) {
+		db.CreateTable(&Transaction{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Transaction{})
+	}
+
+	if !db.HasTable(&Block{}) {
+		db.CreateTable(&Block{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Block{})
+	}
+
+	if !db.HasTable(&MinerReward{}) {
+		db.CreateTable(&MinerReward{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&MinerReward{})
+	}
+
+	if !db.HasTable(&Rate{}) {
+		db.CreateTable(&Rate{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Rate{})
+	}
+
+	if !db.HasTable(&RichRecord{}) {
+		db.CreateTable(&RichRecord{})
+		db.Model(&RichRecord{}).AddUniqueIndex("F_address", "F_address")
+		db.Model(&RichRecord{}).AddIndex("F_balance", "F_balance")
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&RichRecord{})
 	}
 
 	for _, value := range Table {

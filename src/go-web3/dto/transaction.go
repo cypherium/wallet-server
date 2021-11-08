@@ -96,19 +96,17 @@ type SignedTransactionParams struct {
 
 type TransactionResponse struct {
 	Version          string   `json:"version"`
-	From             string   `json:"from"`
 	Hash             string   `json:"hash"`
 	Nonce            *big.Int `json:"nonce"`
 	BlockHash        string   `json:"blockHash"`
 	BlockNumber      *big.Int `json:"blockNumber"`
 	TransactionIndex *big.Int `json:"transactionIndex"`
-	// From             string   `json:"from"`
-	To       string   `json:"to"`
-	Input    string   `json:"input"`
-	Value    *big.Int `json:"value"`
-	GasPrice *big.Int `json:"gasPrice,omitempty"`
-	Gas      *big.Int `json:"gas,omitempty"`
-	// Data             types.ComplexString `json:"data,omitempty"`
+	From             string   `json:"from"`
+	To               string   `json:"to"`
+	Input            string   `json:"input"`
+	Value            *big.Int `json:"value"`
+	GasPrice         *big.Int `json:"gasPrice,omitempty"`
+	Gas              *big.Int `json:"gas,omitempty"`
 
 	V string `json:"v"`
 	R string `json:"r"`

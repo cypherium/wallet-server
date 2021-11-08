@@ -4,6 +4,9 @@ import (
 	//"github.com/gomodule/redigo/redis"
 	// "qoobing.com/utillib.golang/log"
 
+	"github.com/cypherium/wallet-server/src/go-web3"
+	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
+	"github.com/cypherium/wallet-server/src/go-web3/providers"
 	"math/big"
 
 	"github.com/cypherium/wallet-server/src/model"
@@ -15,19 +18,42 @@ import (
 	. "github.com/cypherium/wallet-server/src/const"
 	"github.com/cypherium/wallet-server/src/util"
 	// "qoobing.com/utillib.golang/gls"
+	"github.com/cypherium/cypherBFT/go-cypherium/log"
+	"github.com/cypherium/wallet-server/src/config"
 	"strings"
 	"time"
-
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
 )
 
 var logid string
 var c = new(Connect)
 var GLastBlock *dto.Block = nil
 
-//func init (
-//
-//)
+var genesisAccounts = []string{
+	"0xBF79866DE2C7A6E93CCB22B265854C9A12B05887",
+	"0x2DCC7D63F6497DA971CDC692B9E51F6B9CA0537B",
+	"0xD03CEB93E5B9F3FD3ADA6730CABF733213C1C68A",
+	"0xcdd16747e54be3e2b98ec4e8623f7438f1c435ce",
+}
+
+func Init() {
+	blockNumber, err := c.Web3().Eth.GetBlockNumber()
+	if err != nil {
+		log.Error("Init", "error", err)
+	}
+	richRecord := &model.RichRecord{F_address: "", F_balance: 0}
+	for _, account := range genesisAccounts {
+		log.Info("Init", "account", account)
+		webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
+		balance, err := webthree.Eth.GetBalance(account, block.LATEST)
+		if err != nil {
+			log.Error("GetBalance failed", "balance", balance, "BlockNumber", blockNumber.String(), "error", err.Error())
+		} else {
+			richRecord.F_address = account
+			richRecord.F_balance = balance.Uint64()
+			richRecord.CreateRichRecord(c.Mysql())
+		}
+	}
+}
 
 func StartSyncLastBlock() {
 
@@ -197,6 +223,26 @@ func SyncOneBlock(height int64) error {
 		log.Info("WriteTransactions failed", "number", chain_block.Number.Int64())
 		return err
 	}
+	balance := big.NewInt(0)
+	richRecord := &model.RichRecord{F_address: "", F_balance: 0}
+	for _, tx := range transactions {
+		if balance, err = c.Web3().Eth.GetBalance(tx.From, tx.BlockNumber.String()); err != nil {
+			log.Info("GetBalance failed", "from address", tx.From, "BlockNumber", tx.BlockNumber.String(), "error", err.Error())
+		} else {
+			richRecord.F_address = tx.From
+			richRecord.F_balance = balance.Uint64()
+			richRecord.CreateRichRecord(c.Mysql())
+		}
+
+		if balance, err = c.Web3().Eth.GetBalance(tx.To, tx.BlockNumber.String()); err != nil {
+			log.Info("GetBalance failed", "to address", tx.To, "BlockNumber", tx.BlockNumber.String(), "error", err.Error())
+		} else {
+			richRecord.F_address = tx.To
+			richRecord.F_balance = balance.Uint64()
+			richRecord.CreateRichRecord(c.Mysql())
+		}
+
+	}
 
 	//todo add map[miner]miner to recount miner reward there .
 
@@ -274,7 +320,6 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 			log.Info("CreateTransaction", "hash", tx_hash, "error", err.Error())
 			return err
 		}
-
 		log.Info("CreateTransaction success", "databases_trans", databases_trans)
 	}
 

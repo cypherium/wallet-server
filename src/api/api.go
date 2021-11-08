@@ -17,6 +17,7 @@ import (
 	"github.com/cypherium/wallet-server/src/api/mining/get_mined_block_by_addr_and_date"
 	"github.com/cypherium/wallet-server/src/api/poc/get_balance"
 	"github.com/cypherium/wallet-server/src/api/poc/get_exchange_rate"
+	"github.com/cypherium/wallet-server/src/api/poc/get_richlist"
 	"github.com/cypherium/wallet-server/src/api/poc/get_summary"
 	"github.com/cypherium/wallet-server/src/api/transaction"
 	"github.com/cypherium/wallet-server/src/api/transaction/get_addr_pending"
@@ -52,4 +53,5 @@ var (
 	GetExchangeRate = get_exchange_rate.Main
 	GetBalance      = get_balance.Main
 	GetSummary      = get_summary.Main
+	GetRichLit      = get_richlist.Main
 )

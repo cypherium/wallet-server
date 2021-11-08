@@ -11,15 +11,13 @@ import (
 	"time"
 )
 
-//统计地址的挖矿总收益
 type MinerReward struct {
 	F_id           uint64 `gorm:"column:F_id"` //ID
 	F_miner        string `gorm:"column:F_miner"`
 	F_total_reward string `gorm:"column:F_total_reward"`
 	F_total_fees   string `gorm:"column:F_total_fees"`
-	F_create_time  string `gorm:"column:F_create_time"` //创建时间
-	F_modify_time  string `gorm:"column:F_modify_time"` //修改时间
-
+	F_create_time  string `gorm:"column:F_create_time"`
+	F_modify_time  string `gorm:"column:F_modify_time"`
 }
 
 func (r *MinerReward) TableName() string {

@@ -64,9 +64,7 @@ func (t *Transaction) CreateTransaction(db *gorm.DB) (err error) {
 
 	//ASSERT(t.F_block != 0, "CreateTransaction, F_block can't be nul")
 	ASSERT(t.F_tx_hash != "", "CreateTransaction, F_tx_hash can't be nul")
-
 	rdb := db.Create(&t)
-
 	return rdb.Error
 }
 
