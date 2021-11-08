@@ -34,6 +34,7 @@ type OutputRsp struct {
 }
 
 type richListInfo struct {
+	Index   int    `json:"index"`
 	Address string `json:"address"`
 	Balance uint64 `json:"balance"`
 }
@@ -65,19 +66,8 @@ func Main(cc echo.Context) error {
 		return c.RESULT_ERROR(GET_BLOCKS_ERROR, fmt.Sprintf("GetTopNRecords error:%s", err.Error())) //c.RESULT(rsp)
 	}
 	var richListInfo richListInfo
-	//for _, account := range GenesisAccounts {
-	//	balance, err := c.Web3().Eth.GetBalance(account, block.LATEST)
-	//	if err != nil {
-	//		log.Error("GetBalance failed", "balance", balance, "BlockNumber",  "error", err.Error())
-	//	} else {
-	//		log.Info("GetBalance success", "account", account,"balance",balance)
-	//	}
-	//	richListInfo.Address = account
-	//	richListInfo.Balance = balance.String()
-	//	rsp.RichList=append(rsp.RichList, richListInfo)
-	//}
-
-	for _, record := range records {
+	for index, record := range records {
+		richListInfo.Index = index
 		richListInfo.Address = record.F_address
 		richListInfo.Balance = record.F_balance
 		//log.Info("GetBalance", "Address", record.F_address)
@@ -87,13 +77,13 @@ func Main(cc echo.Context) error {
 	if balance, err := c.Web3().Eth.GetBalance(BASEACCOUNT, block.LATEST); err != nil {
 		log.Error("GetBalance failed", "base account balance", balance, "error", err.Error())
 	} else {
-		circulation := big.NewInt(BASEACCOUNTBALANCE)
+		totalSupply := big.NewInt(BASEACCOUNTBALANCE)
 		balance.Div(balance, big.NewInt(1e18))
 		//log.Info("GetBalance", "circulation", circulation)
 		//log.Info("GetBalance", "balance", balance.Uint64())
 
-		circulation.Sub(circulation, balance)
-		rsp.Circulation = circulation.String()
+		totalSupply.Sub(totalSupply, balance)
+		rsp.Circulation = totalSupply.String()
 		//log.Info("GetBalance", "circulation", rsp.Circulation)
 	}
 

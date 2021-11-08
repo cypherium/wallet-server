@@ -42,9 +42,8 @@ func Init() {
 			log.Error("GetBalance failed", "balance", balance, "BlockNumber", blockNumber.String(), "error", err.Error())
 		} else {
 
-			balance.Div(balance, big.NewInt(1e18))
 			richRecord.F_address = account
-			richRecord.F_balance = balance.Uint64()
+			richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 			richRecord.UpdateRichRecord(c.Mysql())
 			log.Info("Init", "account", account, "balance", balance)
 		}
@@ -218,9 +217,8 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				//return err
 			} else {
 				log.Info("GetBalance", "from address", transaction.From, "BlockNumber", transaction.BlockNumber.String())
-				balance.Div(balance, big.NewInt(1e18))
 				richRecord.F_address = transaction.From
-				richRecord.F_balance = balance.Uint64()
+				richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
 			}
 
@@ -228,9 +226,8 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				log.Error("GetBalance failed", "to address", transaction.To, "BlockNumber", transaction.BlockNumber.String(), "error", err.Error())
 				//return err
 			} else {
-				balance.Div(balance, big.NewInt(1e18))
 				richRecord.F_address = transaction.To
-				richRecord.F_balance = balance.Uint64()
+				richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
 			}
 		}()
