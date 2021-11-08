@@ -4,27 +4,27 @@ mkdir log  >/dev/null 2>&1
 
 CMD='./load.sh'
 STOPEDFILE=.stoped.flag
+appname='scan'
 
 start() {
     echo "--------------------";
     echo "Starting private network";
 
-    nohup ./bin/scan >> ./log/output.log &
-    # ./bin/scan >> ./log/output.log 2>"./log/output.log" &
-
+    nohup ./bin/$appname >> ./coutput.log &
     sleep 0.1;
     echo "-----";
-    ps -elf | grep -E "./bin/scan$" | grep -v grep;
+    ps -elf | grep -E "./bin/$appname$" | grep -v grep;
     echo "DONE";
+    ps|grep $appname
     rm -f $STOPEDFILE
 }
 
 stop() {
-    echo "Stop scan application";
-    rm log/output.log
-    pkill -9 scan
+    echo "Stop $appname application";
+    rm log/*
+    pkill -9 $appname
     killflag=0
-    pidlist=`ps -elf | grep -E "./bin/scan$" | grep -v grep | awk '{print $4}'`;
+    pidlist=`ps -elf | grep -E "./bin/$appname" | grep -v grep | awk '{print $4}'`;
     for pid in $pidlist;
     do
         killflag=1
@@ -34,10 +34,10 @@ stop() {
     if [ $killflag -eq 1 ]; then
         sleep 0.1;
         echo "-----";
-        ps -elf | grep scan| grep -v grep;
+        ps -elf | grep $appname| grep -v grep;
         echo "stop done"
     else
-        echo './bin/scan is not running';
+        echo './bin/$appname is not running';
     fi
     touch $STOPEDFILE
 }
@@ -48,14 +48,14 @@ restart() {
 }
 
 install() {
-    scanpath=`pwd`;
-    if [ ! -f "$scanpath/bin/scan" ]; then
+    $appnamepath=`pwd`;
+    if [ ! -f "$appnamepath/bin/$appname" ]; then
         echo 'error!!!'
-        echo 'not in "scanpath" directory?'
+        echo 'not in "$appnamepath" directory?'
         echo 'error!!!'
         exit 1
     fi
-    cronconf="* * * * * cd $scanpath && ./load.sh check >> log/cron.log&"
+    cronconf="* * * * * cd $appnamepath && ./load.sh check >> log/cron.log&"
     exist=`crontab -l | grep -F "$cronconf" | grep -v 'grep'`
     if [ "$exist" = "" ]; then
         (crontab -l 2>/dev/null | grep -Fv "$cronconf"; echo "$cronconf") | crontab -
@@ -70,12 +70,12 @@ check() {
         echo "it stoped, do nothing!!"
         exit 0
     fi
-    pidlist=`ps -elf | grep -E "./bin/scan$" | grep -v grep | awk '{print $4}'`
+    pidlist=`ps -elf | grep -E "./bin/$appname$" | grep -v grep | awk '{print $4}'`
     if [ "$pidlist" = "" ] ;then
-        echo "scan not exist, try treload";
+        echo "$appname not exist, try treload";
         restart;
     else
-        echo "scan is running, do nothing...";
+        echo "$appname is running, do nothing...";
     fi
 }
 

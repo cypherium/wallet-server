@@ -2,7 +2,7 @@
 
 HOST=35.232.249.84
 appname=scan
-approot=/root/work/src/github.com/cypherium/wallet-server
+approot=/root/work/src/github.com/cypherium/wallet-scan
 
 #./build.sh || exit 1
 echo "start copy to remote"

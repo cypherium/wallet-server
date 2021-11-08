@@ -66,7 +66,7 @@ echo "tar ..."
 cd output
 tar -czf $appname.tar.gz ./bin ./conf  ./log ./load.sh
 mv ./$appname.tar.gz $dir/
-rm -r $dir/log/
+rm -rf $dir/log/*
 
 ./load.sh restart
 
