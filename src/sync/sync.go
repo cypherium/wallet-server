@@ -218,6 +218,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				//return err
 			} else {
 				log.Info("GetBalance", "from address", transaction.From, "BlockNumber", transaction.BlockNumber.String())
+				balance.Div(balance, big.NewInt(1e18))
 				richRecord.F_address = transaction.From
 				richRecord.F_balance = balance.Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
