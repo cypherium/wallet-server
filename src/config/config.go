@@ -105,7 +105,9 @@ func Config() *appConfig {
 		if cfg.Stats.ServerId == "" {
 			cfg.Stats.ServerId = "Scan&Stats"
 		}
-
+		if cfg.TimeOut.RPCTimeOut == 0 {
+			cfg.TimeOut.RPCTimeOut = 3000
+		}
 		//log.Debugf("config:%+v\n", cfg)
 	})
 	return &cfg

@@ -42,7 +42,7 @@ func DropBlok(height int64) error {
 			return err
 		}
 	}
-	log.Info("Find old transacions", "height", height, "len", len(transactions))
+	//log.Info("Find old transacions", "height", height, "len", len(transactions))
 
 	// block_fees := big.NewInt(0)
 	// block_reward, b := big.NewInt(0).SetString(block.F_reward, 10)
@@ -91,7 +91,7 @@ func DropBlok(height int64) error {
 	// miner_reward.UpdateMinerReward(c.Mysql())
 
 	// log.Info("Drop example", "height", height, "block_reward_new", reward.String())
-	log.Info("Drop example", "height", height)
+	//log.Info("Drop example", "height", height)
 	//time.Sleep(time.Second*10)
 
 	return nil

@@ -3,8 +3,6 @@ package model
 import (
 	"errors"
 	_ "fmt"
-	"github.com/dedis/onet/log"
-
 	. "github.com/cypherium/wallet-server/src/const"
 	"github.com/cypherium/wallet-server/src/util"
 	"github.com/jinzhu/gorm"
@@ -21,14 +19,14 @@ func (r *RichRecord) TableName() string {
 }
 
 func (record *RichRecord) CreateRichRecord(db *gorm.DB) (err error) {
-	log.Info("CreateRichRecord", "record", record)
+	//log.Info("CreateRichRecord", "record", record)
 	util.ASSERT(record.F_address != "", "create record, F_address can't be nul")
 	rdb := db.Create(&record)
 	return rdb.Error
 }
 
 func (record *RichRecord) UpdateRichRecord(db *gorm.DB) (err error) {
-	var rcd *RichRecord
+	var rcd = &RichRecord{}
 	rdb := db.Where("F_address = ?", record.F_address).First(&rcd)
 	if rdb.RecordNotFound() {
 		return record.CreateRichRecord(db)
@@ -39,7 +37,7 @@ func (record *RichRecord) UpdateRichRecord(db *gorm.DB) (err error) {
 }
 
 func (record *RichRecord) updateRichRecordColumn(db *gorm.DB, balance map[string]interface{}) (err error) {
-	log.Info("updateRichRecordColumn=", "balance", balance)
+	//log.Info("updateRichRecordColumn=", "balance", balance)
 
 	tx := db.Begin()
 	rdb := tx.Where("F_address = ?", record.F_address).Model(&record).Update(balance)

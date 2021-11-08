@@ -80,8 +80,8 @@ func Main(cc echo.Context) error {
 	for _, record := range records {
 		richListInfo.Address = record.F_address
 		richListInfo.Balance = record.F_balance
-		log.Info("GetBalance", "Address", record.F_address)
-		log.Info("GetBalance", "balance", record.F_balance)
+		//log.Info("GetBalance", "Address", record.F_address)
+		//log.Info("GetBalance", "balance", record.F_balance)
 		rsp.RichList = append(rsp.RichList, richListInfo)
 	}
 	if balance, err := c.Web3().Eth.GetBalance(BASEACCOUNT, block.LATEST); err != nil {
@@ -89,12 +89,12 @@ func Main(cc echo.Context) error {
 	} else {
 		circulation := big.NewInt(BASEACCOUNTBALANCE)
 		balance.Div(balance, big.NewInt(1e18))
-		log.Info("GetBalance", "circulation", circulation)
-		log.Info("GetBalance", "balance", balance.Uint64())
+		//log.Info("GetBalance", "circulation", circulation)
+		//log.Info("GetBalance", "balance", balance.Uint64())
 
 		circulation.Sub(circulation, balance)
 		rsp.Circulation = circulation.String()
-		log.Info("GetBalance", "circulation", rsp.Circulation)
+		//log.Info("GetBalance", "circulation", rsp.Circulation)
 	}
 
 	return c.RESULT(rsp)
