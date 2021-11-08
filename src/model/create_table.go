@@ -116,30 +116,30 @@ func InitDatabase() {
 		panic("connect mysql failed")
 	}
 
-	//if !db.HasTable(&Transaction{}) {
-	//	db.CreateTable(&Transaction{})
-	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Transaction{})
-	//}
-	//
-	//if !db.HasTable(&Block{}) {
-	//	db.CreateTable(&Block{})
-	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Block{})
-	//}
-	//
-	//if !db.HasTable(&MinerReward{}) {
-	//	db.CreateTable(&MinerReward{})
-	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&MinerReward{})
-	//}
-	//
-	//if !db.HasTable(&Rate{}) {
-	//	db.CreateTable(&Rate{})
-	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Rate{})
-	//}
-	//
-	//if !db.HasTable(&RichRecord{}) {
-	//	db.CreateTable(&RichRecord{})
-	//	db.Model(&RichRecord{}).AddUniqueIndex("F_address", "F_address")
-	//}
+	if !db.HasTable(&Transaction{}) {
+		db.CreateTable(&Transaction{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Transaction{})
+	}
+
+	if !db.HasTable(&Block{}) {
+		db.CreateTable(&Block{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Block{})
+	}
+
+	if !db.HasTable(&MinerReward{}) {
+		db.CreateTable(&MinerReward{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&MinerReward{})
+	}
+
+	if !db.HasTable(&Rate{}) {
+		db.CreateTable(&Rate{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Rate{})
+	}
+
+	if !db.HasTable(&RichRecord{}) {
+		db.CreateTable(&RichRecord{})
+		db.Model(&RichRecord{}).AddUniqueIndex("F_address", "F_address")
+	}
 
 	for _, value := range Table {
 		db.Exec(value)
