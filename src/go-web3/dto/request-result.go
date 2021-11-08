@@ -264,16 +264,16 @@ func (pointer *RequestResult) ToBlock() (*Block, error) {
 	result := (pointer).Result.(map[string]interface{})
 
 	if len(result) == 0 {
-		log.Info("checkResponse 1", "error", customerror.EMPTYRESPONSE.Error())
+		log.Error("checkResponse ", "error", customerror.EMPTYRESPONSE.Error())
 		return nil, customerror.EMPTYRESPONSE
 	}
 
 	preblock := &preBlock{}
-	log.Info("Marshal", "result", result)
+	//log.Debug("Marshal", "result", result)
 
 	marshal, err := json.Marshal(result)
 	if err != nil {
-		log.Info("Marshal", "error", err.Error())
+		log.Error("Marshal", "error", err.Error())
 		return nil, customerror.UNPARSEABLEINTERFACE
 	}
 	json.Unmarshal(marshal, &preblock)
@@ -282,7 +282,7 @@ func (pointer *RequestResult) ToBlock() (*Block, error) {
 	//
 	//	return nil,err
 	//}
-	log.Info("Unmarshal ok", "block", preblock)
+	//log.Debug("Unmarshal ok", "block", preblock)
 	num, success := big.NewInt(0).SetString(preblock.Number[2:], 16)
 	if !success {
 		return nil, errors.New(fmt.Sprintf("Error converting %s to bigInt", preblock.Number))

@@ -83,6 +83,16 @@ var Table = map[string]string{
 		"UNIQUE KEY (`F_miner`)" +
 		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
 
+	"t_rich_record": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_rich_record (" +
+		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
+		"`F_address` varchar(128) NOT NULL DEFAULT ''," +
+		"`F_balance` varchar(128) NOT NULL DEFAULT ''," +
+
+		"PRIMARY KEY (`F_id`)," +
+		"UNIQUE KEY (`F_address`)," +
+		"INDEX (`F_balance`)" +
+		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
+
 	"t_rate": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_rate (" +
 		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
 		"`F_eth` double  NOT NULL DEFAULT 0," +
@@ -96,16 +106,6 @@ var Table = map[string]string{
 		"PRIMARY KEY (`F_id`)," +
 		"UNIQUE KEY (`F_timestamp`)" +
 		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
-
-	"t_rich_record": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_rich_record (" +
-		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
-		"`F_address` varchar(128) NOT NULL DEFAULT ''," +
-		"`F_balance` bigint unsigned   NOT NULL DEFAULT 0," +
-
-		"PRIMARY KEY (`F_id`)," +
-		"UNIQUE KEY (`F_address`)," +
-		"INDEX (`F_balance`)," +
-		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
 }
 
 func InitDatabase() {
@@ -116,32 +116,30 @@ func InitDatabase() {
 		panic("connect mysql failed")
 	}
 
-	if !db.HasTable(&Transaction{}) {
-		db.CreateTable(&Transaction{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Transaction{})
-	}
-
-	if !db.HasTable(&Block{}) {
-		db.CreateTable(&Block{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Block{})
-	}
-
-	if !db.HasTable(&MinerReward{}) {
-		db.CreateTable(&MinerReward{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&MinerReward{})
-	}
-
-	if !db.HasTable(&Rate{}) {
-		db.CreateTable(&Rate{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Rate{})
-	}
-
-	if !db.HasTable(&RichRecord{}) {
-		db.CreateTable(&RichRecord{})
-		db.Model(&RichRecord{}).AddUniqueIndex("F_address", "F_address")
-		db.Model(&RichRecord{}).AddIndex("F_balance", "F_balance")
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&RichRecord{})
-	}
+	//if !db.HasTable(&Transaction{}) {
+	//	db.CreateTable(&Transaction{})
+	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Transaction{})
+	//}
+	//
+	//if !db.HasTable(&Block{}) {
+	//	db.CreateTable(&Block{})
+	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Block{})
+	//}
+	//
+	//if !db.HasTable(&MinerReward{}) {
+	//	db.CreateTable(&MinerReward{})
+	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&MinerReward{})
+	//}
+	//
+	//if !db.HasTable(&Rate{}) {
+	//	db.CreateTable(&Rate{})
+	//	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Rate{})
+	//}
+	//
+	//if !db.HasTable(&RichRecord{}) {
+	//	db.CreateTable(&RichRecord{})
+	//	db.Model(&RichRecord{}).AddUniqueIndex("F_address", "F_address")
+	//}
 
 	for _, value := range Table {
 		db.Exec(value)

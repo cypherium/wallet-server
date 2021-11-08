@@ -16,23 +16,23 @@ func DropBlok(height int64) error {
 	}
 
 	//find block ,reset
-	block, err := (&model.Block{}).FindBlockByHeight(c.Mysql(), height)
-	if err != nil {
-		if err.Error() != DATA_NOT_EXIST {
-			log.Info("FindBlockByHeight", "height", height, "error", err.Error())
-			return err
-		}
-		return nil
-	}
+	//block, err := (&model.Block{}).FindBlockByHeight(c.Mysql(), height)
+	//if err != nil {
+	//	if err.Error() != DATA_NOT_EXIST {
+	//		log.Info("FindBlockByHeight", "height", height, "error", err.Error())
+	//		return err
+	//	}
+	//	return nil
+	//}
 
-	log.Info("Find fork block", "height", height, "hash", block.F_hash)
-
-	block.F_status = FORK
-	err = block.UpdateBlockStatus(c.Mysql())
-	if err != nil {
-		log.Info("UpdateBlockStatus", "error", err.Error())
-		return err
-	}
+	//log.Info("Find fork block", "height", height, "hash", block.F_hash)
+	//
+	//block.F_status = FORK
+	//err = block.UpdateBlockStatus(c.Mysql())
+	//if err != nil {
+	//	log.Info("UpdateBlockStatus", "error", err.Error())
+	//	return err
+	//}
 
 	//find transaction ,reset
 	transactions, err := (&model.Transaction{}).FindTrasactionByHeight(c.Mysql(), height)
