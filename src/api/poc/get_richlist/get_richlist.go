@@ -67,7 +67,7 @@ func Main(cc echo.Context) error {
 	}
 	var richListInfo richListInfo
 	for index, record := range records {
-		richListInfo.Index = index
+		richListInfo.Index = index + 1
 		richListInfo.Address = record.F_address
 		richListInfo.Balance = record.F_balance
 		//log.Info("GetBalance", "Address", record.F_address)
