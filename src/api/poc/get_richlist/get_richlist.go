@@ -21,6 +21,7 @@ var GenesisAccounts = []string{
 
 const BASEACCOUNT = "0xCdd16747E54BE3e2B98eC4e8623f7438f1C435Ce"
 const BASEACCOUNTBALANCE = 800000000
+const FIRSTRICHMINVALUE = 150000
 
 type InputReq struct {
 	PageIndex int `json:"pageIndex" form:"pageIndex"` //范围起点
@@ -60,11 +61,14 @@ func Main(cc echo.Context) error {
 		return c.RESULT_PARAMETER_ERROR(err.Error())
 	}
 	// log.Debugf("receive GetTopNRecords: %+v", argc)
-
+getAgain:
 	records, err := model.GetTopNRecords(c.Mysql(), 100)
 	if err != nil {
 		// log.Debugf("GetTopNRecords error:%s", err.Error())
 		return c.RESULT_ERROR(GET_BLOCKS_ERROR, fmt.Sprintf("GetTopNRecords error:%s", err.Error())) //c.RESULT(rsp)
+	}
+	if records[0].F_balance < FIRSTRICHMINVALUE {
+		goto getAgain
 	}
 	var richListInfo richListInfo
 	for index, record := range records {
