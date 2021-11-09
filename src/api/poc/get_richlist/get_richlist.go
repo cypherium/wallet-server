@@ -19,7 +19,7 @@ var GenesisAccounts = []string{
 }
 
 const BASEACCOUNT = "0xCdd16747E54BE3e2B98eC4e8623f7438f1C435Ce"
-const BASEACCOUNTBALANCE = 1000000000
+const BASEACCOUNTBALANCE = 800000000
 
 type InputReq struct {
 	PageIndex int `json:"pageIndex" form:"pageIndex"` //范围起点
@@ -27,7 +27,6 @@ type InputReq struct {
 }
 
 type OutputRsp struct {
-	ErrNo       int          `json:"err_no"`
 	ErrMsg      string       `json:"err_msg"`
 	Circulation string       `json:"circulation"`
 	RichList    RichListInfo `json:"richList"`
