@@ -206,13 +206,13 @@ func SyncOneBlock(height int64) error {
 }
 
 func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[string]dto.TransactionResponse, receipts map[string]dto.TransactionReceipt) error {
-	webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
+	//webthree := web3.NewWeb3(providers.NewHTTPProvider(config.Config().Gate, config.Config().TimeOut.RPCTimeOut, false))
 	//height
 	for tx_hash, transaction := range transactions {
 		go func() {
 			richRecord := &model.RichRecord{F_address: "", F_balance: 0}
 			//log.Info("GetBalance and CreateRichRecord ")
-			if balance, err := webthree.Eth.GetBalance(transaction.From, block.LATEST); err != nil {
+			if balance, err := c.Web3().Eth.GetBalance(transaction.From, block.LATEST); err != nil {
 				log.Error("GetBalance failed", "from address", transaction.From, "BlockNumber", transaction.BlockNumber.String(), "error", err.Error())
 				//return err
 			} else {
@@ -222,7 +222,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				richRecord.UpdateRichRecord(c.Mysql())
 			}
 
-			if balance, err := webthree.Eth.GetBalance(transaction.To, block.LATEST); err != nil {
+			if balance, err := c.Web3().Eth.GetBalance(transaction.To, block.LATEST); err != nil {
 				log.Error("GetBalance failed", "to address", transaction.To, "BlockNumber", transaction.BlockNumber.String(), "error", err.Error())
 				//return err
 			} else {

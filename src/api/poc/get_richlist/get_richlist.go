@@ -21,7 +21,8 @@ var GenesisAccounts = []string{
 
 const BASEACCOUNT = "0xCdd16747E54BE3e2B98eC4e8623f7438f1C435Ce"
 const BASEACCOUNTBALANCE = 800000000
-const FIRSTRICHMINVALUE = 150000
+const FIRSTRICHMINVALUE = 1000000
+const TOPARRYALEN = 100
 
 type InputReq struct {
 	PageIndex int `json:"pageIndex" form:"pageIndex"` //范围起点
@@ -42,6 +43,8 @@ type richListInfo struct {
 }
 
 type RichListInfo []richListInfo
+
+var TopNRecords [TOPARRYALEN]model.RichRecord
 
 func Main(cc echo.Context) error {
 	c := cc.(ApiContext)
@@ -67,8 +70,13 @@ getAgain:
 		// log.Debugf("GetTopNRecords error:%s", err.Error())
 		return c.RESULT_ERROR(GET_BLOCKS_ERROR, fmt.Sprintf("GetTopNRecords error:%s", err.Error())) //c.RESULT(rsp)
 	}
-	if records[0].F_balance < FIRSTRICHMINVALUE {
+	if records[0].F_balance < FIRSTRICHMINVALUE && TopNRecords[0].F_balance < FIRSTRICHMINVALUE {
 		goto getAgain
+	} else if records[0].F_balance < FIRSTRICHMINVALUE && TopNRecords[0].F_balance > FIRSTRICHMINVALUE {
+		records = TopNRecords[:]
+		copy(records, TopNRecords[:])
+	} else {
+		copy(TopNRecords[:TOPARRYALEN-1], records[:TOPARRYALEN-1])
 	}
 	var richListInfo richListInfo
 	for index, record := range records {
