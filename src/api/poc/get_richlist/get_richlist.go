@@ -28,6 +28,7 @@ type InputReq struct {
 }
 
 type OutputRsp struct {
+	ErrNo       int          `json:"err_no"`
 	ErrMsg      string       `json:"err_msg"`
 	Circulation string       `json:"circulation"`
 	RichList    RichListInfo `json:"richList"`
