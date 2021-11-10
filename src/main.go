@@ -120,7 +120,9 @@ func main() {
 	e.POST("/cph/get_summary", api.GetSummary)
 	e.GET("/cph/get_summary", api.GetSummary)
 	e.POST("/cph/get_balance", api.GetBalance)
-	e.POST("/cph/get_rich_list", api.GetRichLit)
+	e.GET("/cph/get_rich_list", api.GetRichLit)
+	e.GET("/cph/get_total_supply", api.GetTotalSupply)
+	e.GET("/cph/get_circulating_supply", api.GetCirculatingSupply)
 
 	e.Logger.Fatal(e.Start(":" + config.Config().Port))
 

@@ -2,13 +2,10 @@ package get_richlist
 
 import (
 	"fmt"
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	. "github.com/cypherium/wallet-server/src/const"
-	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
 	"github.com/cypherium/wallet-server/src/model"
 	"github.com/labstack/echo"
-	"math/big"
 )
 
 var GenesisAccounts = []string{
@@ -30,10 +27,7 @@ type InputReq struct {
 }
 
 type OutputRsp struct {
-	ErrNo       int          `json:"err_no"`
-	ErrMsg      string       `json:"err_msg"`
-	Circulation string       `json:"circulation"`
-	RichList    RichListInfo `json:"richList"`
+	RichList RichListInfo `json:"richList"`
 }
 
 type richListInfo struct {
@@ -53,10 +47,7 @@ func Main(cc echo.Context) error {
 
 	//Step 2. parameters initial
 
-	rsp := OutputRsp{
-		ErrNo:  0,
-		ErrMsg: "success",
-	}
+	rsp := OutputRsp{}
 
 	argc := new(InputReq)
 
@@ -64,20 +55,20 @@ func Main(cc echo.Context) error {
 		return c.RESULT_PARAMETER_ERROR(err.Error())
 	}
 	// log.Debugf("receive GetTopNRecords: %+v", argc)
-getAgain:
+	//getAgain:
 	records, err := model.GetTopNRecords(c.Mysql(), 100)
 	if err != nil {
 		// log.Debugf("GetTopNRecords error:%s", err.Error())
 		return c.RESULT_ERROR(GET_BLOCKS_ERROR, fmt.Sprintf("GetTopNRecords error:%s", err.Error())) //c.RESULT(rsp)
 	}
-	if records[0].F_balance < FIRSTRICHMINVALUE && TopNRecords[0].F_balance < FIRSTRICHMINVALUE {
-		goto getAgain
-	} else if records[0].F_balance < FIRSTRICHMINVALUE && TopNRecords[0].F_balance > FIRSTRICHMINVALUE {
-		records = TopNRecords[:]
-		copy(records, TopNRecords[:])
-	} else {
-		copy(TopNRecords[:TOPARRYALEN-1], records[:TOPARRYALEN-1])
-	}
+	//if records[0].F_balance < FIRSTRICHMINVALUE && TopNRecords[0].F_balance < FIRSTRICHMINVALUE {
+	//	goto getAgain
+	//} else if records[0].F_balance < FIRSTRICHMINVALUE && TopNRecords[0].F_balance > FIRSTRICHMINVALUE {
+	//	records = TopNRecords[:]
+	//	copy(records, TopNRecords[:])
+	//} else {
+	//	copy(TopNRecords[:TOPARRYALEN-1], records[:TOPARRYALEN-1])
+	//}
 	var richListInfo richListInfo
 	for index, record := range records {
 		richListInfo.Index = index + 1
@@ -87,18 +78,5 @@ getAgain:
 		//log.Info("GetBalance", "balance", record.F_balance)
 		rsp.RichList = append(rsp.RichList, richListInfo)
 	}
-	if balance, err := c.Web3().Eth.GetBalance(BASEACCOUNT, block.LATEST); err != nil {
-		log.Error("GetBalance failed", "base account balance", balance, "error", err.Error())
-	} else {
-		totalSupply := big.NewInt(BASEACCOUNTBALANCE)
-		balance.Div(balance, big.NewInt(1e18))
-		//log.Info("GetBalance", "circulation", circulation)
-		//log.Info("GetBalance", "balance", balance.Uint64())
-
-		totalSupply.Sub(totalSupply, balance)
-		rsp.Circulation = totalSupply.String()
-		//log.Info("GetBalance", "circulation", rsp.Circulation)
-	}
-
 	return c.RESULT(rsp)
 }

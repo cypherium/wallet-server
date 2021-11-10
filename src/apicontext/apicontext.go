@@ -163,7 +163,7 @@ func (c *apiContext) PANIC_RECOVER() {
 }
 
 func (c *apiContext) RESULT(output interface{}) error {
-	var t = reflect.TypeOf(output)
+	//var t = reflect.TypeOf(output)
 	defer func(o *interface{}) {
 		_, err := json.Marshal(o)
 		if err != nil {
@@ -176,19 +176,19 @@ func (c *apiContext) RESULT(output interface{}) error {
 		//log.Debugf("output:" + string(b) + "\n")
 	}(&output)
 
-	if _, err := t.FieldByName("ErrNo"); err != true {
-		errstr := "Result MUST have 'ErrNo' field"
-		output = BaseOutput{ERR_INNER_ERROR, errstr}
-		c.JSON(HTTPOK, output)
-		return errors.New(errstr)
-	}
-
-	if _, err := t.FieldByName("ErrMsg"); err != true {
-		errstr := "Result MUST have 'ErrMsg' field"
-		output = BaseOutput{ERR_INNER_ERROR, errstr}
-		c.JSON(HTTPOK, output)
-		return errors.New(errstr)
-	}
+	//if _, err := t.FieldByName("ErrNo"); err != true {
+	//	errstr := "Result MUST have 'ErrNo' field"
+	//	output = BaseOutput{ERR_INNER_ERROR, errstr}
+	//	c.JSON(HTTPOK, output)
+	//	return errors.New(errstr)
+	//}
+	//
+	//if _, err := t.FieldByName("ErrMsg"); err != true {
+	//	errstr := "Result MUST have 'ErrMsg' field"
+	//	output = BaseOutput{ERR_INNER_ERROR, errstr}
+	//	c.JSON(HTTPOK, output)
+	//	return errors.New(errstr)
+	//}
 
 	//log.Noticef("{\"Api\":\"%s\", \"Cost\":%d,\"ErrNo\":%d,\"TimeStamp\":%d,\"ProcessorName\":\"%s\"}",
 	// c.Request().RequestURI, time.Now().Sub(c.start).Nanoseconds(), structs.Map(output)["ErrNo"], c.start.Unix(), "scan")
