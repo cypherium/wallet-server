@@ -630,7 +630,7 @@ func (cph *Cph) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto
 	params[2] = true
 
 	pointer := &dto.RequestResult{}
-	err := cph.provider.SendRequest(pointer, "eth_getBlock", params)
+	err := cph.provider.SendRequest(pointer, "eth_getBlockByNumber", params)
 	if err != nil {
 		return nil, err
 	}
