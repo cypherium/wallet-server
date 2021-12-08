@@ -199,7 +199,7 @@ func (cph *Cph) GetBlockNumber() (*big.Int, error) {
 
 	pointer := &dto.RequestResult{}
 
-	err := cph.provider.SendRequest(pointer, "eth_txBlockNumber", nil)
+	err := cph.provider.SendRequest(pointer, "eth_blockNumber", nil)
 
 	if err != nil {
 		return nil, err
@@ -630,7 +630,7 @@ func (cph *Cph) GetBlockByNumber(number *big.Int, transactionDetails bool) (*dto
 	params[2] = true
 
 	pointer := &dto.RequestResult{}
-	err := cph.provider.SendRequest(pointer, "eth_getTxBlockByNumber", params)
+	err := cph.provider.SendRequest(pointer, "eth_getBlock", params)
 	if err != nil {
 		return nil, err
 	}
