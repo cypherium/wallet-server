@@ -1,7 +1,7 @@
 package get_circulating_supply
 
 import (
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/log"
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
 	"github.com/labstack/echo"

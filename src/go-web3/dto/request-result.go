@@ -33,7 +33,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/log"
 )
 
 type RequestResult struct {

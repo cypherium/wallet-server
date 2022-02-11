@@ -5,13 +5,13 @@ appname='scan'
 
 buildOnDarwin()
 {
-  cp -rf vendor/github.com/cypherium/cypherBFT/go-cypherium/crypto/bls/lib/mac/* vendor/github.com/cypherium/cypherBFT/go-cypherium/crypto/bls/lib/
+  cp -rf vendor/github.com/cypherium/cypherBFT/crypto/bls/lib/mac/* vendor/github.com/cypherium/cypherBFT/crypto/bls/lib/
   go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1); 
 }
 
 buildOnLinux()
 {
- cp -rf vendor/github.com/cypherium/cypherBFT/go-cypherium/crypto/bls/lib/linux/* vendor/github.com/cypherium/cypherBFT/go-cypherium/crypto/bls/lib/
+ cp -rf vendor/github.com/cypherium/cypherBFT/crypto/bls/lib/linux/* vendor/github.com/cypherium/cypherBFT/crypto/bls/lib/
   CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build  -o ./bin/$appname ./src/main.go && (echo "BUILD SUCCESS"; exit 0;) || (echo "BUILD FAILED" && exit 1);
 }
 ostype()

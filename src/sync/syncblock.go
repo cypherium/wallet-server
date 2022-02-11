@@ -6,7 +6,7 @@ import (
 
 	"math/big"
 	// "qoobing.com/utillib.golang/log"
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/log"
 )
 
 func DropBlok(height int64) error {

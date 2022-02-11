@@ -28,9 +28,9 @@ import (
 	"math/big"
 	"sync/atomic"
 
-	"github.com/cypherium/cypherBFT/go-cypherium/common"
-	"github.com/cypherium/cypherBFT/go-cypherium/core/types"
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/common"
+	"github.com/cypherium/cypherBFT/core/types"
+	"github.com/cypherium/cypherBFT/log"
 )
 
 type rpcTransaction struct {

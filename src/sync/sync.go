@@ -18,7 +18,7 @@ import (
 	"github.com/cypherium/wallet-server/src/util"
 	"os"
 	// "qoobing.com/utillib.golang/gls"
-	"github.com/cypherium/cypherBFT/go-cypherium/log"
+	"github.com/cypherium/cypherBFT/log"
 	"github.com/cypherium/wallet-server/src/config"
 	"strings"
 	"time"
