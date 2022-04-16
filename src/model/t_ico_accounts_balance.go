@@ -14,7 +14,7 @@ type IcoAccountsBalanceRecord struct {
 }
 
 func (r *IcoAccountsBalanceRecord) TableName() string {
-	return "t_rich_record"
+	return "t_ico_accounts_balance_record"
 }
 
 func (record *IcoAccountsBalanceRecord) CreateIcoAccountsBalanceRecord(db *gorm.DB) (err error) {

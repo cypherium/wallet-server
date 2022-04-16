@@ -92,6 +92,15 @@ var Table = map[string]string{
 		"UNIQUE KEY (`F_address`)," +
 		"INDEX (`F_balance`)" +
 		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
+	"t_ico_accounts_balance_record": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_rich_record (" +
+		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
+		"`F_address` varchar(128) NOT NULL DEFAULT ''," +
+		"`F_balance` varchar(128) NOT NULL DEFAULT ''," +
+
+		"PRIMARY KEY (`F_id`)," +
+		"UNIQUE KEY (`F_address`)," +
+		"INDEX (`F_balance`)" +
+		") ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;",
 
 	"t_rate": "CREATE TABLE IF NOT EXISTS " + Schema + ".t_rate (" +
 		"`F_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
@@ -140,7 +149,10 @@ func InitDatabase() {
 		db.CreateTable(&RichRecord{})
 		db.Model(&RichRecord{}).AddUniqueIndex("F_address", "F_address")
 	}
-
+	if !db.HasTable(&IcoAccountsBalanceRecord{}) {
+		db.CreateTable(&IcoAccountsBalanceRecord{})
+		db.Model(&IcoAccountsBalanceRecord{}).AddUniqueIndex("F_address", "F_address")
+	}
 	for _, value := range Table {
 		db.Exec(value)
 	}
