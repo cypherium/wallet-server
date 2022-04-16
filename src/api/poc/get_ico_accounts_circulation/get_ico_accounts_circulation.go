@@ -11,21 +11,13 @@ import (
 	"math/big"
 )
 
-var GenesisAccounts = []string{
-	"0xBF79866DE2C7A6E93CCB22B265854C9A12B05887",
-	"0x2DCC7D63F6497DA971CDC692B9E51F6B9CA0537B",
-	"0x2F0AC2EA37084DC2093C2719ECAFCD05A11C4162",
-	"0xD03CEB93E5B9F3FD3ADA6730CABF733213C1C68A",
-	"0xcdd16747e54be3e2b98ec4e8623f7438f1c435ce",
-}
-
 type InputReq struct {
 	PageIndex int `json:"pageIndex" form:"pageIndex"` //范围起点
 	PageSize  int `json:"pageSize" form:"pageSize"`   //范围重点
 }
 
 type OutputRsp struct {
-	IcoAccountCirculation uint64 `json:"ico_account_circulation"`
+	IcoAccountsCirculation uint64
 }
 
 func Main(cc echo.Context) error {
@@ -58,7 +50,7 @@ func Main(cc echo.Context) error {
 		curentIcoAllAccountsAmmount += balance.Uint64()
 	}
 	currentIcoAllAccountsCirculationAmmount = currentTotalCirculationSupplyAmmount - curentIcoAllAccountsAmmount
-	rsp.IcoAccountCirculation = currentIcoAllAccountsCirculationAmmount
+	rsp.IcoAccountsCirculation = currentIcoAllAccountsCirculationAmmount
 	log.Info("get_ico_accouns_circulation Main", "currentTotalCirculationSupplyAmmount", currentTotalCirculationSupplyAmmount, "curentIcoAllAccountsAmmount", curentIcoAllAccountsAmmount, "currentIcoAllAccountsCirculationAmmount", currentIcoAllAccountsCirculationAmmount)
 	return c.RESULT(rsp)
 }
