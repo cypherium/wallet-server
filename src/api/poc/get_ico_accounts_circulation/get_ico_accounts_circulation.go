@@ -53,11 +53,11 @@ func Main(cc echo.Context) error {
 	var currentTotalCirculationSupplyAmmount, curentIcoAllAccountsAmmount, currentIcoAllAccountsCirculationAmmount uint64
 	currentTotalCirculationSupplyAmmount = get_circulating_supply.GetTotalSupply(c).Uint64()
 	for _, record := range allIcoAccountsBalanceRecord {
-		balance:=big.NewInt((int64(record.F_balance))
+		balance := big.NewInt(int64(record.F_balance))
 		curentIcoAllAccountsAmmount += balance.Div(balance, big.NewInt(1e18)).Uint64()
 	}
 	currentIcoAllAccountsCirculationAmmount = currentTotalCirculationSupplyAmmount - curentIcoAllAccountsAmmount
 	rsp.IcoAccountCirculation = currentIcoAllAccountsCirculationAmmount
-	log.Info("get_ico_accouns_circulation Main","currentTotalCirculationSupplyAmmount",currentTotalCirculationSupplyAmmount,"curentIcoAllAccountsAmmount",curentIcoAllAccountsAmmount,"currentIcoAllAccountsCirculationAmmount",currentIcoAllAccountsCirculationAmmount)
+	log.Info("get_ico_accouns_circulation Main", "currentTotalCirculationSupplyAmmount", currentTotalCirculationSupplyAmmount, "curentIcoAllAccountsAmmount", curentIcoAllAccountsAmmount, "currentIcoAllAccountsCirculationAmmount", currentIcoAllAccountsCirculationAmmount)
 	return c.RESULT(rsp)
 }
