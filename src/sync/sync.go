@@ -227,7 +227,10 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				richRecord.F_address = transaction.To
 				richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
-				if strings.ToLower(strings.Trim(transaction.From, "0x")) == strings.ToLower(strings.Trim(get_richlist.BASEACCOUNT, "0x")) {
+				transactionFromLower := strings.ToLower(strings.Trim(transaction.From, "0x"))
+				baseAccountLower := strings.ToLower(strings.Trim(get_richlist.BASEACCOUNT, "0x"))
+				log.Info("WriteTransactions", "transactionFromLower", transactionFromLower, "baseAccountLower", baseAccountLower)
+				if strings.Compare(transactionFromLower, baseAccountLower) == 0 {
 					icoAcountRecord.F_address = transaction.To
 					icoAcountRecord.F_balance = balance.Uint64()
 					icoAcountRecord.UpdateIcoAccountsBalanceRecordColumn(c.Mysql())
