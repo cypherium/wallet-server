@@ -4,22 +4,19 @@ import (
 	//"github.com/gomodule/redigo/redis"
 	// "qoobing.com/utillib.golang/log"
 
+	"errors"
+	"github.com/cypherium/cypherBFT/log"
 	"github.com/cypherium/wallet-server/src/api/poc/get_richlist"
+	"github.com/cypherium/wallet-server/src/config"
+	. "github.com/cypherium/wallet-server/src/const"
 	"github.com/cypherium/wallet-server/src/go-web3"
+	"github.com/cypherium/wallet-server/src/go-web3/dto"
 	"github.com/cypherium/wallet-server/src/go-web3/eth/block"
 	"github.com/cypherium/wallet-server/src/go-web3/providers"
-	"math/big"
-
 	"github.com/cypherium/wallet-server/src/model"
-
-	"errors"
-	. "github.com/cypherium/wallet-server/src/const"
-	"github.com/cypherium/wallet-server/src/go-web3/dto"
 	"github.com/cypherium/wallet-server/src/util"
+	"math/big"
 	"os"
-	// "qoobing.com/utillib.golang/gls"
-	"github.com/cypherium/cypherBFT/log"
-	"github.com/cypherium/wallet-server/src/config"
 	"strings"
 	"time"
 )
@@ -211,6 +208,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 	for tx_hash, transaction := range transactions {
 		go func() {
 			richRecord := &model.RichRecord{F_address: "", F_balance: 0}
+			icoAcountRecord := &model.IcoAccountsBalanceRecord{F_address: "", F_balance: 0}
 			//log.Info("GetBalance and CreateRichRecord ")
 			if balance, err := c.Web3().Eth.GetBalance(transaction.From, block.LATEST); err != nil {
 				log.Error("GetBalance failed", "from address", transaction.From, "BlockNumber", transaction.BlockNumber.String(), "error", err.Error())
@@ -220,6 +218,9 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				richRecord.F_address = transaction.From
 				richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
+				if strings.ToLower(strings.Trim(transaction.From, "0x")) == strings.ToLower(strings.Trim(get_richlist.BASEACCOUNT, "0x")) {
+					icoAcountRecord.UpdateIcoAccountsBalanceRecordColumn(c.Mysql())
+				}
 			}
 
 			if balance, err := c.Web3().Eth.GetBalance(transaction.To, block.LATEST); err != nil {

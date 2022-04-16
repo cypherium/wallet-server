@@ -14,6 +14,12 @@ const BASEACCOUNTBALANCE = 800000000
 func Main(cc echo.Context) error {
 	c := cc.(ApiContext)
 	defer c.PANIC_RECOVER()
+	return c.RESULT(GetTotalSupply(c).Uint64())
+}
+
+func GetTotalSupply(cc echo.Context) *big.Int {
+	c := cc.(ApiContext)
+	defer c.PANIC_RECOVER()
 	totalSupply := big.NewInt(BASEACCOUNTBALANCE)
 	if balance, err := c.Web3().Eth.GetBalance(BASEACCOUNT, block.LATEST); err != nil {
 		log.Error("GetBalance failed", "base account balance", balance, "error", err.Error())
@@ -21,5 +27,5 @@ func Main(cc echo.Context) error {
 		balance.Div(balance, big.NewInt(1e18))
 		totalSupply.Sub(totalSupply, balance)
 	}
-	return c.RESULT(totalSupply.Uint64())
+	return totalSupply
 }

@@ -18,6 +18,7 @@ import (
 	"github.com/cypherium/wallet-server/src/api/poc/get_balance"
 	"github.com/cypherium/wallet-server/src/api/poc/get_circulating_supply"
 	"github.com/cypherium/wallet-server/src/api/poc/get_exchange_rate"
+	"github.com/cypherium/wallet-server/src/api/poc/get_ico_accounts_circulation"
 	"github.com/cypherium/wallet-server/src/api/poc/get_richlist"
 	"github.com/cypherium/wallet-server/src/api/poc/get_summary"
 	"github.com/cypherium/wallet-server/src/api/poc/get_total_supply"
@@ -52,10 +53,11 @@ var (
 	GetMinedblockByAddrAndDate = get_mined_block_by_addr_and_date.Main
 
 	//poc
-	GetExchangeRate      = get_exchange_rate.Main
-	GetBalance           = get_balance.Main
-	GetSummary           = get_summary.Main
-	GetRichLit           = get_richlist.Main
-	GetTotalSupply       = get_total_supply.Main
-	GetCirculatingSupply = get_circulating_supply.Main
+	GetExchangeRate           = get_exchange_rate.Main
+	GetBalance                = get_balance.Main
+	GetSummary                = get_summary.Main
+	GetRichLit                = get_richlist.Main
+	GetTotalSupply            = get_total_supply.Main
+	GetIcoAccountsCirculation = get_ico_accounts_circulation.Main
+	GetCirculatingSupply      = get_circulating_supply.Main
 )

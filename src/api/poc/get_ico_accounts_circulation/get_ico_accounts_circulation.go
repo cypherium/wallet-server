@@ -1,7 +1,8 @@
-package get_richlist
+package get_ico_accounts_circulation
 
 import (
 	"fmt"
+	"github.com/cypherium/wallet-server/src/api/poc/get_circulating_supply"
 	. "github.com/cypherium/wallet-server/src/apicontext"
 	. "github.com/cypherium/wallet-server/src/const"
 	"github.com/cypherium/wallet-server/src/model"
@@ -16,29 +17,14 @@ var GenesisAccounts = []string{
 	"0xcdd16747e54be3e2b98ec4e8623f7438f1c435ce",
 }
 
-const BASEACCOUNT = "0xCdd16747E54BE3e2B98eC4e8623f7438f1C435Ce"
-const BASEACCOUNTBALANCE = 800000000
-const FIRSTRICHMINVALUE = 1000000
-const TOPARRYALEN = 100
-
 type InputReq struct {
 	PageIndex int `json:"pageIndex" form:"pageIndex"` //范围起点
 	PageSize  int `json:"pageSize" form:"pageSize"`   //范围重点
 }
 
 type OutputRsp struct {
-	RichList RichListInfo `json:"richList"`
+	IcoAccountCirculation uint64 `json:"ico_account_circulation"`
 }
-
-type richListInfo struct {
-	Index   int    `json:"index"`
-	Address string `json:"address"`
-	Balance uint64 `json:"balance"`
-}
-
-type RichListInfo []richListInfo
-
-var TopNRecords [TOPARRYALEN]model.RichRecord
 
 func Main(cc echo.Context) error {
 	c := cc.(ApiContext)
@@ -56,17 +42,18 @@ func Main(cc echo.Context) error {
 	}
 	// log.Debugf("receive GetTopNRecords: %+v", argc)
 	//getAgain:
-	records, err := model.GetTopNRecords(c.Mysql(), 100)
+	allIcoAccountsBalanceRecord, err := model.GetAllIcoAccountsBalanceRecord(c.Mysql())
 	if err != nil {
 		// log.Debugf("GetTopNRecords error:%s", err.Error())
 		return c.RESULT_ERROR(GET_BLOCKS_ERROR, fmt.Sprintf("GetTopNRecords error:%s", err.Error())) //c.RESULT(rsp)
 	}
-	var richListInfo richListInfo
-	for index, record := range records {
-		richListInfo.Index = index + 1
-		richListInfo.Address = record.F_address
-		richListInfo.Balance = record.F_balance
-		rsp.RichList = append(rsp.RichList, richListInfo)
+
+	var currentTotalCirculationSupplyAmmount, curentIcoAllAccountsAmmount, currentIcoAllAccountsCirculationAmmount uint64
+	currentTotalCirculationSupplyAmmount = get_circulating_supply.GetTotalSupply(c).Uint64()
+	for _, record := range allIcoAccountsBalanceRecord {
+		curentIcoAllAccountsAmmount += record.F_balance
 	}
+	currentIcoAllAccountsCirculationAmmount = currentTotalCirculationSupplyAmmount - curentIcoAllAccountsAmmount
+	rsp.IcoAccountCirculation = currentIcoAllAccountsCirculationAmmount
 	return c.RESULT(rsp)
 }

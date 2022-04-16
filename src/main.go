@@ -121,6 +121,7 @@ func main() {
 	e.GET("/cph/get_summary", api.GetSummary)
 	e.POST("/cph/get_balance", api.GetBalance)
 	e.GET("/cph/get_rich_list", api.GetRichLit)
+	e.GET("/cph/get_ico_accounts_circulation", api.GetIcoAccountsCirculation)
 	e.GET("/cph/get_total_supply", api.GetTotalSupply)
 	e.GET("/cph/get_circulating_supply", api.GetCirculatingSupply)
 
