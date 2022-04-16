@@ -55,7 +55,7 @@ func Main(cc echo.Context) error {
 	for _, record := range allIcoAccountsBalanceRecord {
 		balance := big.NewInt(int64(record.F_balance))
 		log.Info("get_ico_accouns_circulation Main", "balance", balance.Uint64())
-		curentIcoAllAccountsAmmount += balance.Div(balance, big.NewInt(1e18)).Uint64()
+		curentIcoAllAccountsAmmount += balance.Uint64()
 	}
 	currentIcoAllAccountsCirculationAmmount = currentTotalCirculationSupplyAmmount - curentIcoAllAccountsAmmount
 	rsp.IcoAccountCirculation = currentIcoAllAccountsCirculationAmmount
