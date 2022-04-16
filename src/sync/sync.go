@@ -218,9 +218,6 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				richRecord.F_address = transaction.From
 				richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
-				if strings.ToLower(strings.Trim(transaction.From, "0x")) == strings.ToLower(strings.Trim(get_richlist.BASEACCOUNT, "0x")) {
-					icoAcountRecord.UpdateIcoAccountsBalanceRecordColumn(c.Mysql())
-				}
 			}
 
 			if balance, err := c.Web3().Eth.GetBalance(transaction.To, block.LATEST); err != nil {
@@ -230,6 +227,11 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				richRecord.F_address = transaction.To
 				richRecord.F_balance = (balance.Div(balance, big.NewInt(1e18))).Uint64()
 				richRecord.UpdateRichRecord(c.Mysql())
+				if strings.ToLower(strings.Trim(transaction.From, "0x")) == strings.ToLower(strings.Trim(get_richlist.BASEACCOUNT, "0x")) {
+					icoAcountRecord.F_address = transaction.To
+					icoAcountRecord.F_balance = balance.Uint64()
+					icoAcountRecord.UpdateIcoAccountsBalanceRecordColumn(c.Mysql())
+				}
 			}
 		}()
 		databases_trans, err := (&model.Transaction{}).FindTrasactionByHash(c.Mysql(), tx_hash)

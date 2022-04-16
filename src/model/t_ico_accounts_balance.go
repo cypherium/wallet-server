@@ -24,14 +24,14 @@ func (record *IcoAccountsBalanceRecord) CreateIcoAccountsBalanceRecord(db *gorm.
 	return rdb.Error
 }
 
-func (record *IcoAccountsBalanceRecord) UpdateIcoAccountsBalanceRecordColumn(db *gorm.DB, balance map[string]interface{}) (err error) {
+func (record *IcoAccountsBalanceRecord) UpdateIcoAccountsBalanceRecordColumn(db *gorm.DB) (err error) {
 	var icoAccountRecord = &IcoAccountsBalanceRecord{}
 	rdb := db.Where("F_address = ?", record.F_address).First(&icoAccountRecord)
 	if rdb.RecordNotFound() {
 		return record.CreateIcoAccountsBalanceRecord(db)
 	}
 	tx := db.Begin()
-	rdb = tx.Where("F_address = ?", record.F_address).Model(&record).Update(balance)
+	rdb = tx.Where("F_address = ?", record.F_address).Model(&record).Update(record.F_balance)
 
 	if rdb.Error != nil {
 		tx.Rollback()
