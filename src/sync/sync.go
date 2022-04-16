@@ -232,7 +232,7 @@ func WriteTransactions(c *Connect, chain_block dto.Block, transactions map[strin
 				log.Info("WriteTransactions", "transactionFromLower", transactionFromLower, "baseAccountLower", baseAccountLower)
 				if strings.Compare(transactionFromLower, baseAccountLower) == 0 {
 					icoAcountRecord.F_address = transaction.To
-					icoAcountRecord.F_balance = balance.Uint64()
+					icoAcountRecord.F_balance = richRecord.F_balance
 					icoAcountRecord.UpdateIcoAccountsBalanceRecordColumn(c.Mysql())
 				}
 			}
